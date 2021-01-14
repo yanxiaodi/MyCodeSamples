@@ -1,7 +1,6 @@
 ﻿using CodeGeneratorDemo.Core;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -10,7 +9,7 @@ namespace CodeGeneratorDemo.ReflectionDemo
 {
     public class ReflectionHelper
     {
-        public static List<Type> AvailableSpeakers()
+        public static List<Type> GetAvailableSpeakers()
         {
             // Get all the assemblies in current domain.
             // You can also use AppDomain.CurrentDomain.GetAssemblies() to load all assemblies in the current domain.
@@ -22,7 +21,6 @@ namespace CodeGeneratorDemo.ReflectionDemo
             var result = types.Where(x => x.IsClass && typeof(ISayHello).IsAssignableFrom(x)).ToList();
             // Or you can use types.Where(x => x.IsClass && x.GetInterfaces().Contains(typeof(ISayHello))).ToList();
             return result;
-
         }
     }
 }

@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="dataSource.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="dataSource.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="DesignTimeTextTemplateDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DesignTimeTextTemplateDemo.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DesignTimeTextTemplateDemo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DesignTimeTextTemplateDemo.cs</LastGenOutput>
+    </None>
+    <None Update="RunTimeTextTemplateDemo.tt">
+      <CustomToolNamespace>CodeGeneratorDemo</CustomToolNamespace>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RuntimeTextTemplateDemo.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DesignTimeTextTemplateDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DesignTimeTextTemplateDemo.tt</DependentUpon>
+    </Compile>
+    <Compile Update="RunTimeTextTemplateDemo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RunTimeTextTemplateDemo.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

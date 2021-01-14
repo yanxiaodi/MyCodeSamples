@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGeneratorDemo.Core", "CodeGeneratorDemo.Core\CodeGeneratorDemo.Core.csproj", "{37B3852E-CA28-46F1-B725-213AD4FB1B41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeGeneratorDemo.Core", "CodeGeneratorDemo.Core\CodeGeneratorDemo.Core.csproj", "{37B3852E-CA28-46F1-B725-213AD4FB1B41}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reflection", "Reflection", "{E4F3FACB-4207-417D-B620-E8BACB62BCAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGeneratorDemo.ReflectionDemo", "CodeGeneratorDemo.ReflectionDemo\CodeGeneratorDemo.ReflectionDemo.csproj", "{5B6E473D-D44B-47C6-9569-33C081928C1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeGeneratorDemo.ReflectionDemo", "CodeGeneratorDemo.ReflectionDemo\CodeGeneratorDemo.ReflectionDemo.csproj", "{5B6E473D-D44B-47C6-9569-33C081928C1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGeneratorDemo.Client", "CodeGeneratorDemo.Client\CodeGeneratorDemo.Client.csproj", "{3BA097CA-E5C1-4471-9B5C-31652FF76283}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeGeneratorDemo.Client", "CodeGeneratorDemo.Client\CodeGeneratorDemo.Client.csproj", "{3BA097CA-E5C1-4471-9B5C-31652FF76283}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "T4Template", "T4Template", "{38849327-135A-4FC5-93CB-95716CBA88E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGeneratorDemo.T4TemplateDemo", "CodeGeneratorDemo.T4TemplateDemo\CodeGeneratorDemo.T4TemplateDemo.csproj", "{5142E1B8-D52A-419D-9AAA-4C808E29B59E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,12 +33,17 @@ Global
 		{3BA097CA-E5C1-4471-9B5C-31652FF76283}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BA097CA-E5C1-4471-9B5C-31652FF76283}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BA097CA-E5C1-4471-9B5C-31652FF76283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5142E1B8-D52A-419D-9AAA-4C808E29B59E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5142E1B8-D52A-419D-9AAA-4C808E29B59E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5142E1B8-D52A-419D-9AAA-4C808E29B59E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5142E1B8-D52A-419D-9AAA-4C808E29B59E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5B6E473D-D44B-47C6-9569-33C081928C1F} = {E4F3FACB-4207-417D-B620-E8BACB62BCAD}
+		{5142E1B8-D52A-419D-9AAA-4C808E29B59E} = {38849327-135A-4FC5-93CB-95716CBA88E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C741CA45-6898-4B47-8F32-893F25839416}
