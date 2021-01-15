@@ -1,4 +1,4 @@
-﻿using CodeGeneratorDemo.Core;
+﻿using CodeGeneratorDemo.ReflectionDemo.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,14 +11,14 @@ namespace CodeGeneratorDemo.ReflectionDemo
     {
         public static List<Type> GetAvailableSpeakers()
         {
-            // Get all the assemblies in current domain.
             // You can also use AppDomain.CurrentDomain.GetAssemblies() to load all assemblies in the current domain.
+            // Get the specified assembly.
             var assembly =
-                Assembly.LoadFrom(Path.Combine(Directory.GetCurrentDirectory(), "CodeGeneratorDemo.Core.dll"));
+                Assembly.LoadFrom(Path.Combine(Directory.GetCurrentDirectory(), "CodeGeneratorDemo.ReflectionDemo.Core.dll"));
             // Find all the types in the assembly.
             var types = assembly.GetTypes();
             // Apply the filter to find the implementations of ISayHello interface.
-            var result = types.Where(x => x.IsClass && typeof(ISayHello).IsAssignableFrom(x)).ToList();
+            var result = types.Where(x => x.IsClass && typeof(ISpeaker).IsAssignableFrom(x)).ToList();
             // Or you can use types.Where(x => x.IsClass && x.GetInterfaces().Contains(typeof(ISayHello))).ToList();
             return result;
         }

@@ -12,6 +12,7 @@ namespace CodeGeneratorDemo.Client
             ReflectionSample();
             RunTimeT4TemplateSample();
             DesignTimeT4TemplateSample();
+            SourceGeneratorSample();
         }
 
         private static void ReflectionSample()
@@ -50,6 +51,16 @@ namespace CodeGeneratorDemo.Client
             var product = service.GetProduct(Guid.NewGuid()).GetAwaiter().GetResult();
             Console.WriteLine($"{product.GetType()}: {product.Id}");
             Console.WriteLine();
+        }
+
+        private static void SourceGeneratorSample()
+        {
+            Console.WriteLine("Here is the simple Source Generator sample:");
+            CodeGeneratorDemo.SourceGeneratorDemo.SpeakerHelper.SayHello();
+            Console.WriteLine();
+            Console.WriteLine("Here is the AutoRegisterAttribute Source Generator sample:");
+            CodeGeneratorDemo.SourceGeneratorDemo.RegisterHelper.RegisterServices();
+
         }
     }
 }

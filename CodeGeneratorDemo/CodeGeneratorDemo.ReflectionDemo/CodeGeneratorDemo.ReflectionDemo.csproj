@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CodeGeneratorDemo.Core\CodeGeneratorDemo.Core.csproj" />
+    <ProjectReference Include="..\CodeGeneratorDemo.ReflectionDemo.Core\CodeGeneratorDemo.ReflectionDemo.Core.csproj" />
   </ItemGroup>
 
 </Project>
