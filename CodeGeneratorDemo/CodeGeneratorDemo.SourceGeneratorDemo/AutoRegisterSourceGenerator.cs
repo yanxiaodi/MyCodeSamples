@@ -57,7 +57,9 @@ namespace CodeGeneratorDemo.SourceGeneratorDemo
     public class RegisterHelper
     {
         public static void RegisterServices()
-        {");
+        {
+");
+            stringBuilder.AppendLine();
             // Get all the classes with the AutoRegisterAttribute
             INamedTypeSymbol attributeSymbol =
                 compilation.GetTypeByMetadataName("CodeGeneratorDemo.SourceGeneratorDemo.AutoRegisterAttribute");
@@ -68,8 +70,9 @@ namespace CodeGeneratorDemo.SourceGeneratorDemo
                     .Any(x => x.AttributeClass != null &&
                               x.AttributeClass.Equals(attributeSymbol, SymbolEqualityComparer.Default)))
                 {
-                    stringBuilder.AppendLine(
-                        $"DiContainerMocker.RegisterService<{candidateClass.Identifier.Text}>(new {candidateClass.Identifier.Text}());");
+                    stringBuilder.Append($@"
+            DiContainerMocker.RegisterService<{candidateClass.Identifier.Text}>(new {candidateClass.Identifier.Text}());
+");
                 }
             }
             stringBuilder.Append(@"
