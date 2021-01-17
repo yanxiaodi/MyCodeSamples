@@ -66,13 +66,12 @@ namespace CodeGeneratorDemo.SourceGeneratorDemo
             foreach (var candidateClass in receiver.CandidateClasses)
             {
                 SemanticModel model = compilation.GetSemanticModel(candidateClass.SyntaxTree);
-                if (model.GetDeclaredSymbol(candidateClass) is ITypeSymbol typeSymbol && typeSymbol.GetAttributes()
-                    .Any(x => x.AttributeClass != null &&
-                              x.AttributeClass.Equals(attributeSymbol, SymbolEqualityComparer.Default)))
+                if (model.GetDeclaredSymbol(candidateClass) is ITypeSymbol typeSymbol &&
+                    typeSymbol.GetAttributes().Any(x =>
+                        x.AttributeClass.Equals(attributeSymbol, SymbolEqualityComparer.Default)))
                 {
                     stringBuilder.Append($@"
-            DiContainerMocker.RegisterService<{candidateClass.Identifier.Text}>(new {candidateClass.Identifier.Text}());
-");
+            DiContainerMocker.RegisterService<{candidateClass.Identifier.Text}>(new {candidateClass.Identifier.Text}());");
                 }
             }
             stringBuilder.Append(@"

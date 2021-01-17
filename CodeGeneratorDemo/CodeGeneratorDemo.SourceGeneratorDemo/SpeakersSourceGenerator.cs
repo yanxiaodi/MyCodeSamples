@@ -31,7 +31,7 @@ namespace CodeGeneratorDemo.SourceGeneratorDemo
     }
 }");
             // inject the created source into the users compilation
-            context.AddSource("speakersSourceGenerator", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
+            context.AddSource("SpeakersSourceGenerator", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
 
         }
     }
