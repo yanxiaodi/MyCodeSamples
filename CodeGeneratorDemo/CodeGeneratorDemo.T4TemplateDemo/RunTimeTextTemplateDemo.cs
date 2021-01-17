@@ -31,7 +31,7 @@ namespace CodeGeneratorDemo
             this.Write("<html><body>\r\n<h1>Sales for Previous Month</h2>\r\n<table>\r\n    ");
             
             #line 9 "C:\Source\Repos\MyCodeSamples\CodeGeneratorDemo\CodeGeneratorDemo.T4TemplateDemo\RunTimeTextTemplateDemo.tt"
- for (int i = 1; i <= 10; i++)
+ for (int i = 1; i <= 5; i++)
        { 
             
             #line default

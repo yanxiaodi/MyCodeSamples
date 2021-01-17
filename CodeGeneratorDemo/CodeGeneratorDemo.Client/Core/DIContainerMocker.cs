@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace CodeGeneratorDemo.SourceGeneratorDemo.Core
+namespace CodeGeneratorDemo.Client.Core
 {
     public static class DiContainerMocker
     {
-        public static void RegisterService<T>(T service)
+        public static void RegisterService<TInterface, TImplementation>(TImplementation service)
         {
-            Console.WriteLine($"{service.GetType()} has been registered.");
+            Console.WriteLine($"{service.GetType()} has been registered for {typeof(TInterface)}.");
         }
     }
 }

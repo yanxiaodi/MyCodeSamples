@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
 
 namespace CodeGeneratorDemo.SourceGeneratorDemo
 {
@@ -29,7 +28,7 @@ namespace CodeGeneratorDemo.SourceGeneratorDemo
         public void Initialize(GeneratorInitializationContext context)
         {
 #if DEBUG
-            //if(!Debugger.IsAttached)
+            //if (!Debugger.IsAttached)
             //{
             //    Debugger.Launch();
             //}
@@ -51,7 +50,7 @@ namespace CodeGeneratorDemo.SourceGeneratorDemo
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(@"
 using System;
-using CodeGeneratorDemo.SourceGeneratorDemo.Core;
+using CodeGeneratorDemo.Client.Core;
 namespace CodeGeneratorDemo.SourceGeneratorDemo
 {
     public class RegisterHelper
@@ -71,7 +70,7 @@ namespace CodeGeneratorDemo.SourceGeneratorDemo
                         x.AttributeClass.Equals(attributeSymbol, SymbolEqualityComparer.Default)))
                 {
                     stringBuilder.Append($@"
-            DiContainerMocker.RegisterService<{candidateClass.Identifier.Text}>(new {candidateClass.Identifier.Text}());");
+            DiContainerMocker.RegisterService<I{candidateClass.Identifier.Text}, {candidateClass.Identifier.Text}>(new {candidateClass.Identifier.Text}());");
                 }
             }
             stringBuilder.Append(@"
@@ -82,7 +81,7 @@ namespace CodeGeneratorDemo.SourceGeneratorDemo
         }
     }
 
-    class MySyntaxReceiver : ISyntaxReceiver
+    public class MySyntaxReceiver : ISyntaxReceiver
     {
         public List<ClassDeclarationSyntax> CandidateClasses { get; } = new List<ClassDeclarationSyntax>();
 

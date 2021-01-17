@@ -6,7 +6,7 @@
 <html><body>
 <h1>Sales for Previous Month</h2>
 <table>
-    <# for (int i = 1; i <= 10; i++)
+    <# for (int i = 1; i <= 5; i++)
        { #>
          <tr><td>Test name <#= i #> </td>
              <td>Test value <#= i * i #> </td> </tr>

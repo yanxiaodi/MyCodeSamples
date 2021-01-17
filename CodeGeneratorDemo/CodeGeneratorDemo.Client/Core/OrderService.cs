@@ -1,10 +1,10 @@
 ﻿using System;
 using CodeGeneratorDemo.SourceGeneratorDemo;
 
-namespace CodeGeneratorDemo.SourceGeneratorDemo.Core
+namespace CodeGeneratorDemo.Client.Core
 {
     [AutoRegister]
-    public class OrderService 
+    public class OrderService : IOrderService
     {
         public OrderService()
         {
