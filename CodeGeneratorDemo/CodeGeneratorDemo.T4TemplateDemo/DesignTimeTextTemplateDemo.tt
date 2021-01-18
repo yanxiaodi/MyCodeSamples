@@ -39,7 +39,6 @@ namespace CodeGeneratorDemo.T4TemplateDemo.DesignTimeTextTemplateDemo
         }
     }
 <#
-}
-
+    }
 #>
 }

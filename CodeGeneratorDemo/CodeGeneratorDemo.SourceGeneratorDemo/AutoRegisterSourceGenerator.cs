@@ -28,6 +28,7 @@ namespace CodeGeneratorDemo.SourceGeneratorDemo
         public void Initialize(GeneratorInitializationContext context)
         {
 #if DEBUG
+            // If you want to debug the Source Generator, please uncomment the below code.
             //if (!Debugger.IsAttached)
             //{
             //    Debugger.Launch();
@@ -58,7 +59,6 @@ namespace CodeGeneratorDemo.SourceGeneratorDemo
         public static void RegisterServices()
         {
 ");
-            stringBuilder.AppendLine();
             // Get all the classes with the AutoRegisterAttribute
             INamedTypeSymbol attributeSymbol =
                 compilation.GetTypeByMetadataName("CodeGeneratorDemo.SourceGeneratorDemo.AutoRegisterAttribute");

@@ -19,7 +19,7 @@ namespace CodeGeneratorDemo.ReflectionDemo
             var types = assembly.GetTypes();
             // Apply the filter to find the implementations of ISayHello interface.
             var result = types.Where(x => x.IsClass && typeof(ISpeaker).IsAssignableFrom(x)).ToList();
-            // Or you can use types.Where(x => x.IsClass && x.GetInterfaces().Contains(typeof(ISayHello))).ToList();
+            // Or you can use types.Where(x => x.IsClass && x.GetInterfaces().Contains(typeof(ISpeaker))).ToList();
             return result;
         }
     }

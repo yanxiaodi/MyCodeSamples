@@ -60,7 +60,6 @@ namespace CodeGeneratorDemo.Client
             Console.WriteLine();
             Console.WriteLine("Here is the AutoRegisterAttribute Source Generator sample:");
             CodeGeneratorDemo.SourceGeneratorDemo.RegisterHelper.RegisterServices();
-
         }
     }
 }
