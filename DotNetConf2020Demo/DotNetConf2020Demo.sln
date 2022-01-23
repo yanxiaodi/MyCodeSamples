@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlazorDemo", "BlazorDemo", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppDemo", "BlazorAppDemo\BlazorAppDemo.csproj", "{5C561E99-A309-4B9D-ADA3-BE6231491A99}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AntDesignBlazorDemo", "AntDesignBlazorDemo\AntDesignBlazorDemo.csproj", "{33A7D1D8-E8D3-4225-98DD-79E3735D5299}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +31,17 @@ Global
 		{5C561E99-A309-4B9D-ADA3-BE6231491A99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C561E99-A309-4B9D-ADA3-BE6231491A99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C561E99-A309-4B9D-ADA3-BE6231491A99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33A7D1D8-E8D3-4225-98DD-79E3735D5299}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A7D1D8-E8D3-4225-98DD-79E3735D5299}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33A7D1D8-E8D3-4225-98DD-79E3735D5299}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33A7D1D8-E8D3-4225-98DD-79E3735D5299}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5C561E99-A309-4B9D-ADA3-BE6231491A99} = {A6C20C39-546D-4F61-BB96-8119A2AA7A1B}
+		{33A7D1D8-E8D3-4225-98DD-79E3735D5299} = {A6C20C39-546D-4F61-BB96-8119A2AA7A1B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D77F704-09AD-456F-8086-5A224B2F1F8D}
