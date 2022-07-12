@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reflection", "Reflection", "{E4F3FACB-4207-417D-B620-E8BACB62BCAD}"
 EndProject
@@ -18,6 +18,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeGeneratorDemo.SourceGeneratorDemo", "CodeGeneratorDemo.SourceGeneratorDemo\CodeGeneratorDemo.SourceGeneratorDemo.csproj", "{F2C6354E-081C-41C3-8736-576CB870AD51}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeGeneratorDemo.ReflectionDemo.Core", "CodeGeneratorDemo.ReflectionDemo.Core\CodeGeneratorDemo.ReflectionDemo.Core.csproj", "{188F47A7-60E6-48D2-BC04-BF88B7868737}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeSnippets", "CodeSnippets", "{69044711-FC1D-4CEE-9BA4-03B59B0F19CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGeneratorDemo.CodeSnippetsDemo", "CodeGeneratorDemo.CodeSnippetsDemo\CodeGeneratorDemo.CodeSnippetsDemo.csproj", "{27D46C85-25B1-487D-B964-44958D554E38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,10 @@ Global
 		{188F47A7-60E6-48D2-BC04-BF88B7868737}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{188F47A7-60E6-48D2-BC04-BF88B7868737}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{188F47A7-60E6-48D2-BC04-BF88B7868737}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27D46C85-25B1-487D-B964-44958D554E38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27D46C85-25B1-487D-B964-44958D554E38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27D46C85-25B1-487D-B964-44958D554E38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27D46C85-25B1-487D-B964-44958D554E38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +62,7 @@ Global
 		{5142E1B8-D52A-419D-9AAA-4C808E29B59E} = {38849327-135A-4FC5-93CB-95716CBA88E0}
 		{F2C6354E-081C-41C3-8736-576CB870AD51} = {5EAA592E-81CE-4B7C-8EF9-A8D51AF9FD5E}
 		{188F47A7-60E6-48D2-BC04-BF88B7868737} = {E4F3FACB-4207-417D-B620-E8BACB62BCAD}
+		{27D46C85-25B1-487D-B964-44958D554E38} = {69044711-FC1D-4CEE-9BA4-03B59B0F19CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C741CA45-6898-4B47-8F32-893F25839416}

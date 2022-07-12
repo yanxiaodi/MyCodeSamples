@@ -14,7 +14,8 @@ namespace CodeGeneratorDemo.ReflectionDemo
             // You can also use AppDomain.CurrentDomain.GetAssemblies() to load all assemblies in the current domain.
             // Get the specified assembly.
             var assembly =
-                Assembly.LoadFrom(Path.Combine(Directory.GetCurrentDirectory(), "CodeGeneratorDemo.ReflectionDemo.Core.dll"));
+                Assembly.LoadFrom(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location),
+                    "CodeGeneratorDemo.ReflectionDemo.Core.dll"));
             // Find all the types in the assembly.
             var types = assembly.GetTypes();
             // Apply the filter to find the implementations of ISayHello interface.

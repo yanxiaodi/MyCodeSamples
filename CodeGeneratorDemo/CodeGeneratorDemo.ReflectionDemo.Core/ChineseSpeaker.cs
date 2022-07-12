@@ -1,12 +1,14 @@
-﻿namespace CodeGeneratorDemo.ReflectionDemo.Core
+﻿using System;
+
+namespace CodeGeneratorDemo.ReflectionDemo.Core
 {
     public class ChineseSpeaker : ISpeaker
     {
         public string Name => this.GetType().ToString();
 
-        public string SayHello()
+        public void SayHello()
         {
-            return "Nihao";
+            Console.WriteLine("Nihao!");
         }
     }
 }

@@ -37,6 +37,7 @@ namespace CodeGeneratorDemo.T4TemplateDemo.DesignTimeTextTemplateDemo
         {
             return Task.FromResult(new <#=model#>(id));
         }
+
     }
 <#
     }

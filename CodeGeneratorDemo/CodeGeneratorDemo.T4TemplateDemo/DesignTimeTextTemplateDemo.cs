@@ -19,6 +19,7 @@ namespace CodeGeneratorDemo.T4TemplateDemo.DesignTimeTextTemplateDemo
         {
             return Task.FromResult(new Product(id));
         }
+
     }
     public partial class Category
     {
@@ -35,6 +36,7 @@ namespace CodeGeneratorDemo.T4TemplateDemo.DesignTimeTextTemplateDemo
         {
             return Task.FromResult(new Category(id));
         }
+
     }
     public partial class Comment
     {
@@ -51,6 +53,7 @@ namespace CodeGeneratorDemo.T4TemplateDemo.DesignTimeTextTemplateDemo
         {
             return Task.FromResult(new Comment(id));
         }
+
     }
     public partial class Order
     {
@@ -67,5 +70,6 @@ namespace CodeGeneratorDemo.T4TemplateDemo.DesignTimeTextTemplateDemo
         {
             return Task.FromResult(new Order(id));
         }
+
     }
 }

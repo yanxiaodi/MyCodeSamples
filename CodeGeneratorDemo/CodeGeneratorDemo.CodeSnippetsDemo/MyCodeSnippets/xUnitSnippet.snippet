@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>xUnit Fact method</Title>
+			<Author>Xiaodi Yan</Author>
+			<Shortcut>testxf</Shortcut>
+			<Description>
+				Create a xUnit Fact test method.
+			</Description>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>FactMethodName</ID>
+					<ToolTip>Method name</ToolTip>
+					<Default>Test1</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp">
+				<![CDATA[[Fact]
+        public void $FactMethodName$()
+        {
+
+        }]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+			<Title>xUnit Theory method</Title>
+			<Author>Xiaodi Yan</Author>
+			<Shortcut>testxt</Shortcut>
+			<Description>
+				Create a xUnit Theory test method.
+			</Description>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>TheoryMethodName</ID>
+					<ToolTip>Method name</ToolTip>
+					<Default>Test1</Default>
+				</Literal>
+				<Object>
+					<ID>type</ID>
+					<ToolTip>Argument type</ToolTip>
+					<Default>int</Default>
+				</Object>
+				<Literal>
+					<ID>TestValue</ID>
+					<ToolTip>Test value</ToolTip>
+					<Default>1</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp">
+				<![CDATA[[Theory]
+        [InlineData($TestValue$)]
+        public void $TheoryMethodName$($type$ value)
+        {
+
+        }]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

@@ -2,6 +2,7 @@
 {
     public interface ISpeaker
     {
-        string SayHello();
+        string Name { get;}
+        void SayHello();
     }
 }

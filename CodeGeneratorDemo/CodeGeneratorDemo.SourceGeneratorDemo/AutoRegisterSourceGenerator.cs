@@ -29,10 +29,10 @@ namespace CodeGeneratorDemo.SourceGeneratorDemo
         {
 #if DEBUG
             // If you want to debug the Source Generator, please uncomment the below code.
-            //if (!Debugger.IsAttached)
-            //{
-            //    Debugger.Launch();
-            //}
+            if (!Debugger.IsAttached)
+            {
+                //Debugger.Launch();
+            }
 #endif
             context.RegisterForSyntaxNotifications(() => new MySyntaxReceiver());
         }

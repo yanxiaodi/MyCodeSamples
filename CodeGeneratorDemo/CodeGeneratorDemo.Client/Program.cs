@@ -1,7 +1,8 @@
 ﻿using CodeGeneratorDemo.ReflectionDemo;
 using System;
 using System.Reflection;
-using CodeGeneratorDemo.T4TemplateDemo.DesignTimeTextTemplateDemo;
+using CodeGeneratorDemo.Client.Core;
+using ProductService = CodeGeneratorDemo.T4TemplateDemo.DesignTimeTextTemplateDemo.ProductService;
 
 namespace CodeGeneratorDemo.Client
 {
@@ -9,15 +10,21 @@ namespace CodeGeneratorDemo.Client
     {
         static void Main(string[] args)
         {
-            ReflectionSample();
-            RunTimeT4TemplateSample();
-            DesignTimeT4TemplateSample();
+            //ReflectionSample();
+            //RunTimeT4TemplateSample();
+            //DesignTimeT4TemplateSample();
             SourceGeneratorSample();
         }
 
         private static void ReflectionSample()
         {
             Console.WriteLine("Here is the Reflection sample:");
+
+            //ISpeaker englishSpeaker = new EnglishSpeaker();
+            //englishSpeaker.SayHello();
+            //ISpeaker chineseSpeaker = new ChineseSpeaker();
+            //chineseSpeaker.SayHello();
+
             // Find all the speakers in the current domain
             var availableSpeakers = ReflectionHelper.GetAvailableSpeakers();
             foreach (var availableSpeaker in availableSpeakers)
@@ -30,7 +37,7 @@ namespace CodeGeneratorDemo.Client
                 var name = namePropertyInfo?.GetValue(speaker)?.ToString();
                 Console.WriteLine($"I am {name}");
                 // Invoke the method of the instance
-                Console.WriteLine(availableSpeaker.InvokeMember("SayHello", BindingFlags.InvokeMethod, null, speaker, null));
+                availableSpeaker.InvokeMember("SayHello", BindingFlags.InvokeMethod, null, speaker, null);
             }
 
             Console.WriteLine();
@@ -55,11 +62,19 @@ namespace CodeGeneratorDemo.Client
 
         private static void SourceGeneratorSample()
         {
-            Console.WriteLine("Here is the simple Source Generator sample:");
-            CodeGeneratorDemo.SourceGeneratorDemo.SpeakerHelper.SayHello();
-            Console.WriteLine();
+            //Console.WriteLine("Here is the simple Source Generator sample:");
+            //CodeGeneratorDemo.SourceGeneratorDemo.SpeakerHelper.SayHello();
+            //Console.WriteLine();
+
+            //DiContainerMocker.RegisterService<IOrderService, OrderService>(new OrderService());
+            //DiContainerMocker.RegisterService<IProductService, ProductService>(new ProductService());
+
             Console.WriteLine("Here is the AutoRegisterAttribute Source Generator sample:");
             CodeGeneratorDemo.SourceGeneratorDemo.RegisterHelper.RegisterServices();
         }
+        
+
     }
+
+
 }
