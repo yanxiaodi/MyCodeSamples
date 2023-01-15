@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33209.295
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpDemo", "CSharpDemo\CSharpDemo.csproj", "{2A481E64-75B3-4186-A76D-E78E7640DD10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RateLimitingDemo", "RateLimitingDemo\RateLimitingDemo.csproj", "{D75FECDA-891B-4ED3-A6CC-DF5E3D824F27}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A481E64-75B3-4186-A76D-E78E7640DD10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A481E64-75B3-4186-A76D-E78E7640DD10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A481E64-75B3-4186-A76D-E78E7640DD10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A481E64-75B3-4186-A76D-E78E7640DD10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D75FECDA-891B-4ED3-A6CC-DF5E3D824F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D75FECDA-891B-4ED3-A6CC-DF5E3D824F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D75FECDA-891B-4ED3-A6CC-DF5E3D824F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D75FECDA-891B-4ED3-A6CC-DF5E3D824F27}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B91D1A85-2457-478E-8F2B-C9C2FBE4C1D7}
+	EndGlobalSection
+EndGlobal
