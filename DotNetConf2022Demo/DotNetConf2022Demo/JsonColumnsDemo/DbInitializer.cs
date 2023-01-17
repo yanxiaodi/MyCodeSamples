@@ -1,21 +1,19 @@
-﻿using JsonColumnsDemo.Models;
+﻿namespace JsonColumnsDemo;
 
-namespace JsonColumnsDemo
+public static class DbInitializer
 {
-    public static class DbInitializer
+    public static async Task InitializeAsync(JsonColumnsDbContext context)
     {
-        public static async Task InitializeAsync(JsonColumnsDbContext context)
+        await context.Database.EnsureCreatedAsync();
+
+        if (context.Authors.Any())
         {
-            await context.Database.EnsureCreatedAsync();
+            return;
+        }
 
-            if (context.Authors.Any())
-            {
-                return;
-            }
-
-            // Create some authors
-            var authors = new[]
-            {
+        // Create some authors
+        var authors = new[]
+        {
                 new Author
                 {
                     Name = "John Doe",
@@ -62,8 +60,7 @@ namespace JsonColumnsDemo
                     }
                 },
             };
-            await context.Authors.AddRangeAsync(authors);
-            await context.SaveChangesAsync();
-        }
+        await context.Authors.AddRangeAsync(authors);
+        await context.SaveChangesAsync();
     }
 }

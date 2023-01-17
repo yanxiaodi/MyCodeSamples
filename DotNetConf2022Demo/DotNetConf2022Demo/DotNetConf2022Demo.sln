@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RateLimitingDemo", "RateLim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonColumnsDemo", "JsonColumnsDemo\JsonColumnsDemo.csproj", "{B1C2CA59-86CA-446C-BE4C-CFD5AA5317B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkUpdatesDemo", "BulkUpdatesDemo\BulkUpdatesDemo.csproj", "{B0E84B96-4090-40DC-97C8-EED2CC53FF57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B1C2CA59-86CA-446C-BE4C-CFD5AA5317B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1C2CA59-86CA-446C-BE4C-CFD5AA5317B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1C2CA59-86CA-446C-BE4C-CFD5AA5317B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0E84B96-4090-40DC-97C8-EED2CC53FF57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0E84B96-4090-40DC-97C8-EED2CC53FF57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0E84B96-4090-40DC-97C8-EED2CC53FF57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0E84B96-4090-40DC-97C8-EED2CC53FF57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

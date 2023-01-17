@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 Console.WriteLine("Hello, World!");
 
-var dbContext = new JsonColumnsDbContext();
+await using var dbContext = new JsonColumnsDbContext();
 // Initialize the database
 await DbInitializer.InitializeAsync(dbContext);
 

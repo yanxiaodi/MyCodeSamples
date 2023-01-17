@@ -1,12 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Logging;
 
-namespace JsonColumnsDemo;
+namespace BulkUpdatesDemo;
 
-public class JsonColumnsDbContext : DbContext
+public class BulkUpdatesDbContext : DbContext
 {
-    public bool LoggingEnabled { get; set; } = true;
-    public DbSet<Author> Authors { get; set; }
+    public bool LoggingEnabled { get; set; }
+
+    public DbSet<Blog> Blogs => Set<Blog>();
+    public DbSet<Post> Posts => Set<Post>();
+    public DbSet<Tag> Tags => Set<Tag>();
+    public DbSet<Author> Authors => Set<Author>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => (optionsBuilder.UseSqlServer(@$"Server=(localdb)\mssqllocaldb;Database={GetType().Name}"))
@@ -30,6 +35,21 @@ public class JsonColumnsDbContext : DbContext
                 ownedNavigationBuilder.ToJson();
                 ownedNavigationBuilder.OwnsOne(contactDetails => contactDetails.Address);
             });
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<List<string>>().HaveConversion<StringListConverter>();
+
+        base.ConfigureConventions(configurationBuilder);
+    }
+
+    private class StringListConverter : ValueConverter<List<string>, string>
+    {
+        public StringListConverter()
+            : base(v => string.Join(", ", v!), v => v.Split(',', StringSplitOptions.TrimEntries).ToList())
+        {
+        }
     }
 }
 
