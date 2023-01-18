@@ -1,8 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using CSharpDemo;
 
 //Console.WriteLine("Hello, World!");
+
+using CSharpDemo;
 
 StringInterpolation.ContainNewLine();
 //StringInterpolation.RawStringLiteral();
@@ -13,9 +14,9 @@ StringInterpolation.ContainNewLine();
 //RequiredMember.CreatePerson();
 
 // File scope
-// var widget = new Widget();
-// widget.ProvideAnswer();
+//var widget = new Widget();
+//widget.ProvideAnswer();
 
-// var hiddenWidget = new HiddenWidget();
-// hiddenWidget.RunTask();
+//var hiddenWidget = new HiddenWidget();
+//hiddenWidget.RunTask();
 

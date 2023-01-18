@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace CSharpDemo
+﻿namespace CSharpDemo
 {
     public class RequiredMember
     {

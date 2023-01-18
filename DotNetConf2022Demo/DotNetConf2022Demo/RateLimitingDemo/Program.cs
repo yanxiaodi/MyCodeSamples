@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,16 +10,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddRateLimiter(_ =>
-//{
-//    _.AddFixedWindowLimiter("NotSoFast", options =>
-//    {
-//        options.PermitLimit = 4;
-//        options.Window = TimeSpan.FromSeconds(12);
-//        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-//        options.QueueLimit = 2;
-//    });
-//});
+builder.Services.AddRateLimiter(_ =>
+{
+    _.AddFixedWindowLimiter("NotSoFast", options =>
+    {
+        options.PermitLimit = 4;
+        options.Window = TimeSpan.FromSeconds(12);
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 2;
+    });
+});
 
 //builder.Services.AddRateLimiter(_ =>
 //{
@@ -34,31 +35,31 @@ builder.Services.AddSwaggerGen();
 //    });
 //});
 
-builder.Services.AddRateLimiter(_ =>
-{
-    _.AddPolicy("User", httpContext =>
-    {
-        if (httpContext.Request.Headers.ContainsKey("apiKey"))
-        {
-            // Todo: Validate the key
-            return RateLimitPartition.GetFixedWindowLimiter(httpContext.Request.Headers["apiKey"].ToString(),
-                key => new FixedWindowRateLimiterOptions()
-                {
-                    PermitLimit = 1000,
-                    Window = TimeSpan.FromSeconds(60),
-                    QueueLimit = 100
-                });
-        }
+//builder.Services.AddRateLimiter(_ =>
+//{
+//    _.AddPolicy("User", httpContext =>
+//    {
+//        if (httpContext.Request.Headers.ContainsKey("apiKey"))
+//        {
+//            // Todo: Validate the key
+//            return RateLimitPartition.GetFixedWindowLimiter(httpContext.Request.Headers["apiKey"].ToString(),
+//                key => new FixedWindowRateLimiterOptions()
+//                {
+//                    PermitLimit = 1000,
+//                    Window = TimeSpan.FromSeconds(60),
+//                    QueueLimit = 100
+//                });
+//        }
 
-        return RateLimitPartition.GetFixedWindowLimiter(httpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown",
-            key => new FixedWindowRateLimiterOptions()
-            {
-                PermitLimit = 10,
-                Window = TimeSpan.FromSeconds(60),
-                QueueLimit = 2
-            });
-    });
-});
+//        return RateLimitPartition.GetFixedWindowLimiter(httpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown",
+//            key => new FixedWindowRateLimiterOptions()
+//            {
+//                PermitLimit = 10,
+//                Window = TimeSpan.FromSeconds(60),
+//                QueueLimit = 2
+//            });
+//    });
+//});
 
 var app = builder.Build();
 
@@ -77,6 +78,6 @@ app.UseAuthorization();
 
 //app.MapControllers();
 
-app.MapControllers().RequireRateLimiting("User");
+app.MapControllers().RequireRateLimiting("NotSoFast");
 
 app.Run();
