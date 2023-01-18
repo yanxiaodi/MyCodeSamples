@@ -1,14 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using CSharpDemo;
-using CSharpDemo.FileScope;
 
 //Console.WriteLine("Hello, World!");
 
-//StringInterpolation.ContainNewLine();
+StringInterpolation.ContainNewLine();
 //StringInterpolation.RawStringLiteral();
 //StringInterpolation.RawStringLiteralMultipleDenotes();
-StringInterpolation.RawStringLiteralMultipleLines();
+//StringInterpolation.RawStringLiteralMultipleLines();
 
 // Required member
 //RequiredMember.CreatePerson();

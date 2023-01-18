@@ -37,7 +37,7 @@
             var y = 3;
             // Multiple $ characters denote how many
             // consecutive braces start and end the interpolation:
-            var pointMessage = $$"""The point {{{x}}, {{y}}} is {{Math.Sqrt(x * x + y * y)}} from the origin""";
+            var pointMessage = $"""The point {x}, {y} is {Math.Sqrt(x * x + y * y)} from the origin""";
             // The preceding example specifies that two braces start and end an interpolation.
             // The third repeated opening and closing brace are included in the output string.
             // Note: The compiler issues an error if the sequence of brace characters is equal to or greater
