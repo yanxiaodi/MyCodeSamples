@@ -1,0 +1,6 @@
+{
+  "model": "gpt-35-turbo",
+  "endpoint": "https://welly-openai-lab.openai.azure.com/",
+  "apikey": "45ca6eac4fa247c4a0d2472357db2457",
+  "org": ""
+}

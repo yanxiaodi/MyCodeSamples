@@ -45,23 +45,31 @@ This workshop is designed to introduce you to explore the Microsoft Azure OpenAI
 
 * Presentation (30 minutes)
 * Lab 1
-  * [Completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line&pivots=programming-language-csharp)
-  * [Chat](https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=command-line&pivots=programming-language-csharp)
+  * [Completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line&pivots=programming-language-csharp&WT.mc_id=DT-MVP-5001643)
+  * [Chat](https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=command-line&pivots=programming-language-csharp&WT.mc_id=DT-MVP-5001643)
   * [Chatbot with voice output](https://github.com/yanxiaodi/MyCodeSamples/tree/main/Chatbot)
-* Lab 2 - [Chat Copilot with Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/chat-copilot/)
+* Lab 2 - [Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/chat-copilot/&WT.mc_id=DT-MVP-5001643)
+  * [Getting Started](https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide/loading-the-kernel?WT.mc_id=DT-MVP-5001643)
+  * [Loading the kernel from files](https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide/running-prompts-from-files?WT.mc_id=DT-MVP-5001643)
+  * [Loading the kernel from inline code](https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide/semantic-function-inline?WT.mc_id=DT-MVP-5001643)
+  * [Setting context variables](https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide/context-variables-chat?WT.mc_id=DT-MVP-5001643)
+  * [Chaining functions together](https://learn.microsoft.com/en-us/semantic-kernel/ai-orchestration/chaining-functions?WT.mc_id=DT-MVP-5001643)
+  * [Using Planner](https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide/using-the-planner?WT.mc_id=DT-MVP-5001643)
 
 ## Pricing
 
-* [Azure OpenAI Service Pricing](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/openai-service/)
+* [Azure OpenAI Service Pricing](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/openai-service/&WT.mc_id=DT-MVP-5001643)
 
 ## References
 
-* [What is Azure OpenAI Service](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview)
-* [Completions & chat completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/chatgpt?pivots=programming-language-chat-completions)
-* [What is Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/)
-* [More Semantic Kernel sample apps](https://learn.microsoft.com/en-us/semantic-kernel/samples-and-solutions/)
+* [What is Azure OpenAI Service](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview&WT.mc_id=DT-MVP-5001643)
+* [Completions & chat completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/chatgpt?pivots=programming-language-chat-completions&WT.mc_id=DT-MVP-5001643)
+* [What is Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/&WT.mc_id=DT-MVP-5001643)
+* [Start learning how to use Semantic Kernel](https://learn.microsoft.com/semantic-kernel/get-started/quick-start-guide/?toc=%2Fsemantic-kernel%2Fget-started%2Fquick-start-guide%2Ftoc.json&WT.mc_id=DT-MVP-5001643)
+* [More Semantic Kernel sample apps](https://learn.microsoft.com/en-us/semantic-kernel/samples-and-solutions/&WT.mc_id=DT-MVP-5001643)
 * [Azure ChatGPT](https://github.com/microsoft/azurechatgpt)
 * [Awesome ChatGPT prompts](https://github.com/f/awesome-chatgpt-prompts)
 * [The Art of ChatGPT Prompting: A Guide to Crafting Clear and Effective Prompts](https://fka.gumroad.com/l/art-of-chatgpt-prompting)
 * [GPT Fundamentals, Use Cases and Sample Solutions](https://github.com/Azure/azure-openai-samples)
 * [OpenAI Cookbook](https://github.com/openai/openai-cookbook)
+* [semantic-kernel-starters](https://github.com/microsoft/semantic-kernel-starters)
