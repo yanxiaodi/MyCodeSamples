@@ -68,7 +68,7 @@ This workshop is designed to introduce you to explore the Microsoft Azure OpenAI
 * [What is Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/&WT.mc_id=DT-MVP-5001643)
 * [Start learning how to use Semantic Kernel](https://learn.microsoft.com/semantic-kernel/get-started/quick-start-guide/?toc=%2Fsemantic-kernel%2Fget-started%2Fquick-start-guide%2Ftoc.json&WT.mc_id=DT-MVP-5001643)
 * [More Semantic Kernel sample apps](https://learn.microsoft.com/en-us/semantic-kernel/samples-and-solutions/&WT.mc_id=DT-MVP-5001643)
-* [Azure ChatGPT](https://github.com/microsoft/azurechatgpt)
+* [Azure OpenAI samples](https://github.com/Azure/azure-openai-samples)
 * [Awesome ChatGPT prompts](https://github.com/f/awesome-chatgpt-prompts)
 * [The Art of ChatGPT Prompting: A Guide to Crafting Clear and Effective Prompts](https://fka.gumroad.com/l/art-of-chatgpt-prompting)
 * [GPT Fundamentals, Use Cases and Sample Solutions](https://github.com/Azure/azure-openai-samples)
