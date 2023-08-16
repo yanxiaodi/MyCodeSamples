@@ -45,15 +45,16 @@ This workshop is designed to introduce you to explore the Microsoft Azure OpenAI
 
 * Presentation (30 minutes)
 * Lab 1
+  * [Lab doc](/How-to-OpenAI.md)
   * [Completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line&pivots=programming-language-csharp&WT.mc_id=DT-MVP-5001643)
   * [Chat](https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=command-line&pivots=programming-language-csharp&WT.mc_id=DT-MVP-5001643)
-  * [Chatbot with voice output](https://github.com/yanxiaodi/MyCodeSamples/tree/main/Chatbot)
+  * [Chatbot with voice output](https://github.com/yanxiaodi/MyCodeSamples/tree/main/Chatbot). [A Step-by-Step Guide to Developing Intelligent Chatbots with Azure Speech Recognition Capabilities](https://medium.com/gitconnected/a-step-by-step-guide-to-developing-intelligent-chatbots-with-azure-speech-recognition-capabilities-9c6f8c494b9)
 * Lab 2 - [Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/chat-copilot/&WT.mc_id=DT-MVP-5001643)
+  * [Sample code](/sk-demo/)
   * [Getting Started](https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide/loading-the-kernel?WT.mc_id=DT-MVP-5001643)
   * [Loading the kernel from files](https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide/running-prompts-from-files?WT.mc_id=DT-MVP-5001643)
   * [Loading the kernel from inline code](https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide/semantic-function-inline?WT.mc_id=DT-MVP-5001643)
   * [Setting context variables](https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide/context-variables-chat?WT.mc_id=DT-MVP-5001643)
-  * [Chaining functions together](https://learn.microsoft.com/en-us/semantic-kernel/ai-orchestration/chaining-functions?WT.mc_id=DT-MVP-5001643)
   * [Using Planner](https://learn.microsoft.com/en-us/semantic-kernel/get-started/quick-start-guide/using-the-planner?WT.mc_id=DT-MVP-5001643)
 
 ## Pricing
@@ -73,3 +74,4 @@ This workshop is designed to introduce you to explore the Microsoft Azure OpenAI
 * [GPT Fundamentals, Use Cases and Sample Solutions](https://github.com/Azure/azure-openai-samples)
 * [OpenAI Cookbook](https://github.com/openai/openai-cookbook)
 * [semantic-kernel-starters](https://github.com/microsoft/semantic-kernel-starters)
+* [Build an OpenAI-powered VS Code extension in no time](https://medium.com/gitconnected/build-an-openai-powered-vs-code-extension-in-no-time-ebaf23cea224)
