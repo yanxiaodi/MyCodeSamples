@@ -12,27 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="config\settings.json">
+    <Content Include="config\settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Plugins\FunSkill\Excuses\config.json">
+    </Content>
+    <Content Include="Plugins\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Plugins\FunSkill\Excuses\skprompt.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Plugins\FunSkill\Joke\config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Plugins\FunSkill\Joke\skprompt.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Plugins\FunSkill\Limerick\config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Plugins\FunSkill\Limerick\skprompt.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -15,6 +15,9 @@ var kernel = GettingStarted.InstantiateKernel();
 // Set context variables
 //await kernel.SetContextVariables();
 
-// Chain functions
-await kernel.RunFunctionsSequentially();
+// Use the planner
+//await kernel.UsePlanner();
+
+// Use the planner with an additional function
+//await kernel.UsePlannerWithAdditionalFunction();
 

@@ -11,12 +11,12 @@ internal static partial class GettingStarted
 
         // Create the semantic function for the chat agent
         const string skPrompt = @"
-ChatBot can have a conversation with you about any topic.
-It can give explicit instructions or say 'I don't know' if it does not have an answer.
-
-{{$history}}
-User: {{$userInput}}
-ChatBot:";
+            ChatBot can have a conversation with you about any topic.
+            It can give explicit instructions or say 'I don't know' if it does not have an answer.
+            
+            {{$history}}
+            User: {{$userInput}}
+            ChatBot:";
 
         var promptConfig = new PromptTemplateConfig
         {
@@ -35,7 +35,7 @@ ChatBot:";
         // Initialize the context
         var context = kernel.CreateNewContext();
         var history = "";
-        Func<string, Task> Chat = async (string input) =>
+        Func<string, Task> Chat = async input =>
         {
             // Save new message in the context variables
             context.Variables["userInput"] = input;
