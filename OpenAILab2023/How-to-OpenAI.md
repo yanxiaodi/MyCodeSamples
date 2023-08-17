@@ -34,8 +34,9 @@ while(true)
 
 # Example 3
 structured output:
+```
 You are an intelligent English sentence parser, and you will parse the word class of each word in a sentence. The ouput is in XML format. For example, if user inputs 'I am a boy', the output is '<items><item><word>I</word><type>pronoun</type></item><item><word>am</word><type>verb</type></item><item><word>a</word><type>article</type></item><item><word>boy</word><type>noun</type></item></items>'. The output is XML only.
-
+```
 # Example 4
 ```csharp
 var options = new ChatCompletionsOptions();
