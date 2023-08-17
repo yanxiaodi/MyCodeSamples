@@ -13,7 +13,7 @@ This workshop is designed to introduce you to explore the Microsoft Azure OpenAI
 ## Resources
 
 * Resource group: `rg-welly-openai`
-* Key: Will send to attendees during the session
+* Key: 45ca6eac4fa247c4a0d2472357db2457
 * Location: `eastus`
 * Endpoint: `https://welly-openai-lab.openai.azure.com/`
 * Deployment name:
@@ -45,7 +45,7 @@ This workshop is designed to introduce you to explore the Microsoft Azure OpenAI
 
 * Presentation (30 minutes)
 * Lab 1
-  * [Lab doc](/How-to-OpenAI.md)
+  * [Lab doc](How-to-OpenAI.md)
   * [Completions](https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?tabs=command-line&pivots=programming-language-csharp&WT.mc_id=DT-MVP-5001643)
   * [Chat](https://learn.microsoft.com/en-us/azure/ai-services/openai/chatgpt-quickstart?tabs=command-line&pivots=programming-language-csharp&WT.mc_id=DT-MVP-5001643)
   * [Chatbot with voice output](https://github.com/yanxiaodi/MyCodeSamples/tree/main/Chatbot). [A Step-by-Step Guide to Developing Intelligent Chatbots with Azure Speech Recognition Capabilities](https://medium.com/gitconnected/a-step-by-step-guide-to-developing-intelligent-chatbots-with-azure-speech-recognition-capabilities-9c6f8c494b9)
