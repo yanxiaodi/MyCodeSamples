@@ -1,0 +1,7 @@
+{
+  "type": "azure",
+  "model": "gpt-35-turbo",
+  "endpoint": "<Azure OpenAI endpoint>",
+  "apikey": "<API key>",
+  "org": ""
+}
