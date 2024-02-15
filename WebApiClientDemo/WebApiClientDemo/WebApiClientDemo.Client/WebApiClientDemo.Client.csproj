@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageId>WebApiClientDemo.Client</PackageId>
+		<RepositoryUrl>
+			https://github.com/yanxiaodi/MyCodeSamples
+		</RepositoryUrl>
+		<VersionPrefix>0.0.1</VersionPrefix>
+		<PackageTags></PackageTags>
+	</PropertyGroup>
+	<Target Name="NSwag" AfterTargets="Build">
+		<Exec WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run /input:nswag.json" />
+	</Target>
+	<ItemGroup>
+	  <PackageReference Include="NSwag.MSBuild" Version="14.0.3">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\WebApiClientDemo\WebApiClientDemo.csproj" />
+	</ItemGroup>
+</Project>

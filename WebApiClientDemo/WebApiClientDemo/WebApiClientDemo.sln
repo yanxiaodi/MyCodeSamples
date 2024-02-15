@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiClientDemo", "WebApiClientDemo\WebApiClientDemo.csproj", "{9BC7B712-9141-4BB6-A5F6-300F6B361BD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiClientDemo.Client", "WebApiClientDemo.Client\WebApiClientDemo.Client.csproj", "{DD578130-6A18-4B5E-9A0F-1C35E718ADFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9BC7B712-9141-4BB6-A5F6-300F6B361BD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BC7B712-9141-4BB6-A5F6-300F6B361BD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BC7B712-9141-4BB6-A5F6-300F6B361BD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BC7B712-9141-4BB6-A5F6-300F6B361BD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD578130-6A18-4B5E-9A0F-1C35E718ADFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD578130-6A18-4B5E-9A0F-1C35E718ADFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD578130-6A18-4B5E-9A0F-1C35E718ADFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD578130-6A18-4B5E-9A0F-1C35E718ADFD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {47627E58-F020-4319-9A2B-52811B16F8B3}
+	EndGlobalSection
+EndGlobal
