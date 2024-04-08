@@ -1,4 +1,5 @@
 ﻿#pragma warning disable SKEXP0054
+#pragma warning disable SKEXP0050
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -30,7 +31,7 @@ internal class ChatbotDemoV3
         // Add plugins
         var pluginsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "ChatbotV3", "plugins");
 
-        var bingKey = "c12873c6816a47f09c80731a83ad75c0";
+        var bingKey = "Your Bing Search Key";
         var bingConnector = new BingConnector(bingKey);
         kernel.ImportPluginFromObject(new WebSearchEnginePlugin(bingConnector), "bing");
 

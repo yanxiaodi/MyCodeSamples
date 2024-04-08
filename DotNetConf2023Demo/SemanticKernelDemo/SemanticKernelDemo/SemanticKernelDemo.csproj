@@ -8,12 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.12" />
-    <PackageReference Include="Microsoft.DotNet.Interactive.CSharp" Version="1.0.0-beta.24063.1" />
-    <PackageReference Include="Microsoft.SemanticKernel" Version="1.0.1" />
-    <PackageReference Include="Microsoft.SemanticKernel.Planners.Handlebars" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.0.1-alpha" />
-    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.0.1-alpha" />
+    <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.15" />
+    <PackageReference Include="Microsoft.DotNet.Interactive.CSharp" Version="1.0.0-beta.24205.1" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.7.1" />
+    <PackageReference Include="Microsoft.SemanticKernel.Planners.Handlebars" Version="1.7.1-preview" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.7.1-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.7.1-alpha" />
   </ItemGroup>
 
 	<ItemGroup>

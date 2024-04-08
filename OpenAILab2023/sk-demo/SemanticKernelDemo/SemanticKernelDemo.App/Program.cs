@@ -7,7 +7,7 @@ Console.WriteLine("Hello, World!");
 var kernel = GettingStarted.InstantiateKernel();
 
 // Load a plugin from a directory
-//await kernel.LoadPluginFromFiles();
+await kernel.LoadPluginFromFiles();
 
 // Load a plugin from inline code
 //await kernel.LoadPluginFromInline();

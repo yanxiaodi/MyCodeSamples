@@ -2,13 +2,45 @@
 
 ## Introduction
 
-This workshop is designed to introduce you to explore the Microsoft Azure OpenAI platform.
+This workshop is designed to introduce you to the Microsoft Azure OpenAI platform.
 
 ## Prerequisites
 
 * A Microsoft Azure OpenAI account - see the **Resources** section
 * VS Code - Install it from [here](https://code.visualstudio.com/)
 * If you prefer to use Visual Studio, you can install it from [here](https://visualstudio.microsoft.com/downloads/)
+
+## Azure OpenAI playground
+
+### Chat
+
+* Use the default system message and the prompt `What is SOLID?`
+* Use the system message `You are an expert in software development. You always explain complicated concepts in simple terms. You can also show some metaphor and code examples.`
+
+### Completions
+
+* Summarize the following text
+* Generate an email response:
+  `I got an email from a customer. The customer is complaining about our website because it is not working. The customer is saying that he wants to check the details of one product but he is not able to find it. Write an email response to the customer and explain to them that we are working on the issue and we will get back to them as soon as possible. Use professional language and an approachable tone.`
+
+### DALL·E 3
+
+* `engineer working`
+* `one engineer working`
+* `one software engineer working at midnight to fix bugs`
+* `one software engineer working at midnight to fix bugs. Cartoon style.`
+* `one software engineer with glasses working at midnight to fix bugs. Cartoon style, humorous`
+* `one software engineer with glasses working at midnight to fix bugs. photo style, serious`
+
+### Embeddings
+
+Use different system messages:
+
+`You are an expert of house insurance. You know the details of Kiwibank house insurance policies. You need to answer customer's questions in a professional manner and friendly tone. If they ask anything about Kiwibank's house insurance policies, you need to provide a detailed response. When you first time respond to a customer, say greetings then answer questions. If you don't know the answer, guide them to contact us.`
+
+* `I have a house and I'm looking for advice about house insurance. Do you have any recommendations about kiwibank house insurance?`
+* `What if my house is damaged by fire?`
+* `What about earthquake?`
 
 ## Resources
 

@@ -1,11 +1,12 @@
 ﻿using Microsoft.SemanticKernel;
+using Kernel = Microsoft.SemanticKernel.Kernel;
 
 namespace SemanticKernelDemo.App;
 internal static partial class GettingStarted
 {
-    public static IKernel InstantiateKernel()
+    public static Kernel InstantiateKernel()
     {
-        var builder = new KernelBuilder();
+        var builder = new Kernel.CreateBuilder();
         var (model, azureEndpoint, apiKey, orgId) = Settings.LoadFromFile();
 
         builder.WithAzureChatCompletionService(model, azureEndpoint, apiKey);
