@@ -35,7 +35,7 @@ internal class ChatDemoV1
 
         while (true)
         {
-            Console.Write("User > ");
+            Console.Write("USER: ");
             var userMessageString = Console.ReadLine();
             if (userMessageString?.Trim().ToLower() == "q")
             {
@@ -49,9 +49,11 @@ internal class ChatDemoV1
             //var response = await openAiClient.GetChatCompletionsStreamingAsync(chatCompletionsOptions);
 
             var assistantMessageStringBuilder = new StringBuilder();
-            await foreach (StreamingChatCompletionsUpdate chatUpdate in openAiClient.GetChatCompletionsStreaming(chatCompletionsOptions))
+            var response = await openAiClient.GetChatCompletionsStreamingAsync(chatCompletionsOptions);
+
+            await foreach (var chatUpdate in response)
             {
-                if (chatUpdate.Role.HasValue)
+                if (chatUpdate.Role.HasValue && chatUpdate.ContentUpdate != null)
                 {
                     Console.Write($"{chatUpdate.Role.Value.ToString().ToUpperInvariant()}: ");
                 }
@@ -61,6 +63,7 @@ internal class ChatDemoV1
                     Console.Write(chatUpdate.ContentUpdate);
                 }
             }
+
             Console.WriteLine();
             var assistantMessage = new ChatRequestAssistantMessage(assistantMessageStringBuilder.ToString());
             chatCompletionsOptions.Messages.Add(assistantMessage);

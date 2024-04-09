@@ -7,16 +7,14 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Plugins.Core;
+using Microsoft.SemanticKernel.Plugins.Web;
+using Microsoft.SemanticKernel.Plugins.Web.Bing;
 using System.Text;
 
-namespace CodeCampWellington2024.ChatV2;
-
-/// <summary>
-/// This chat demo uses Semantic Kernel to get user's local time.
-/// </summary>
-internal class ChatDemoV2
+namespace CodeCampWellington2024.ChatV3;
+internal class ChatDemoV3
 {
-    public static async Task Run(OpenAiOptions openAiOptions)
+    public static async Task Run(OpenAiOptions openAiOptions, BingSearchOptions bingSearchOptions)
     {
         ILoggerFactory myLoggerFactory = NullLoggerFactory.Instance;
 
@@ -29,6 +27,10 @@ internal class ChatDemoV2
         builder.Plugins.AddFromType<TimePlugin>();
 
         var kernel = builder.Build();
+
+        // Add a plugin to use Bing search
+        var bingConnector = new BingConnector(bingSearchOptions.Key);
+        kernel.ImportPluginFromObject(new WebSearchEnginePlugin(bingConnector), "bing");
 
         // Retrieve the chat completion service from the kernel
         var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
