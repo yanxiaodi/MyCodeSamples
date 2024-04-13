@@ -46,8 +46,6 @@ internal class ChatDemoV1
             var userMessage = new ChatRequestUserMessage(userMessageString);
             chatCompletionsOptions.Messages.Add(userMessage);
 
-            //var response = await openAiClient.GetChatCompletionsStreamingAsync(chatCompletionsOptions);
-
             var assistantMessageStringBuilder = new StringBuilder();
             var response = await openAiClient.GetChatCompletionsStreamingAsync(chatCompletionsOptions);
 

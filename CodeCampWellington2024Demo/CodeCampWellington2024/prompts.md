@@ -20,10 +20,8 @@ Give me 10 action movies.
 
 ### Specify the output examples
 
-```text
 ## User Input:
 Generate 10 action movies in JSON format as this:
-
 ```json
 {
   "movies": [
@@ -33,7 +31,7 @@ Generate 10 action movies in JSON format as this:
   ]
 }
 ```
-
 ## Output:
-```
+
+
 

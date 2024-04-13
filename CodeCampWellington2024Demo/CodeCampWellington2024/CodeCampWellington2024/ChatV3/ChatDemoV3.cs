@@ -11,6 +11,10 @@ using Microsoft.SemanticKernel.Plugins.Web.Bing;
 using System.Text;
 
 namespace CodeCampWellington2024.ChatV3;
+
+/// <summary>
+/// This chat demo uses Semantic Kernel Bing Search plugin to search the web.
+/// </summary>
 internal class ChatDemoV3
 {
     public static async Task Run(OpenAiOptions openAiOptions, BingSearchOptions bingSearchOptions)

@@ -9,9 +9,13 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using System.Text;
 
 namespace CodeCampWellington2024.ChatV4;
+
+/// <summary>
+/// This chat demo uses Kernel Memory to ingest PDF files.
+/// </summary>
 internal class ChatDemoV4
 {
-    public static async Task Run(OpenAiOptions openAiOptions, BingSearchOptions bingSearchOptions, AzureAiSearchOptions azureAiSearchOptions)
+    public static async Task Run(OpenAiOptions openAiOptions, AzureAiSearchOptions azureAiSearchOptions)
     {
         ILoggerFactory myLoggerFactory = NullLoggerFactory.Instance;
 
@@ -28,8 +32,9 @@ internal class ChatDemoV4
         //var bingConnector = new BingConnector(bingSearchOptions.Key);
         //kernel.ImportPluginFromObject(new WebSearchEnginePlugin(bingConnector), "bing");
 
-        //var directory = Path.GetDirectoryName(Environment.ProcessPath);
-        //var path = Path.Combine(directory, "Memory");
+        // Create a Kernel Memory to ingest the PDF files
+        // The following example uses a serverless mode.
+        // You can use other backends, e.g. Azure AI Search, Odrant, etc
         var memory = new KernelMemoryBuilder()
             .WithAzureOpenAITextGeneration(new AzureOpenAIConfig()
             {
@@ -49,7 +54,7 @@ internal class ChatDemoV4
             })
             .WithSimpleVectorDb()
             .Build<MemoryServerless>();
-        await memory.ImportDocumentAsync(Path.Combine(Directory.GetCurrentDirectory(), "XiaodiYanCV202404.pdf"), "XiaodiCV");
+        await memory.ImportDocumentAsync(Path.Combine(Directory.GetCurrentDirectory(), "DocSample.pdf"), "docSample");
         var memoryPlugin = new MemoryPlugin(memory, waitForIngestionToComplete: true);
         kernel.ImportPluginFromObject(memoryPlugin, "memory");
 

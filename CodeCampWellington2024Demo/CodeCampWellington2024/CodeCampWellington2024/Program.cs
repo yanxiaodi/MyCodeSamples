@@ -1,11 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using CodeCampWellington2024;
-using CodeCampWellington2024.ChatV4;
+using CodeCampWellington2024.ChatV2;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
-Console.WriteLine("Hello, World!");
+Console.WriteLine("Hello, Code Camp Wellington 2024!");
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Configuration
@@ -19,9 +19,9 @@ using IHost host = builder.Build();
 // Application code should start here.
 
 //await ChatDemoV1.Run(openAiOptions);
-//await ChatDemoV2.Run(openAiOptions);
+await ChatDemoV2.Run(openAiOptions);
 //await ChatDemoV3.Run(openAiOptions, bingSearchOptions);
-await ChatDemoV4.Run(openAiOptions, bingSearchOptions, azureAiSearchOptions);
+//await ChatDemoV4.Run(openAiOptions, azureAiSearchOptions);
 
 await host.RunAsync();
 
