@@ -1,35 +1,64 @@
-﻿#pragma warning disable SKEXP0050 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-
+﻿#pragma warning disable SKEXP0001, SKEXP0010, SKEXP0020, SKEXP0050 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.KernelMemory;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using Microsoft.SemanticKernel.Plugins.Core;
 using System.Text;
 
-namespace CodeCampWellington2024.ChatV2;
+namespace SeasonOfAIDemo.ChatV4;
 
 /// <summary>
-/// This chat demo uses Semantic Kernel to get user's local time.
+/// This chat demo uses Kernel Memory to ingest PDF files.
 /// </summary>
-internal class ChatDemoV2
+internal class ChatDemoV4
 {
-    public static async Task Run(OpenAiOptions openAiOptions)
+    public static async Task Run(OpenAiOptions openAiOptions, AzureAiSearchOptions azureAiSearchOptions)
     {
         Console.WriteLine("Hello, World! You can ask questions or press q to exit.");
+
         ILoggerFactory myLoggerFactory = NullLoggerFactory.Instance;
 
         // Create the kernel
         var builder = Kernel.CreateBuilder();
         builder.Services.AddSingleton(myLoggerFactory);
         builder.Services.AddAzureOpenAIChatCompletion(openAiOptions.Model, openAiOptions.Endpoint, openAiOptions.Key);
-
         // Add a native plugin to call native code
-        builder.Plugins.AddFromType<TimePlugin>();
+        //builder.Plugins.AddFromType<TimePlugin>();
 
         var kernel = builder.Build();
+
+        // Add a plugin to use Bing search
+        //var bingConnector = new BingConnector(bingSearchOptions.Key);
+        //kernel.ImportPluginFromObject(new WebSearchEnginePlugin(bingConnector), "bing");
+
+        // Create a Kernel Memory to ingest the PDF files
+        // The following example uses a serverless mode.
+        // You can use other backends, e.g. Azure AI Search, Odrant, etc
+        var memory = new KernelMemoryBuilder()
+            .WithAzureOpenAITextGeneration(new AzureOpenAIConfig()
+            {
+                APIKey = openAiOptions.Key,
+                APIType = AzureOpenAIConfig.APITypes.ChatCompletion,
+                Auth = AzureOpenAIConfig.AuthTypes.APIKey,
+                Endpoint = openAiOptions.Endpoint,
+                Deployment = openAiOptions.Model
+            })
+            .WithAzureOpenAITextEmbeddingGeneration(new AzureOpenAIConfig()
+            {
+                APIKey = openAiOptions.Key,
+                APIType = AzureOpenAIConfig.APITypes.EmbeddingGeneration,
+                Auth = AzureOpenAIConfig.AuthTypes.APIKey,
+                Endpoint = openAiOptions.Endpoint,
+                Deployment = "text-embedding-ada-002"
+            })
+            .WithSimpleVectorDb()
+            .Build<MemoryServerless>();
+        await memory.ImportDocumentAsync(Path.Combine(Directory.GetCurrentDirectory(), "DocSample.pdf"), "docSample");
+        var memoryPlugin = new MemoryPlugin(memory, waitForIngestionToComplete: true);
+        kernel.ImportPluginFromObject(memoryPlugin, "memory");
 
         // Retrieve the chat completion service from the kernel
         var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
@@ -53,13 +82,20 @@ internal class ChatDemoV2
                 Console.WriteLine("Goodbye!");
                 break;
             }
-            chatMessages.AddUserMessage(userMessageString!);
+
+            var prompt = $@"
+                        Question to Kernel Memory: {userMessageString}
+                        Kernel Memory Answer: {{memory.ask}}
+                        If the answer is empty say 'I don't know', otherwise reply with the answer.
+                        ";
+            chatMessages.AddUserMessage(prompt!);
 
             // Get the chat completions
             OpenAIPromptExecutionSettings openAiPromptExecutionSettings = new()
             {
                 ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions
             };
+
             var response = chatCompletionService.GetStreamingChatMessageContentsAsync(
                 chatMessages,
                 executionSettings: openAiPromptExecutionSettings,
@@ -87,4 +123,4 @@ internal class ChatDemoV2
     }
 
 }
-#pragma warning restore SKEXP0050 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+#pragma warning restore SKEXP0001, SKEXP0010, SKEXP0020, SKEXP0050 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.

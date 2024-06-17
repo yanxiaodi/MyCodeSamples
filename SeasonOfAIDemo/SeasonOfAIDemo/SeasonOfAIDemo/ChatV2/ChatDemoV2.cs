@@ -9,7 +9,7 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Plugins.Core;
 using System.Text;
 
-namespace CodeCampWellington2024.ChatV2;
+namespace SeasonOfAIDemo.ChatV2;
 
 /// <summary>
 /// This chat demo uses Semantic Kernel to get user's local time.

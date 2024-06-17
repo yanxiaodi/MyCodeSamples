@@ -1,11 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using CodeCampWellington2024;
-using CodeCampWellington2024.ChatV4;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using SeasonOfAIDemo;
+using SeasonOfAIDemo.ChatV4;
 
-Console.WriteLine("Hello, Global Azure Day 2024!");
+Console.WriteLine("Hello, Wellington .NET User Group! Welcome to join Season of AI!");
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Configuration

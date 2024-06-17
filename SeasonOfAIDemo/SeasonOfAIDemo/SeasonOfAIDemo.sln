@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35004.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeasonOfAIDemo", "SeasonOfAIDemo\SeasonOfAIDemo.csproj", "{26B60838-9071-401D-9FE6-70EAC15497F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoGenDemo", "AutoGenDemo\AutoGenDemo.csproj", "{8F547122-3FB8-4295-A70C-38B53C7624CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26B60838-9071-401D-9FE6-70EAC15497F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26B60838-9071-401D-9FE6-70EAC15497F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26B60838-9071-401D-9FE6-70EAC15497F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26B60838-9071-401D-9FE6-70EAC15497F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F547122-3FB8-4295-A70C-38B53C7624CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F547122-3FB8-4295-A70C-38B53C7624CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F547122-3FB8-4295-A70C-38B53C7624CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F547122-3FB8-4295-A70C-38B53C7624CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6AC9C127-219C-44A1-8851-49FE18C9C513}
+	EndGlobalSection
+EndGlobal

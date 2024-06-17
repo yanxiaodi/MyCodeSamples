@@ -11,7 +11,7 @@ internal class ChatDemoV1
 {
     public static async Task Run(OpenAiOptions openAiOptions)
     {
-        Console.WriteLine("Hello, World! Ask a question. Press q to exit.");
+        Console.WriteLine("Hello, World! You can ask questions or press q to exit.");
         var openAiClient = new OpenAIClient(new Uri(openAiOptions.Endpoint), new AzureKeyCredential(openAiOptions.Key));
         var systemMessage = """
                             You are a friendly assistant who likes to follow the rules. You will complete required steps

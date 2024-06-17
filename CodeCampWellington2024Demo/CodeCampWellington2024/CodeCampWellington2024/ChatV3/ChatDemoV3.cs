@@ -19,6 +19,8 @@ internal class ChatDemoV3
 {
     public static async Task Run(OpenAiOptions openAiOptions, BingSearchOptions bingSearchOptions)
     {
+        Console.WriteLine("Hello, World! You can ask questions or press q to exit.");
+
         ILoggerFactory myLoggerFactory = NullLoggerFactory.Instance;
 
         // Create the kernel

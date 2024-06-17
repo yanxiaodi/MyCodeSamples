@@ -1,5 +1,4 @@
 ﻿#pragma warning disable SKEXP0050 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -7,18 +6,21 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.SemanticKernel.Plugins.Core;
+using Microsoft.SemanticKernel.Plugins.Web;
+using Microsoft.SemanticKernel.Plugins.Web.Bing;
 using System.Text;
 
-namespace CodeCampWellington2024.ChatV2;
+namespace SeasonOfAIDemo.ChatV3;
 
 /// <summary>
-/// This chat demo uses Semantic Kernel to get user's local time.
+/// This chat demo uses Semantic Kernel Bing Search plugin to search the web.
 /// </summary>
-internal class ChatDemoV2
+internal class ChatDemoV3
 {
-    public static async Task Run(OpenAiOptions openAiOptions)
+    public static async Task Run(OpenAiOptions openAiOptions, BingSearchOptions bingSearchOptions)
     {
         Console.WriteLine("Hello, World! You can ask questions or press q to exit.");
+
         ILoggerFactory myLoggerFactory = NullLoggerFactory.Instance;
 
         // Create the kernel
@@ -30,6 +32,10 @@ internal class ChatDemoV2
         builder.Plugins.AddFromType<TimePlugin>();
 
         var kernel = builder.Build();
+
+        // Add a plugin to use Bing search
+        var bingConnector = new BingConnector(bingSearchOptions.Key);
+        kernel.ImportPluginFromObject(new WebSearchEnginePlugin(bingConnector), "bing");
 
         // Retrieve the chat completion service from the kernel
         var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();

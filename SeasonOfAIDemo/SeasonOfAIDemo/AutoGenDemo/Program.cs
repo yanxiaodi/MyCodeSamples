@@ -1,11 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using CodeCampWellington2024;
-using CodeCampWellington2024.ChatV4;
+using AutoGenDemo;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
-Console.WriteLine("Hello, Global Azure Day 2024!");
+Console.WriteLine("Hello, Wellington .NET User Group! Welcome to join Season of AI!");
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Configuration
@@ -16,12 +15,7 @@ var (openAiOptions, bingSearchOptions, azureAiSearchOptions) = Helpers.GetConfig
 
 using IHost host = builder.Build();
 
-// Application code should start here.
-
-//await ChatDemoV1.Run(openAiOptions);
-//await ChatDemoV2.Run(openAiOptions);
-//await ChatDemoV3.Run(openAiOptions, bingSearchOptions);
-await ChatDemoV4.Run(openAiOptions, azureAiSearchOptions);
+//await ChatWithSKAgent.Run(openAiOptions);
+await ChatWithAssistantAgent.Run(openAiOptions);
 
 await host.RunAsync();
-

@@ -17,6 +17,8 @@ internal class ChatDemoV4
 {
     public static async Task Run(OpenAiOptions openAiOptions, AzureAiSearchOptions azureAiSearchOptions)
     {
+        Console.WriteLine("Hello, World! You can ask questions or press q to exit.");
+
         ILoggerFactory myLoggerFactory = NullLoggerFactory.Instance;
 
         // Create the kernel
