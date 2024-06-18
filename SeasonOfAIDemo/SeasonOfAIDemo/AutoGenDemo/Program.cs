@@ -15,7 +15,8 @@ var (openAiOptions, bingSearchOptions, azureAiSearchOptions) = Helpers.GetConfig
 
 using IHost host = builder.Build();
 
-//await ChatWithSKAgent.Run(openAiOptions);
-await ChatWithAssistantAgent.Run(openAiOptions);
+//await ChatWithAssistantAgent.Run(openAiOptions);
+await ChatWithSemanticKernelAgent.Run(openAiOptions, bingSearchOptions);
+
 
 await host.RunAsync();

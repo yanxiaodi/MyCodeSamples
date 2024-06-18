@@ -12,9 +12,11 @@ internal class ChatWithAssistantAgent
         var llmConfig = new AzureOpenAIConfig(openAiOptions.Endpoint, openAiOptions.Model, openAiOptions.Key);
         var teacher = new AssistantAgent(
                 name: "teacher",
-                systemMessage: @"You are a teacher that create middle-school math question for student and check answer.
-If the answer is correct, you stop the conversation by saying [COMPLETE].
-If the answer is wrong, you ask student to fix it.",
+                systemMessage: """
+                                You are a teacher that create middle-school math question for student and check answer.
+                                If the answer is correct, you stop the conversation by saying [COMPLETE].
+                                If the answer is wrong, you ask student to fix it.
+                               """,
                 llmConfig: new ConversableAgentConfig
                 {
                     Temperature = 0.5f,
@@ -22,7 +24,7 @@ If the answer is wrong, you ask student to fix it.",
                 })
             .RegisterMiddleware(async (msgs, option, agent, _) =>
             {
-                var reply = await agent.GenerateReplyAsync(msgs, option);
+                var reply = await agent.GenerateReplyAsync(msgs, option, _);
                 if (reply.GetContent()?.ToLower().Contains("complete") is true)
                 {
                     return new TextMessage(Role.Assistant, GroupChatExtension.TERMINATE, from: reply.From);

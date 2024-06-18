@@ -12,6 +12,7 @@
     <PackageReference Include="AutoGen" Version="0.0.15" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.11.1-alpha" />
   </ItemGroup>
 
   <ItemGroup>
