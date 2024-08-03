@@ -1,5 +1,6 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Shared;
 using System.Text;
 
@@ -8,7 +9,7 @@ internal class ChatDemo
 {
     public static async Task Run(OpenAiOptions openAiOptions)
     {
-        Console.WriteLine("Hello, World! You can ask questions or press q to exit.");
+        Console.WriteLine("DemoV2 shows how to use Semantic Kernel to call Azure OpenAI service. You can ask questions or press q to exit.");
 
         // Create a kernel builder
         var builder = Kernel.CreateBuilder();
@@ -26,11 +27,20 @@ internal class ChatDemo
         var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
 
         // Create the chat history
-        var chatMessages = new ChatHistory("""
+        var chatHistory = new ChatHistory("""
                                            You are a friendly assistant who helps users with their tasks.
                                            You will complete required steps and request approval before taking any consequential actions.
                                            If the user doesn't provide enough information for you to complete a task, you will keep asking questions until you have enough information to complete the task.
                                            """);
+
+        // Set the execution settings
+        OpenAIPromptExecutionSettings settings = new()
+        {
+            MaxTokens = 10000,
+            Temperature = 0.7f,
+            FrequencyPenalty = 0,
+            PresencePenalty = 0
+        };
 
         while (true)
         {
@@ -43,11 +53,12 @@ internal class ChatDemo
                 break;
             }
 
-            chatMessages.AddUserMessage(userMessageString!);
+            chatHistory.AddUserMessage(userMessageString!);
 
             // Get the chat completions
             var response = chatCompletionService.GetStreamingChatMessageContentsAsync(
-                chatMessages,
+                chatHistory: chatHistory,
+                executionSettings: settings,
                 kernel: kernel);
 
             // Stream the results
@@ -63,7 +74,7 @@ internal class ChatDemo
             }
             Console.WriteLine();
             // Add the message from the agent to the chat history
-            chatMessages.AddAssistantMessage(assistantMessageStringBuilder.ToString());
+            chatHistory.AddAssistantMessage(assistantMessageStringBuilder.ToString());
         }
     }
 }

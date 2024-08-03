@@ -31,18 +31,22 @@ internal class ChatDemo
         // Retrieve the chat completions service
         var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
 
-        // Enable the AutoInvokeKernelFunctions tool call behavior
-        OpenAIPromptExecutionSettings executionSettings = new()
-        {
-            ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions
-        };
-
         // Create the chat history
-        var chatMessages = new ChatHistory("""
+        var chatHistory = new ChatHistory("""
                                            You are a friendly assistant who helps users with their tasks.
                                            You will complete required steps and request approval before taking any consequential actions.
                                            If the user doesn't provide enough information for you to complete a task, you will keep asking questions until you have enough information to complete the task.
                                            """);
+
+        // Enable the AutoInvokeKernelFunctions tool call behavior
+        OpenAIPromptExecutionSettings settings = new()
+        {
+            ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions,
+            MaxTokens = 10000,
+            Temperature = 0.7f,
+            FrequencyPenalty = 0,
+            PresencePenalty = 0
+        };
 
         while (true)
         {
@@ -55,12 +59,12 @@ internal class ChatDemo
                 break;
             }
 
-            chatMessages.AddUserMessage(userMessageString!);
+            chatHistory.AddUserMessage(userMessageString!);
 
             // Get the chat completions
             var response = chatCompletionService.GetStreamingChatMessageContentsAsync(
-                chatMessages,
-                executionSettings: executionSettings,
+                chatHistory: chatHistory,
+                executionSettings: settings,
                 kernel: kernel);
 
             // Stream the results
@@ -76,7 +80,7 @@ internal class ChatDemo
             }
             Console.WriteLine();
             // Add the message from the agent to the chat history
-            chatMessages.AddAssistantMessage(assistantMessageStringBuilder.ToString());
+            chatHistory.AddAssistantMessage(assistantMessageStringBuilder.ToString());
         }
     }
 }

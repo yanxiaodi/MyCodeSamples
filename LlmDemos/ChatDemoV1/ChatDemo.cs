@@ -9,7 +9,7 @@ internal class ChatDemo
 {
     public static async Task Run(OpenAiOptions openAiOptions)
     {
-        Console.WriteLine("Hello, World! You can ask questions or press q to exit.");
+        Console.WriteLine("DemoV1 shows how to use Azure OpenAI SDK to call Azure OpenAI service. You can ask questions or press q to exit.");
         var openAiClient = new AzureOpenAIClient(new Uri(openAiOptions.Endpoint), new AzureKeyCredential(openAiOptions.Key));
         var chatClient = openAiClient.GetChatClient(openAiOptions.Model);
         var systemMessage = """
@@ -20,15 +20,15 @@ internal class ChatDemo
         var chatCompletionsOptions = new ChatCompletionOptions()
         {
             Temperature = (float)0.7,
-            MaxTokens = 1024,
+            MaxTokens = 10000,
             //TopP = 0, // Only adjust Temperature or TopP, not both
             FrequencyPenalty = 0,
             PresencePenalty = 0,
         };
         var messages = new List<ChatMessage>()
-            {
-                new SystemChatMessage(systemMessage)
-            };
+        {
+            new SystemChatMessage(systemMessage)
+        };
 
         while (true)
         {
