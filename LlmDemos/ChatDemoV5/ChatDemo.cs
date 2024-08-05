@@ -1,18 +1,17 @@
 ﻿#pragma warning disable SKEXP0050 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+using Microsoft.KernelMemory;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using Microsoft.SemanticKernel.Plugins.Web;
-using Microsoft.SemanticKernel.Plugins.Web.Bing;
 using Shared;
 using System.Text;
 
 namespace ChatDemoV5;
 internal class ChatDemo
 {
-    public static async Task Run(OpenAiOptions openAiOptions, BingSearchOptions bingSearchOptions)
+    public static async Task Run(OpenAiOptions openAiOptions)
     {
-        Console.WriteLine("Hello, World! You can ask questions or press q to exit.");
+        Console.WriteLine("DemoV5 shows how to use RAG to retrieve information from files. You can ask questions or press q to exit.");
 
         // Create a kernel builder
         var builder = Kernel.CreateBuilder();
@@ -27,24 +26,54 @@ internal class ChatDemo
         var kernel = builder.Build();
 
         // Add a plugin to use Bing search
-        var bingConnector = new BingConnector(bingSearchOptions.Key);
-        kernel.ImportPluginFromObject(new WebSearchEnginePlugin(bingConnector), "bing");
+        //var bingConnector = new BingConnector(bingSearchOptions.Key);
+        //kernel.ImportPluginFromObject(new WebSearchEnginePlugin(bingConnector), "bing");
 
         // Retrieve the chat completions service
         var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
 
-        // Enable the AutoInvokeKernelFunctions tool call behavior
-        OpenAIPromptExecutionSettings executionSettings = new()
-        {
-            ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions
-        };
-
         // Create the chat history
-        var chatMessages = new ChatHistory("""
+        var chatHistory = new ChatHistory("""
                                            You are a friendly assistant who helps users with their tasks.
                                            You will complete required steps and request approval before taking any consequential actions.
                                            If the user doesn't provide enough information for you to complete a task, you will keep asking questions until you have enough information to complete the task.
                                            """);
+
+        // Enable the AutoInvokeKernelFunctions tool call behavior
+        OpenAIPromptExecutionSettings settings = new()
+        {
+            ToolCallBehavior = ToolCallBehavior.AutoInvokeKernelFunctions,
+            MaxTokens = 10000,
+            Temperature = 0.7f,
+            FrequencyPenalty = 0,
+            PresencePenalty = 0
+        };
+
+        // Configure Kernel Memory
+        var memory = new KernelMemoryBuilder()
+            .WithAzureOpenAITextGeneration(new AzureOpenAIConfig()
+            {
+                APIKey = openAiOptions.Key,
+                APIType = AzureOpenAIConfig.APITypes.ChatCompletion,
+                Auth = AzureOpenAIConfig.AuthTypes.APIKey,
+                Endpoint = openAiOptions.Endpoint,
+                Deployment = openAiOptions.Model,
+            })
+            .WithAzureOpenAITextEmbeddingGeneration(new AzureOpenAIConfig()
+            {
+                APIKey = openAiOptions.Key,
+                APIType = AzureOpenAIConfig.APITypes.EmbeddingGeneration,
+                Auth = AzureOpenAIConfig.AuthTypes.APIKey,
+                Endpoint = openAiOptions.Endpoint,
+                Deployment = "text-embedding-3-small"
+            })
+            .WithSimpleVectorDb()
+            .Build<MemoryServerless>();
+
+        // Import a document into memory
+        await memory.ImportDocumentAsync(Path.Combine(Directory.GetCurrentDirectory(), "Resources/DocSample.pdf"), "docSample");
+        var memoryPlugin = new MemoryPlugin(memory, waitForIngestionToComplete: true);
+        kernel.ImportPluginFromObject(memoryPlugin, "memory");
 
         while (true)
         {
@@ -57,12 +86,12 @@ internal class ChatDemo
                 break;
             }
 
-            chatMessages.AddUserMessage(userMessageString!);
+            chatHistory.AddUserMessage(userMessageString!);
 
             // Get the chat completions
             var response = chatCompletionService.GetStreamingChatMessageContentsAsync(
-                chatMessages,
-                executionSettings: executionSettings,
+                chatHistory: chatHistory,
+                executionSettings: settings,
                 kernel: kernel);
 
             // Stream the results
@@ -78,7 +107,7 @@ internal class ChatDemo
             }
             Console.WriteLine();
             // Add the message from the agent to the chat history
-            chatMessages.AddAssistantMessage(assistantMessageStringBuilder.ToString());
+            chatHistory.AddAssistantMessage(assistantMessageStringBuilder.ToString());
         }
     }
 }

@@ -11,7 +11,7 @@ internal class ChatDemo
 {
     public static async Task Run(OpenAiOptions openAiOptions)
     {
-        Console.WriteLine("Hello, World! You can ask questions or press q to exit.");
+        Console.WriteLine("DemoV3 shows how to call a built-in plugin - TimePlugin, to execute native functions. You can ask questions or press q to exit.");
 
         // Create a kernel builder
         var builder = Kernel.CreateBuilder();
