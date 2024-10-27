@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "CustomConnector": {
+      "connectionInfo": "Custom Connector: PodcastCopilot_Connector (Environment: Xiaodi Yan's Environment)",
+      "connectorName": "PodcastCopilot_Connector",
+      "environmentUrl": "https://org1b089e50.crm.dynamics.com/",
+      "environmentId": "a1972a66-9ad3-e56f-a985-20a1b9bf820e",
+      "type": "powerplatform.local"
+    }
+  }
+}
