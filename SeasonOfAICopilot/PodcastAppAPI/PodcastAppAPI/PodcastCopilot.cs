@@ -40,7 +40,7 @@ public class PodcastCopilot : IPodcastCopilot
     private async Task<string> GetTranscription(string podcastUrl)
     {
         var decodedUrl = HttpUtility.UrlDecode(podcastUrl);
-
+        // DO NOT use HttpClient in this way in production code. This is for demonstration purposes only.
         HttpClient httpClient = new HttpClient();
         Stream audioStreamFromBlob = await httpClient.GetStreamAsync(decodedUrl);
 

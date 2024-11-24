@@ -13,7 +13,7 @@ internal class ChatWithAssistantAgent
         var teacher = new AssistantAgent(
                 name: "teacher",
                 systemMessage: """
-                                You are a teacher that create middle-school math question for student and check answer.
+                                You are a teacher that create primary-school math question for student and check answer.
                                 If the answer is correct, you stop the conversation by saying [COMPLETE].
                                 If the answer is wrong, you ask student to fix it.
                                """,

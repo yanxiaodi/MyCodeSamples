@@ -1,7 +1,7 @@
-﻿using Azure;
-using Azure.AI.OpenAI;
+﻿using Azure.AI.OpenAI;
 using OpenAI.Chat;
 using Shared;
+using System.ClientModel;
 using System.Text;
 
 namespace ChatDemoV1;
@@ -10,7 +10,7 @@ internal class ChatDemo
     public static async Task Run(OpenAiOptions openAiOptions)
     {
         Console.WriteLine("DemoV1 shows how to use Azure OpenAI SDK to call Azure OpenAI service. You can ask questions or press q to exit.");
-        var openAiClient = new AzureOpenAIClient(new Uri(openAiOptions.Endpoint), new AzureKeyCredential(openAiOptions.Key));
+        var openAiClient = new AzureOpenAIClient(new Uri(openAiOptions.Endpoint), new ApiKeyCredential(openAiOptions.Key));
         var chatClient = openAiClient.GetChatClient(openAiOptions.Model);
         var systemMessage = """
                             You are a friendly assistant who helps users with their tasks.
@@ -20,7 +20,7 @@ internal class ChatDemo
         var chatCompletionsOptions = new ChatCompletionOptions()
         {
             Temperature = (float)0.7,
-            MaxTokens = 10000,
+            MaxOutputTokenCount = 10000,
             //TopP = 0, // Only adjust Temperature or TopP, not both
             FrequencyPenalty = 0,
             PresencePenalty = 0,

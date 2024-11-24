@@ -36,7 +36,7 @@ internal class ChatDemoV4
 
         // Create a Kernel Memory to ingest the PDF files
         // The following example uses a serverless mode.
-        // You can use other backends, e.g. Azure AI Search, Odrant, etc
+        // You can use other backends, e.g. Azure AI Search, Qdrant, etc
         var memory = new KernelMemoryBuilder()
             .WithAzureOpenAITextGeneration(new AzureOpenAIConfig()
             {
@@ -56,6 +56,8 @@ internal class ChatDemoV4
             })
             .WithSimpleVectorDb()
             .Build<MemoryServerless>();
+
+        // Import a document into memory
         await memory.ImportDocumentAsync(Path.Combine(Directory.GetCurrentDirectory(), "DocSample.pdf"), "docSample");
         var memoryPlugin = new MemoryPlugin(memory, waitForIngestionToComplete: true);
         kernel.ImportPluginFromObject(memoryPlugin, "memory");
