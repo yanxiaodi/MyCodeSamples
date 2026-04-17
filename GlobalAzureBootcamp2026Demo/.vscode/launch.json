@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Demo01 – Agent with Tools",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/demos/Demo01_AgentWithTools/bin/Debug/net10.0/Demo01_AgentWithTools.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/demos/Demo01_AgentWithTools",
+      "stopAtEntry": false,
+      "console": "integratedTerminal",
+      "preLaunchTask": "build-demo01"
+    },
+    {
+      "name": "Demo02 – Agent with Skills",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/demos/Demo02_AgentWithSkills/bin/Debug/net10.0/Demo02_AgentWithSkills.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/demos/Demo02_AgentWithSkills",
+      "stopAtEntry": false,
+      "console": "integratedTerminal",
+      "preLaunchTask": "build-demo02"
+    },
+    {
+      "name": "Demo03 – Tools vs Skills",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/demos/Demo03_ToolsVsSkills/bin/Debug/net10.0/Demo03_ToolsVsSkills.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/demos/Demo03_ToolsVsSkills",
+      "stopAtEntry": false,
+      "console": "integratedTerminal",
+      "preLaunchTask": "build-demo03"
+    }
+  ]
+}
