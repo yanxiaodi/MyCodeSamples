@@ -6,7 +6,13 @@ import unittest
 SOURCE_DIR = Path(__file__).parents[1] / "src" / "agent-framework-agent-basic-responses"
 sys.path.insert(0, str(SOURCE_DIR))
 
-from tools import DemoEmailSender, delete_record, lookup_customer_messages, send_email  # noqa: E402
+from tools import (  # noqa: E402
+    DemoEmailSender,
+    delete_record,
+    lookup_customer_messages,
+    send_customer_email,
+    send_email,
+)
 
 
 class RecordingEmailSender(DemoEmailSender):
@@ -24,7 +30,15 @@ class DemoToolsTests(unittest.TestCase):
         result = lookup_customer_messages("C-1042")
 
         self.assertEqual(result["customer_id"], "C-1042")
+        self.assertEqual(result["customer"]["email"], "xiaodi.yan@funcoding.co.nz")
         self.assertTrue(result["messages"])
+
+    def test_lookup_customer_messages_returns_not_found_for_unknown_customer(self):
+        result = lookup_customer_messages("C-0000")
+
+        self.assertEqual(result["customer_id"], "C-0000")
+        self.assertFalse(result["found"])
+        self.assertEqual(result["messages"], [])
 
     def test_send_email_uses_the_injected_sender(self):
         sender = RecordingEmailSender()
@@ -38,6 +52,32 @@ class DemoToolsTests(unittest.TestCase):
 
         self.assertEqual(result["status"], "sent")
         self.assertEqual(sender.messages[0]["to"], "customer@example.com")
+
+    def test_send_customer_email_resolves_customer_email_address(self):
+        sender = RecordingEmailSender()
+
+        result = send_customer_email(
+            customer_id="C-1042",
+            subject="Status update",
+            body="Your request is being processed.",
+            sender=sender,
+        )
+
+        self.assertEqual(result["status"], "sent")
+        self.assertEqual(sender.messages[0]["to"], "xiaodi.yan@funcoding.co.nz")
+
+    def test_send_customer_email_rejects_unknown_customer(self):
+        sender = RecordingEmailSender()
+
+        with self.assertRaisesRegex(RuntimeError, "Customer 'C-0000' was not found"):
+            send_customer_email(
+                customer_id="C-0000",
+                subject="Status update",
+                body="Your request is being processed.",
+                sender=sender,
+            )
+
+        self.assertEqual(sender.messages, [])
 
     def test_delete_record_is_a_safe_demo_operation(self):
         result = delete_record("R-9001")

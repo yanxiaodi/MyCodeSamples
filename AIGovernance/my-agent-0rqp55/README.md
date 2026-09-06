@@ -149,7 +149,7 @@ To compare both demo modes, change the value in `.env` and restart the agent:
 
 ```env
 ENABLE_GOVERNANCE=false  # baseline mode
-ENABLE_GOVERNANCE=true   # ACS policy plus MAF email approval
+ENABLE_GOVERNANCE=true   # ACS policy plus policy-directed email approval
 ```
 
 ### Run and debug the agent
@@ -176,26 +176,27 @@ Press **F5** to start the agent. The agent starts and the **Agent Inspector** op
 
 The hosted agent now includes three local tools:
 
-- `lookup_customer_messages` returns deterministic demo messages.
-- `send_email` sends through Azure Communication Services after approval.
+- `lookup_customer_messages` returns deterministic mock customer profile data, including the customer's email address, and recent support messages.
+- `send_email` accepts a `customer_id`, resolves the customer's email from the mock customer list, and sends through Azure Communication Services only after the ACS policy labels the action as requiring approval and the host approval flow approves it.
 - `delete_record` is a mock destructive operation that ACS policy blocks when governance is enabled.
 
 The same agent can be run in two modes by setting `ENABLE_GOVERNANCE` in the source `.env` file:
 
 ```env
 ENABLE_GOVERNANCE=false  # baseline: no ACS middleware and no email approval
-ENABLE_GOVERNANCE=true   # ACS policy + MAF email approval
+ENABLE_GOVERNANCE=true   # ACS policy + policy-directed email approval
 ```
 
-Copy [`.env.example`](src/agent-framework-agent-basic-responses/.env.example) to `.env` in the source directory and fill in the Foundry, Azure Communication Services, and (optionally) Application Insights values. The real connection strings stay in `.env` and are not committed.
+Copy [`.env.example`](src/agent-framework-agent-basic-responses/.env.example) to `.env` in the source directory and fill in the Foundry, Azure Communication Services, and (optionally) Application Insights values. The demo email recipient comes from the mock customer record returned by `lookup_customer_messages`; there is no separate recipient environment variable. The real connection strings stay in `.env` and are not committed.
 
 When `APPLICATIONINSIGHTS_CONNECTION_STRING` is set, the agent initializes Azure Monitor OpenTelemetry at startup. Application Insights receives runtime/dependency telemetry plus non-sensitive demo tool events such as tool name, status, and mock message count; email bodies and business identifiers are not logged.
 
 With governance enabled, ask the agent to:
 
-1. Look up customer `C-1042` and summarize the messages.
-2. Send the customer a status email. The Foundry/Responses approval flow should show an approval request before `send_email` executes.
-3. Delete record `R-9001`. The ACS pre-tool policy denies it, and the mock tool should not run.
+1. Look up customer `C-1042` and summarize the messages. The safe read-only tool should return the customer profile, email address, and support messages.
+2. Ask for customer `C-1042`'s balance or payment card details. The ACS input policy denies the request before the model can continue.
+3. Send customer `C-1042` a status email. The agent must call `lookup_customer_messages` first, then call `send_email` with the `customer_id`; the ACS pre-tool policy returns an allow verdict labeled `requires_approval`, and the middleware turns that policy directive into a Foundry/Responses approval request before the external side effect executes.
+4. Delete record `R-9001`. The ACS pre-tool policy denies the destructive tool by its tool clearance, and the mock tool should not run.
 
 For local development, open `src/agent-framework-agent-basic-responses` in VS Code, install `requirements.txt`, and run `main.py` with the Foundry Toolkit Agent Inspector. Hosted deployment receives the same variables through the `azure.yaml` service configuration.
 

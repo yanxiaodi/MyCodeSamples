@@ -14,6 +14,57 @@ from typing import Any
 
 logger = logging.getLogger("agent_governance_demo.tools")
 
+CUSTOMERS: dict[str, dict[str, Any]] = {
+    "C-1042": {
+        "id": "C-1042",
+        "name": "Xiaodi Yan",
+        "email": "xiaodi.yan@funcoding.co.nz",
+        "support_tier": "standard",
+        "messages": [
+            {
+                "id": "M-3001",
+                "subject": "Support request",
+                "body": "Customer asked for an update on their application.",
+                "status": "open",
+            },
+            {
+                "id": "M-3002",
+                "subject": "Verification complete",
+                "body": "Identity verification completed successfully.",
+                "status": "closed",
+            },
+        ],
+    },
+    "C-2048": {
+        "id": "C-2048",
+        "name": "Morgan Patel",
+        "email": "morgan.patel@example.com",
+        "support_tier": "premium",
+        "messages": [
+            {
+                "id": "M-4010",
+                "subject": "Document upload",
+                "body": "Customer uploaded the requested supporting document.",
+                "status": "open",
+            }
+        ],
+    },
+}
+
+
+def lookup_customer(customer_id: str) -> dict[str, Any] | None:
+    """Return one deterministic mock customer record for the demo."""
+
+    customer = CUSTOMERS.get(customer_id)
+    if customer is None:
+        return None
+    return {
+        "id": customer["id"],
+        "name": customer["name"],
+        "email": customer["email"],
+        "support_tier": customer["support_tier"],
+    }
+
 
 class DemoEmailSender:
     """Small seam that keeps the email tool easy to test without Azure."""
@@ -57,22 +108,20 @@ class AzureCommunicationEmailSender(DemoEmailSender):
 def lookup_customer_messages(customer_id: str) -> dict[str, Any]:
     """Return deterministic mock customer messages for the demo."""
 
+    customer = CUSTOMERS.get(customer_id)
+    if customer is None:
+        logger.info("tool_call name=lookup_customer_messages result=not_found")
+        return {
+            "customer_id": customer_id,
+            "found": False,
+            "messages": [],
+            "mock": True,
+        }
+
     result = {
         "customer_id": customer_id,
-        "messages": [
-            {
-                "id": "M-3001",
-                "subject": "Support request",
-                "body": "Customer asked for an update on their application.",
-                "status": "open",
-            },
-            {
-                "id": "M-3002",
-                "subject": "Verification complete",
-                "body": "Identity verification completed successfully.",
-                "status": "closed",
-            },
-        ],
+        "customer": lookup_customer(customer_id),
+        "messages": customer["messages"],
         "mock": True,
     }
     logger.info(
@@ -113,6 +162,27 @@ def send_email(
         result.get("status", "unknown"),
     )
     return result
+
+
+def send_customer_email(
+    customer_id: str,
+    subject: str,
+    body: str,
+    *,
+    sender: DemoEmailSender | None = None,
+) -> dict[str, Any]:
+    """Send email to the mock customer's registered email address."""
+
+    customer = lookup_customer(customer_id)
+    if customer is None:
+        raise RuntimeError(f"Customer '{customer_id}' was not found.")
+
+    return send_email(
+        customer["email"],
+        subject,
+        body,
+        sender=sender,
+    )
 
 
 def delete_record(record_id: str) -> dict[str, Any]:

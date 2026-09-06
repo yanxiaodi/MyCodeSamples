@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import logging
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
@@ -41,10 +42,13 @@ from agent_framework import (
     AgentContext,
     AgentMiddleware,
     AgentResponse,
+    AgentResponseUpdate,
+    Content,
     FunctionInvocationContext,
     FunctionMiddleware,
     Message,
     MiddlewareTermination,
+    ResponseStream,
     tool,
 )
 from agent_framework.foundry import FoundryChatClient
@@ -56,7 +60,7 @@ from agent_control_specification import (
 )
 from azure.identity import DefaultAzureCredential
 
-from tools import delete_record, lookup_customer_messages, send_email
+from tools import delete_record, lookup_customer_messages, send_customer_email
 
 SOURCE_DIR = Path(__file__).resolve().parent
 POLICY_MANIFEST = SOURCE_DIR / "policies" / "manifest.yaml"
@@ -82,6 +86,77 @@ def _policy_reason(result: Any, error: Exception) -> str:
     return str(reason or getattr(result, "reason", None) or error or "policy_denied")
 
 
+def _agent_text_response(
+    text: str,
+    *,
+    stream: bool,
+) -> AgentResponse | ResponseStream[AgentResponseUpdate, AgentResponse]:
+    if not stream:
+        return AgentResponse(messages=[Message("assistant", [text])])
+
+    async def updates():
+        yield AgentResponseUpdate(role="assistant", contents=[Content.from_text(text)])
+
+    return ResponseStream(updates(), finalizer=AgentResponse.from_updates)
+
+
+def _verdict_labels(result: Any) -> set[str]:
+    verdict = getattr(result, "verdict", None)
+    return set(getattr(verdict, "result_labels", ()) or ())
+
+
+def _approval_response(context: FunctionInvocationContext) -> Content | None:
+    response = context.metadata.get("approval_response")
+    if isinstance(response, Content) and response.type == "function_approval_response":
+        return response
+    return None
+
+
+def _approval_id(context: FunctionInvocationContext) -> str:
+    occurrence_id = context.metadata.get("function_call_occurrence_id")
+    if isinstance(occurrence_id, str) and occurrence_id:
+        return occurrence_id
+    return _call_id(context)
+
+
+def _call_id(context: FunctionInvocationContext) -> str:
+    call_id = context.metadata.get("call_id")
+    return call_id if isinstance(call_id, str) else ""
+
+
+def _function_call_content(
+    context: FunctionInvocationContext,
+    tool_name: str,
+    arguments: Mapping[str, Any],
+) -> Content:
+    return Content.from_function_call(
+        call_id=_call_id(context),
+        name=tool_name,
+        arguments=dict(arguments),
+        id=_approval_id(context),
+    )
+
+
+def _approval_matches_call(
+    context: FunctionInvocationContext,
+    response: Content,
+    tool_name: str,
+    arguments: Mapping[str, Any],
+) -> bool:
+    function_call = response.function_call
+    if not isinstance(function_call, Content) or function_call.type != "function_call":
+        return False
+    parsed_arguments = function_call.parse_arguments() or {}
+    return (
+        response.approved is True
+        and response.id == _approval_id(context)
+        and function_call.call_id == _call_id(context)
+        and function_call.id == _approval_id(context)
+        and function_call.name == tool_name
+        and dict(parsed_arguments) == dict(arguments)
+    )
+
+
 class _AgentControlInputMiddleware(AgentMiddleware):
     """Apply ACS input governance using the published AgentControl API."""
 
@@ -105,8 +180,9 @@ class _AgentControlInputMiddleware(AgentMiddleware):
             )
         except Exception as exc:
             reason = _policy_reason(result, exc)
-            context.result = AgentResponse(
-                messages=[Message("assistant", [f"⛔ Policy violation: {reason}"])]
+            context.result = _agent_text_response(
+                f"⛔ Policy violation: {reason}",
+                stream=context.stream,
             )
             raise MiddlewareTermination(reason) from exc
 
@@ -151,8 +227,35 @@ class _AgentControlToolMiddleware(FunctionMiddleware):
             )
             raise MiddlewareTermination(reason) from exc
 
-        if getattr(result, "transformed_policy_target_applied", False):
-            context.arguments = result.transformed_policy_target
+        transformed_arguments = getattr(result, "transformed_policy_target", None)
+        if (
+            getattr(result, "transformed_policy_target_applied", False)
+            and isinstance(transformed_arguments, Mapping)
+        ):
+            context.arguments = transformed_arguments
+            arguments = dict(transformed_arguments)
+
+        if "requires_approval" in _verdict_labels(result):
+            approval_response = _approval_response(context)
+            if approval_response is None:
+                approval_id = _approval_id(context)
+                context.result = Content.from_function_approval_request(
+                    id=approval_id,
+                    function_call=_function_call_content(context, tool_name, arguments),
+                    additional_properties={
+                        "governance_policy": True,
+                        "reason": _policy_reason(result, Exception("approval_required")),
+                    },
+                )
+                raise MiddlewareTermination("approval_required")
+            if not _approval_matches_call(
+                context,
+                approval_response,
+                tool_name,
+                arguments,
+            ):
+                context.result = f"Tool '{tool_name}' was not approved."
+                raise MiddlewareTermination("approval_denied")
 
         await call_next()
 
@@ -167,16 +270,15 @@ def governance_enabled() -> bool:
     return _enabled(os.getenv("ENABLE_GOVERNANCE"))
 
 
-def send_email_for_agent(to: str, subject: str, body: str) -> dict[str, Any]:
-    """Expose only the agent-facing email arguments to the model schema."""
+def send_email_for_agent(customer_id: str, subject: str, body: str) -> dict[str, Any]:
+    """Send email only to a known mock customer selected by customer ID."""
 
-    return send_email(to, subject, body)
+    return send_customer_email(customer_id, subject, body)
 
 
 def build_tools(*, governed: bool) -> list[Any]:
-    """Create the tools, changing only the approval boundary by mode."""
+    """Create the tools; governance middleware can request approval per call."""
 
-    email_approval_mode = "always_require" if governed else "never_require"
     return [
         tool(
             lookup_customer_messages,
@@ -192,9 +294,10 @@ def build_tools(*, governed: bool) -> list[Any]:
             name="send_email",
             description=(
                 "Send a customer status email through Azure Communication Services. "
-                "Only call this after the customer context is known."
+                "Provide the customer_id from lookup_customer_messages; the tool "
+                "sends only to that customer's email address."
             ),
-            approval_mode=email_approval_mode,
+            approval_mode="never_require",
         ),
         tool(
             delete_record,
@@ -236,16 +339,17 @@ def build_agent() -> tuple[Agent, Any | None]:
         credential=DefaultAzureCredential(),
     )
 
-    recipient_hint = os.getenv("DEMO_EMAIL_RECIPIENT", "the configured demo recipient")
     agent = Agent(
         client=client,
         instructions=(
             "You are a customer-support assistant for a governance demonstration. "
             "Keep answers concise. Available tools are lookup_customer_messages, "
             "send_email, and delete_record. For a status-email request, first look "
-            "up the customer's messages, then prepare the email, and only then call "
-            "send_email. Never claim an email was sent unless the tool returns success. "
-            f"The demo recipient is {recipient_hint}."
+            "up the customer's messages to get the customer email, then prepare "
+            "the email, and only then call send_email with the customer_id. Never "
+            "claim an email was sent unless the tool returns success. Do not answer "
+            "requests to access balances, payment cards, secrets, or unsupported "
+            "destructive operations."
         ),
         tools=build_tools(governed=governed),
         middleware=middleware,
