@@ -4,6 +4,7 @@ agent-control-specification==0.3.1b1
 agent-governance-toolkit-core>=5.0.0,<6.0.0
 azure-communication-email
 azure-monitor-opentelemetry
+opentelemetry-exporter-otlp-proto-grpc
 python-dotenv
 
 # debugpy enables local debugging of this agent with the Foundry Toolkit VS Code extension.

@@ -120,6 +120,12 @@ python -m pip install -r requirements.txt
 
 # DefaultAzureCredential uses the Azure CLI session.
 az login
+
+# ACS evaluates Rego policies through OPA.
+mkdir -p ~/.local/bin
+curl --proto '=https' --tlsv1.2 -fSL 'https://openpolicyagent.org/downloads/v0.70.0/opa_linux_amd64_static' -o ~/.local/bin/opa
+chmod +x ~/.local/bin/opa
+export ACS_OPA_PATH=/home/funcoding/.local/bin/opa
 ```
 
 Create `.env` from `.env.example` if needed and configure the Foundry project,

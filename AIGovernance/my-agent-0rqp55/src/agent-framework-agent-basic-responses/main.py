@@ -19,10 +19,41 @@ if os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING"):
     from azure.monitor.opentelemetry import configure_azure_monitor
 
     configure_azure_monitor()
+    # When Azure Monitor owns the OTEL providers, opt in to sensitive-data
+    # capture so prompts and completions appear in traces.
+    from agent_framework.observability import enable_sensitive_telemetry
 
-from agent_framework import Agent, tool
+    enable_sensitive_telemetry()
+else:
+    # No Azure Monitor – let the Agent Framework SDK configure OpenTelemetry
+    # tracing. When running locally with Foundry Toolkit, traces are sent to
+    # localhost:4317 (gRPC) / localhost:4318 (HTTP). In production the standard
+    # OTEL_EXPORTER_OTLP_ENDPOINT variable controls the destination.
+    from agent_framework.observability import configure_otel_providers
+
+    configure_otel_providers(
+        vs_code_extension_port=4317,
+        enable_sensitive_data=True,
+    )
+
+from agent_framework import (
+    Agent,
+    AgentContext,
+    AgentMiddleware,
+    AgentResponse,
+    FunctionInvocationContext,
+    FunctionMiddleware,
+    Message,
+    MiddlewareTermination,
+    tool,
+)
 from agent_framework.foundry import FoundryChatClient
 from agent_framework_foundry_hosting import ResponsesHostServer
+from agent_control_specification import (
+    AgentControl,
+    EnforcementMode,
+    InterventionPoint,
+)
 from azure.identity import DefaultAzureCredential
 
 from tools import delete_record, lookup_customer_messages, send_email
@@ -31,6 +62,99 @@ SOURCE_DIR = Path(__file__).resolve().parent
 POLICY_MANIFEST = SOURCE_DIR / "policies" / "manifest.yaml"
 logger = logging.getLogger("agent_governance_demo")
 logger.setLevel(logging.INFO)
+
+
+def _last_message_text(context: AgentContext) -> str:
+    """Return the most recent message text from an Agent Framework context."""
+
+    messages: list[Any] = getattr(context, "messages", None) or []
+    if not messages:
+        return ""
+    last_message = messages[-1]
+    return getattr(last_message, "text", None) or str(last_message)
+
+
+def _policy_reason(result: Any, error: Exception) -> str:
+    """Extract a useful governance reason for a user-visible denial."""
+
+    verdict = getattr(result, "verdict", None)
+    reason = getattr(verdict, "reason", None)
+    return str(reason or getattr(result, "reason", None) or error or "policy_denied")
+
+
+class _AgentControlInputMiddleware(AgentMiddleware):
+    """Apply ACS input governance using the published AgentControl API."""
+
+    def __init__(self, control: AgentControl) -> None:
+        self.control = control
+
+    async def process(
+        self,
+        context: AgentContext,
+        call_next: Any,
+    ) -> None:
+        result = await self.control.evaluate_intervention_point(
+            InterventionPoint.INPUT,
+            {"input": {"body": _last_message_text(context)}},
+        )
+        try:
+            await self.control.enforce(
+                InterventionPoint.INPUT,
+                result,
+                EnforcementMode.ENFORCE,
+            )
+        except Exception as exc:
+            reason = _policy_reason(result, exc)
+            context.result = AgentResponse(
+                messages=[Message("assistant", [f"⛔ Policy violation: {reason}"])]
+            )
+            raise MiddlewareTermination(reason) from exc
+
+        await call_next()
+
+
+class _AgentControlToolMiddleware(FunctionMiddleware):
+    """Apply ACS pre-tool governance using the published AgentControl API."""
+
+    def __init__(self, control: AgentControl) -> None:
+        self.control = control
+
+    async def process(
+        self,
+        context: FunctionInvocationContext,
+        call_next: Any,
+    ) -> None:
+        function = getattr(context, "function", None)
+        tool_name = getattr(function, "name", "unknown")
+        raw_arguments = getattr(context, "arguments", None)
+        if isinstance(raw_arguments, dict):
+            arguments = dict(raw_arguments)
+        elif raw_arguments is None:
+            arguments = {}
+        else:
+            arguments = {"_value": raw_arguments}
+
+        result = await self.control.evaluate_intervention_point(
+            InterventionPoint.PRE_TOOL_CALL,
+            {"tool_call": {"name": tool_name, "args": arguments}},
+        )
+        try:
+            await self.control.enforce(
+                InterventionPoint.PRE_TOOL_CALL,
+                result,
+                EnforcementMode.ENFORCE,
+            )
+        except Exception as exc:
+            reason = _policy_reason(result, exc)
+            context.result = (
+                f"⛔ Tool '{tool_name}' is not permitted by governance policy"
+            )
+            raise MiddlewareTermination(reason) from exc
+
+        if getattr(result, "transformed_policy_target_applied", False):
+            context.arguments = result.transformed_policy_target
+
+        await call_next()
 
 
 def _enabled(value: str | None) -> bool:
@@ -84,14 +208,10 @@ def build_tools(*, governed: bool) -> list[Any]:
 def build_governance_middleware() -> tuple[Any, list[Any]]:
     """Load the native ACS runtime and its MAF middleware layers."""
 
-    from agent_control_specification import AgentControl
-    from agent_os.integrations.maf_adapter import MAFKernel
-
     runtime = AgentControl.from_path(str(POLICY_MANIFEST))
-    kernel = MAFKernel(runtime=runtime)
     middleware = [
-        kernel.as_runtime_middleware(),
-        kernel.as_capability_guard(),
+        _AgentControlInputMiddleware(runtime),
+        _AgentControlToolMiddleware(runtime),
     ]
     return runtime, middleware
 
@@ -146,7 +266,9 @@ def main():
         ResponsesHostServer(agent).run()
     finally:
         if runtime is not None:
-            runtime.close()
+            close = getattr(runtime, "close", None)
+            if callable(close):
+                close()
 
 
 if __name__ == "__main__":
