@@ -243,3 +243,14 @@ ModelManifest.xml
 # Android components
 /Components
 /internalNugetFeeds
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# ===== AI/Agent =====
+.foundry/

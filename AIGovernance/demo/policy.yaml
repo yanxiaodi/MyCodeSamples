@@ -1,0 +1,14 @@
+apiVersion: governance.toolkit/v1
+name: meetup-demo-policy
+agents: ["*"]
+default_action: allow
+rules:
+  - name: block-destructive
+    condition: "action.type in ['delete_record', 'drop', 'truncate']"
+    action: deny
+    description: Destructive operations require human approval
+  - name: require-approval-for-email
+    condition: "action.type == 'send_email'"
+    action: require_approval
+    approvers: [support-lead]
+    description: External communication requires operator approval
