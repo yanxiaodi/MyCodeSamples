@@ -16,7 +16,7 @@ services:
         sku:
           name: GlobalStandard
           capacity: 10
-  agent-framework-agent-basic-responses:
+  agent-governance-demo:
     host: azure.ai.agent
     metadata:
       tags:
@@ -30,6 +30,7 @@ services:
     codeConfiguration:
       runtime: python_3_13
       entryPoint: main.py
+      dependencyResolution: remote_build
     uses:
       - ai-project
     kind: hosted
@@ -41,9 +42,19 @@ services:
     environmentVariables:
       - name: AZURE_AI_MODEL_DEPLOYMENT_NAME
         value: ${AZURE_AI_MODEL_DEPLOYMENT_NAME}
+      - name: ENABLE_GOVERNANCE
+        value: ${ENABLE_GOVERNANCE}
+      - name: AZURE_COMMUNICATION_SERVICES_CONNECTION_STRING
+        value: ${AZURE_COMMUNICATION_SERVICES_CONNECTION_STRING}
+      - name: AZURE_COMMUNICATION_SERVICES_SENDER
+        value: ${AZURE_COMMUNICATION_SERVICES_SENDER}
+      - name: DEMO_EMAIL_RECIPIENT
+        value: ${DEMO_EMAIL_RECIPIENT}
+      - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+        value: ${APPLICATIONINSIGHTS_CONNECTION_STRING}
     container:
       resources:
         cpu: '0.5'
-        memory: 1Gi
+        memory: 1.0Gi
 infra:
   provider: microsoft.foundry

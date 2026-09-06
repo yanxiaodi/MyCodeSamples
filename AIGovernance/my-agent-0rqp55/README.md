@@ -98,6 +98,54 @@ azd ai agent invoke "Hi"
   pip install -r requirements.txt
   ```
 
+### Run locally in WSL
+
+WSL is recommended for local governance-mode development because the
+`agent-control-specification` package provides a Linux wheel. The Windows
+installation may otherwise try to build the package from source and require
+Rust/Cargo.
+
+Install the **Remote - WSL** extension in VS Code, then reopen this folder in
+WSL. From the agent source directory, run:
+
+```bash
+cd /mnt/d/dev/MyCodeSamples/AIGovernance/my-agent-0rqp55/src/agent-framework-agent-basic-responses
+
+# Use a Linux virtual environment; do not reuse a Windows .venv.
+python3 -m venv ~/.venvs/agent-governance
+source ~/.venvs/agent-governance/bin/activate
+
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+
+# DefaultAzureCredential uses the Azure CLI session.
+az login
+```
+
+Create `.env` from `.env.example` if needed and configure the Foundry project,
+model deployment, governance flag, Azure Communication Services, and optional
+Application Insights values. For this Hosted Agent, `FOUNDRY_PROJECT_ENDPOINT`
+must be the Foundry project endpoint (for example,
+`https://<resource>.services.ai.azure.com/api/projects/<project>`), not an
+OpenAI `/openai/v1` endpoint.
+
+Start the agent manually:
+
+```bash
+python main.py
+```
+
+The local server listens on `http://localhost:8088`. In VS Code, run
+**Foundry Toolkit: Open Agent Inspector** and connect to the local agent. VS
+Code normally forwards the WSL localhost port automatically.
+
+To compare both demo modes, change the value in `.env` and restart the agent:
+
+```env
+ENABLE_GOVERNANCE=false  # baseline mode
+ENABLE_GOVERNANCE=true   # ACS policy plus MAF email approval
+```
+
 ### Run and debug the agent
 
 Press **F5** to start the agent. The agent starts and the **Agent Inspector** opens automatically. Chat with the agent in the Inspector.
@@ -117,6 +165,33 @@ Press **F5** to start the agent. The agent starts and the **Agent Inspector** op
 5. After deployment, invoke the agent in the Agent Playground and stream live logs from the **Logs** tab.
 
 ## Next steps
+
+## Governance demo
+
+The hosted agent now includes three local tools:
+
+- `lookup_customer_messages` returns deterministic demo messages.
+- `send_email` sends through Azure Communication Services after approval.
+- `delete_record` is a mock destructive operation that ACS policy blocks when governance is enabled.
+
+The same agent can be run in two modes by setting `ENABLE_GOVERNANCE` in the source `.env` file:
+
+```env
+ENABLE_GOVERNANCE=false  # baseline: no ACS middleware and no email approval
+ENABLE_GOVERNANCE=true   # ACS policy + MAF email approval
+```
+
+Copy [`.env.example`](src/agent-framework-agent-basic-responses/.env.example) to `.env` in the source directory and fill in the Foundry, Azure Communication Services, and (optionally) Application Insights values. The real connection strings stay in `.env` and are not committed.
+
+When `APPLICATIONINSIGHTS_CONNECTION_STRING` is set, the agent initializes Azure Monitor OpenTelemetry at startup. Application Insights receives runtime/dependency telemetry plus non-sensitive demo tool events such as tool name, status, and mock message count; email bodies and business identifiers are not logged.
+
+With governance enabled, ask the agent to:
+
+1. Look up customer `C-1042` and summarize the messages.
+2. Send the customer a status email. The Foundry/Responses approval flow should show an approval request before `send_email` executes.
+3. Delete record `R-9001`. The ACS pre-tool policy denies it, and the mock tool should not run.
+
+For local development, open `src/agent-framework-agent-basic-responses` in VS Code, install `requirements.txt`, and run `main.py` with the Foundry Toolkit Agent Inspector. Hosted deployment receives the same variables through the `azure.yaml` service configuration.
 
 - [Quickstart: Create a hosted agent](https://learn.microsoft.com/en-us/azure/foundry/agents/quickstarts/quickstart-hosted-agent) — end-to-end walkthrough using `azd`
 - [Tool catalog](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-catalog) — browse available tools to extend your agent (Bing Search, Azure AI Search, file search, code interpreter, and more)

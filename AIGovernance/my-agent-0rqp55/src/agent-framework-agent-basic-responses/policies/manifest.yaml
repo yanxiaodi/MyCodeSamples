@@ -1,0 +1,34 @@
+agent_control_specification_version: "0.3.1-beta"
+metadata:
+  name: customer-support-governance
+  version: "1.0"
+extends: []
+policies:
+  customer_support:
+    type: rego
+    bundle: .
+    query: data.demo.customer_support.verdict
+intervention_points:
+  input:
+    policy_target: $.input.body
+    policy:
+      id: customer_support
+  pre_tool_call:
+    policy_target: $.tool_call.args
+    policy_target_kind: tool_args
+    tool_name_from: $.tool_call.name
+    policy:
+      id: customer_support
+tools:
+  lookup_customer_messages:
+    type: Tool
+    id: lookup_customer_messages
+    clearance: internal
+  send_email:
+    type: Tool
+    id: send_email
+    clearance: external_side_effect
+  delete_record:
+    type: Tool
+    id: delete_record
+    clearance: destructive
