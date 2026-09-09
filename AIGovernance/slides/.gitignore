@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+dist
+*.local
+.env
+.vite-inspect
+.remote-assets
+components.d.ts
+.playwright-mcp
+output/
+chat.md
