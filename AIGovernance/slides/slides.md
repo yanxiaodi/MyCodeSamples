@@ -26,14 +26,18 @@ class: deck
 <p class="lede">Building agents that can act — and still be trusted.</p>
 
 <div class="speaker-line">Xiaodi Yan · Lead Engineer, Kiwibank · Microsoft MVP</div>
-<div class="event-line">AI + Dev Meetup · Wellington · 10 September 2026</div>
+<div class="event-line">AI + Dev Meetup · mate.dev & Wellington .NET User Group · 10 September 2026</div>
 <img class="mvp-badge" src="/mvp-badge-blue-black.png" alt="Microsoft MVP" width="165" height="62" style="position:absolute;right:24px;bottom:16px;width:165px !important;height:62px !important;max-width:none !important;display:block;" />
 
 <!--
-Most software waits for a human to decide what happens next.
-AI agents are different. They can interpret a request, plan a sequence of actions, call tools, and sometimes change the real world.
+Hi everyone, my name is Xiaodi, and I am a Lead Engineer at Kiwibank and a Microsoft MVP. I organise Wellington .NET User Group so I am very excited to be here today to talk about governing AI agents.
 
-That creates a new engineering question. It is no longer enough to ask whether the model produces a good answer. We also need to ask: what is the agent allowed to do, who did it, and can we prove what happened?
+How many of you have used AI agents before? like ChatGPT, Claude Code, or GitHub Copilot? Raise your hand if you have.
+If you have, you know that these agents can do more than just provide answers — they can take actions on your behalf.
+But sometimes you need to be careful about what actions they take, as they can delete your files or perform other destructive operations.
+That's why almost all these agents ask for confirmation before performing actions that have significant side effects.
+
+That creates a new engineering question. It is not enough to ask whether the model can produce a good answer. We also need to ask: what is the agent allowed to do, who did it, and can we prove what happened?
 
 Today I want to explore those questions, and then show one practical way to enforce governance at runtime.
 -->
@@ -62,14 +66,48 @@ It can look up a customer, issue a refund, send an email, and update or delete a
 
 At first, this looks like a normal AI application. We have a prompt, a model, and a few functions.
 
-But the moment those functions have real side effects, the application becomes more than a chatbot. It becomes a system that can act on behalf of someone.
+But because those functions have real side effects, the application becomes more than a chatbot.
 
-So let’s say the customer asks: “Please remove my old account information.” Should the agent be allowed to do that automatically? Should it require approval? Is the request even valid? And what happens if the model misunderstands the request?
+So let’s say the customer asks: “Please remove my old account information.” Should the agent be allowed to do that automatically? Should it require approval? And what happens if the model misunderstands the request?
 -->
 
 ---
 
-<div class="eyebrow">02 / THE QUESTIONS</div>
+<div class="eyebrow">02 / THE BASELINE DEMO</div>
+
+# A support agent without governance
+
+<p class="lede">The model chooses a tool, and the host executes it.</p>
+
+<div class="demo-architecture">
+  <div class="provider primary-provider">AZURE AI FOUNDRY<br><small>model provider</small></div>
+  <div class="demo-arrow">→</div>
+  <div class="demo-agent">AGENT<br><small>one action at a time</small></div>
+  <div class="demo-arrow">→</div>
+  <div class="ungoverned-boundary">DIRECT<br>TOOL ACCESS</div>
+</div>
+
+<div class="demo-tools"><span class="allow">lookup_customer</span><span class="warn">send_email</span><span class="deny">delete_record</span></div>
+
+<div class="demo-note">Baseline only · mock customer records · controlled test mailbox · no policy layer</div>
+
+<div class="question-strip">The agent can act, but the host has no shared answer for what it may do.</div>
+
+<!--
+Before we add governance, let’s run the same support agent in its baseline form.
+
+The model receives a customer request, chooses a tool, and returns a tool call. The host passes that call directly to the function. There is no policy decision between the agent and the tool.
+
+I’ll start with a customer lookup. The read works as expected. Then I’ll ask the agent to send an email, and finally to delete a record. The model can request all three actions because the host exposes all three tools directly.
+
+This demo stays inside mock customer records and a controlled test mailbox. The point is to see the execution path: the model makes the decision, and the host executes it.
+
+That path is simple, but it leaves important questions unanswered. Which actions should run automatically? Which ones need approval? And how would we prove what happened later?
+-->
+
+---
+
+<div class="eyebrow">03 / THE QUESTIONS</div>
 
 # Every agent action raises three questions
 
@@ -88,14 +126,14 @@ First: is this action allowed? An agent may have access to a service, but that d
 
 Second: who performed this action? Was it the user, the agent, another delegated agent, or a shared service identity?
 
-Third: can we prove what happened? What did the agent request? Which policy was active? Was the action allowed, denied, transformed, or escalated?
+Third: can we prove what happened? What did the agent request? What tool was called? Was the action allowed, denied, transformed, or escalated?
 
 These questions are the bridge between autonomy and accountability.
 -->
 
 ---
 
-<div class="eyebrow">03 / THE SYSTEM</div>
+<div class="eyebrow">04 / THE SYSTEM</div>
 
 # An agent is a production system
 
@@ -125,7 +163,7 @@ The more autonomy we give the agent, the more important these surrounding contro
 
 ---
 
-<div class="eyebrow">04 / THE VOCABULARY</div>
+<div class="eyebrow">05 / THE VOCABULARY</div>
 
 # Governance is bigger than a guardrail
 
@@ -147,6 +185,8 @@ The more autonomy we give the agent, the more important these surrounding contro
 <div class="micro-grid"><span>IDENTITY → who</span><span>O11Y → what happened</span><span>AUDITABILITY → what we can prove</span><span>SECURITY → what is protected</span><span>RELIABILITY → how failures are controlled</span></div>
 
 <!--
+Today we're talking about AI agent governance.
+You may also hear the term "guardrails" in this context.
 It is useful to distinguish governance from guardrails.
 
 Governance is the broader system. It defines what the agent is allowed to do, who is responsible for those decisions, and what evidence needs to be retained.
@@ -160,7 +200,7 @@ So governance is not simply “adding a filter to the prompt”. It is a set of 
 
 ---
 
-<div class="eyebrow">05 / THE RISK MAP</div>
+<div class="eyebrow">06 / THE RISK MAP</div>
 
 # OWASP Agentic Top 10: a risk vocabulary
 
@@ -180,24 +220,23 @@ So governance is not simply “adding a filter to the prompt”. It is a set of 
 <div class="source-note"><span class="focus-key">HIGHLIGHTED</span> = especially relevant to this talk · OWASP gives us vocabulary, not a risk-free system.</div>
 
 <!--
-We do not need to memorise ten risk categories today, but a shared risk taxonomy is useful.
+If you have experience with traditional web application security, you might know the OWASP Top 10, which lists the most common risks for web applications and microservices.
 
-Many of us already know the traditional OWASP Top 10 from web applications and microservices. That list gives us a useful vocabulary for problems such as injection, broken access control, authentication failures, and server-side request forgery at service and API boundaries.
+Similarly, the OWASP Agentic Top 10 lists the most common risks for AI agents.
+Here is the complete OWASP Agentic Top 10. We do not need to memorise ten risk categories today, but a shared risk taxonomy is useful.
 
-The OWASP Agentic Top 10 keeps the same spirit, but the system boundary has moved. An agent can interpret goals, choose tools, retain memory, delegate to other agents, and take actions. So the questions expand from “can this request reach the service?” to “what is the agent trying to do, what authority does it have, and what can happen next?”
+The concerns here are a bit different from traditional web application security. An agent can interpret goals, choose tools, retain memory, delegate to other agents, and take actions. So the questions expand from “can this request reach the service?” to “what is the agent trying to do, what authority does it have, and what can happen next?”
 
-Here is the complete OWASP Agentic Top 10, using the ASI01 through ASI10 names. The highlighted items are the ones I will connect most directly to governance controls in this talk: goal hijack, tool misuse, identity and privilege abuse, unexpected code execution, cascading failures, and rogue agents.
+The highlighted items are closer to governance controls in this talk: goal hijack, tool misuse, identity and privilege abuse, unexpected code execution, cascading failures, and rogue agents.
 
 The other categories matter too. They remind us that governance is not only a pre-tool-call filter: it also includes supply chain, memory, inter-agent communication, and how people trust the system.
-
-The Agent Governance Toolkit documents mappings to these kinds of risks. But mapping a risk is not the same as eliminating it.
 
 OWASP helps us ask the right questions. Governance controls and engineering practices are how we start answering them.
 -->
 
 ---
 
-<div class="eyebrow">06 / THE CONTROL POINT</div>
+<div class="eyebrow">07 / THE CONTROL POINT</div>
 
 # The control point is the action boundary
 
@@ -214,9 +253,10 @@ OWASP helps us ask the right questions. Governance controls and engineering prac
 <p class="lede compact">The policy layer decides. The host enforces.</p>
 
 <!--
+So how do we enforce governance for AI agents?
 The most important control point is the action boundary: the moment when the agent is about to call a tool.
 
-The agent or framework produces an action request. A policy layer evaluates the request in context. The host then applies the decision.
+When an agent is trying to call a tool, we need to have a policy layer here to evaluate the request and decide whether it should be allowed, denied, escalated, or transformed. The host then applies the decision.
 
 If the decision is allow, the tool can run. If it is deny, the tool must not run. If it is escalate, the host can ask for human approval. If it is transform, the host can change the action before execution.
 
@@ -227,7 +267,7 @@ It creates a clear enforcement boundary that can work across different models an
 
 ---
 
-<div class="eyebrow">07 / THE TOOLKIT</div>
+<div class="eyebrow">08 / THE TOOLKIT</div>
 
 # Where Agent Governance Toolkit fits
 
@@ -254,20 +294,18 @@ It creates a clear enforcement boundary that can work across different models an
 </div>
 
 <!--
-This is where the Agent Governance Toolkit fits. On the left is a screenshot from the project’s public documentation; it is useful as a map of the project, not as a substitute for our governance model.
+This is where the Agent Governance Toolkit fits. It's an open-source project that provides engineering building blocks for runtime governance, including policy enforcement, identity and trust, runtime isolation, audit evidence, and reliability controls.
 
-It provides engineering building blocks for runtime governance, including policy enforcement, identity and trust, runtime isolation, audit evidence, and reliability controls.
+In this talk, I am focusing on one part: enforcing policy at the tool-call boundary.
 
-In this talk, I am deliberately focusing on one part: enforcing policy at the tool-call boundary.
+The toolkit is not a replacement for an organisation’s governance process. It cannot decide your risk appetite, define your business policy, or assign accountability. It's just a practical implementation of AI runtime governance.
 
-The toolkit is not a replacement for an organisation’s governance process. It cannot decide your risk appetite, define your business policy, or assign accountability.
-
-It is also currently a public preview. So I am presenting it as one practical implementation option, not as the only way to govern an agent.
+It's just an option, not the only way to implement governance.
 -->
 
 ---
 
-<div class="eyebrow">08 / THE CONTRACT</div>
+<div class="eyebrow">09 / THE CONTRACT</div>
 
 # What is ACS?
 
@@ -281,20 +319,19 @@ It is also currently a public preview. So I am presenting it as one practical im
 <div class="acs-footnote">Agent Control Specification ≠ Azure Communication Services</div>
 
 <!--
-One important term in the toolkit is ACS, which stands for Agent Control Specification.
+To make this toolkit better fit into multiple scenarios, it introduces the concept of the Agent Control Specification (ACS).
+Just like when you develop an API, first you define the contract for your client and server, ACS defines the contract between the agent host and the policy layer.
 
 In this context, ACS is a contract between an agent host and a governance policy layer. The host provides the context for an action: which agent is acting, which session it belongs to, which tool is being called, and with which arguments.
 
 The policy layer returns a normalised decision, such as allow, warn, deny, escalate, or transform.
 
-ACS does not send the email, modify the database, or execute the tool. The host receives the decision and is responsible for enforcing it.
-
-And just to avoid an acronym collision: this is Agent Control Specification, not Azure Communication Services. We will use Azure Communication Services later as the real external email service in the demo.
+ACS does not execute the action itself. It only provides a policy decision to the host. The host receives the decision and is responsible for enforcing it.
 -->
 
 ---
 
-<div class="eyebrow">09 / THE DEMO</div>
+<div class="eyebrow">10 / THE DEMO</div>
 
 # A governed support agent
 
@@ -322,7 +359,7 @@ We have three tools with different risk levels: looking up a customer, sending a
 
 ---
 
-<div class="eyebrow">10 / LIVE DECISIONS</div>
+<div class="eyebrow">11 / LIVE DECISIONS</div>
 
 # Allow. Require approval. Deny.
 
@@ -352,7 +389,7 @@ This is the enforcement boundary: the model can request an action, but the agent
 
 ---
 
-<div class="eyebrow">11 / THE TAKEAWAY</div>
+<div class="eyebrow">12 / THE TAKEAWAY</div>
 
 # Accountability is an engineering requirement
 
@@ -458,6 +495,7 @@ Thank you. I’m happy to discuss the governance model, the toolkit, or the demo
 .slidev-layout .toolkit-layout { display: grid; grid-template-columns: 1.18fr 0.82fr; gap: 1.2rem; align-items: start; margin-top: 1.25rem; }.slidev-layout .toolkit-visual img { display: block; width: 100%; max-height: 13.2rem; object-fit: cover; object-position: top; border: 1px solid var(--line); border-radius: 0.25rem; }.slidev-layout .toolkit-caption { color: var(--muted); font-size: 0.52rem; line-height: 1.25; margin-top: 0.42rem; }.slidev-layout .toolkit-stack { display: grid; gap: 0.38rem; margin-top: 0.85rem; }.slidev-layout .stack-item { border: 1px solid var(--line); color: var(--muted); padding: 0.46rem 0.58rem; font: 0.57rem 'JetBrains Mono', monospace; }.slidev-layout .stack-item.active { border-color: var(--cyan); color: var(--cyan); background: rgba(99, 214, 232, 0.08); }.slidev-layout .toolkit-copy p { color: var(--ink); font-size: 1rem; line-height: 1.2; margin: 0; }.slidev-layout .toolkit-copy li { margin: 0.34rem 0; font-size: 0.66rem; line-height: 1.2; }
 .slidev-layout .acs-title { color: var(--ink); font-size: 2rem; font-weight: 700; margin-top: 2.5rem; }.slidev-layout .acs-subtitle { color: var(--muted); margin-top: 0.45rem; }.slidev-layout .acs-flow { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 2.3rem; }.slidev-layout .acs-flow span { border: 1px solid var(--line); padding: 0.85rem 1rem; font: 0.62rem 'JetBrains Mono', monospace; }.slidev-layout .acs-flow b { color: var(--cyan); }.slidev-layout .acs-flow .acs-core { border-color: var(--cyan); color: var(--cyan); background: rgba(99, 214, 232, 0.08); }.slidev-layout .verdict-row { display: flex; justify-content: center; gap: 0.55rem; margin-top: 1.5rem; }.slidev-layout .verdict-row span { border-color: var(--cyan); color: var(--cyan); }.slidev-layout .acs-footnote { color: var(--muted); text-align: center; font-size: 0.62rem; margin-top: 2.2rem; }
 .slidev-layout .demo-architecture { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-top: 2rem; }.slidev-layout .provider-column { display: grid; gap: 0.5rem; }.slidev-layout .provider, .slidev-layout .demo-agent, .slidev-layout .governed-boundary { background: var(--panel); border: 1px solid var(--line); padding: 0.75rem 0.9rem; text-align: center; font: 0.65rem 'JetBrains Mono', monospace; }.slidev-layout .provider small, .slidev-layout .demo-agent small { color: var(--muted); font: 0.55rem Inter, sans-serif; }.slidev-layout .primary-provider { border-color: var(--cyan); color: var(--cyan); }.slidev-layout .demo-agent { border-color: var(--amber); color: var(--amber); min-width: 140px; }.slidev-layout .governed-boundary { border-color: var(--green); color: var(--green); min-width: 160px; }.slidev-layout .demo-arrow { color: var(--cyan); font-size: 1.4rem; }.slidev-layout .demo-tools { display: flex; justify-content: center; gap: 0.7rem; margin-top: 1.7rem; }.slidev-layout .demo-tools span { border: 1px solid currentColor; padding: 0.65rem 0.8rem; font: 0.64rem 'JetBrains Mono', monospace; }.slidev-layout .demo-note { text-align: center; color: var(--muted); font: 0.62rem 'JetBrains Mono', monospace; margin-top: 1.4rem; }
+.slidev-layout .ungoverned-boundary { background: var(--panel); border: 1px solid var(--rose); color: var(--rose); min-width: 160px; padding: 0.75rem 0.9rem; text-align: center; font: 0.65rem 'JetBrains Mono', monospace; }
 .slidev-layout .decision-list { display: grid; gap: 0.8rem; margin-top: 2rem; }.slidev-layout .decision-line { display: grid; grid-template-columns: 125px 1fr 1fr; align-items: center; gap: 1rem; border-left: 3px solid currentColor; background: var(--panel); padding: 0.85rem 1rem; }.slidev-layout .decision-label { font-size: 0.66rem; letter-spacing: 0.12em; }.slidev-layout .decision-line code { color: var(--ink); }.slidev-layout .decision-line span:last-child { color: var(--muted); font-size: 0.72rem; }.slidev-layout .allow-line { color: var(--green); }.slidev-layout .warn-line { color: var(--amber); }.slidev-layout .deny-line { color: var(--rose); }.slidev-layout .code-callout { margin-top: 1.6rem; background: #050d13; border: 1px solid var(--line); padding: 0.8rem 1rem; color: var(--cyan); text-align: center; }
 .slidev-layout .checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem 1rem; margin-top: 1.7rem; }.slidev-layout .checklist div { display: flex; gap: 0.9rem; align-items: baseline; border-bottom: 1px solid var(--line); padding: 0.7rem 0; }.slidev-layout .checklist b { color: var(--cyan); font: 0.68rem 'JetBrains Mono', monospace; }.slidev-layout .checklist span { color: var(--ink); font-size: 0.88rem; }.slidev-layout .final-quote { color: var(--amber); font-size: 1.45rem; font-weight: 700; margin-top: 2.4rem; letter-spacing: -0.02em; }.slidev-layout .question-prompt { color: var(--cyan); font: 0.78rem 'JetBrains Mono', monospace; letter-spacing: 0.15em; margin-top: 1.8rem; }
 </style>

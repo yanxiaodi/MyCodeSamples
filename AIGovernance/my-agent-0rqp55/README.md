@@ -129,8 +129,10 @@ export ACS_OPA_PATH=/home/funcoding/.local/bin/opa
 ```
 
 Create `.env` from `.env.example` if needed and configure the Foundry project,
-model deployment, governance flag, Azure Communication Services, and optional
-Application Insights values. For this Hosted Agent, `FOUNDRY_PROJECT_ENDPOINT`
+model deployment, Azure Communication Services, and optional Application
+Insights values. The non-secret governance switch lives separately in
+`src/agent-framework-agent-basic-responses/.env.demo`. For this Hosted Agent,
+`FOUNDRY_PROJECT_ENDPOINT`
 must be the Foundry project endpoint (for example,
 `https://<resource>.services.ai.azure.com/api/projects/<project>`), not an
 OpenAI `/openai/v1` endpoint.
@@ -145,7 +147,7 @@ The local server listens on `http://localhost:8088`. In VS Code, run
 **Foundry Toolkit: Open Agent Inspector** and connect to the local agent. VS
 Code normally forwards the WSL localhost port automatically.
 
-To compare both demo modes, change the value in `.env` and restart the agent:
+To compare both demo modes, change the value in `.env.demo` and restart the agent:
 
 ```env
 ENABLE_GOVERNANCE=false  # baseline mode
@@ -180,14 +182,14 @@ The hosted agent now includes three local tools:
 - `send_email` accepts a `customer_id`, resolves the customer's email from the mock customer list, and sends through Azure Communication Services only after the ACS policy labels the action as requiring approval and the host approval flow approves it.
 - `delete_record` is a mock destructive operation that ACS policy blocks when governance is enabled.
 
-The same agent can be run in two modes by setting `ENABLE_GOVERNANCE` in the source `.env` file:
+The same agent can be run in two modes by setting `ENABLE_GOVERNANCE` in the source `.env.demo` file:
 
 ```env
 ENABLE_GOVERNANCE=false  # baseline: no ACS middleware and no email approval
 ENABLE_GOVERNANCE=true   # ACS policy + policy-directed email approval
 ```
 
-Copy [`.env.example`](src/agent-framework-agent-basic-responses/.env.example) to `.env` in the source directory and fill in the Foundry, Azure Communication Services, and (optionally) Application Insights values. The demo email recipient comes from the mock customer record returned by `lookup_customer_messages`; there is no separate recipient environment variable. The real connection strings stay in `.env` and are not committed.
+Copy [`.env.example`](src/agent-framework-agent-basic-responses/.env.example) to `.env` in the source directory and fill in the Foundry, Azure Communication Services, and (optionally) Application Insights values. Then edit [`.env.demo`](src/agent-framework-agent-basic-responses/.env.demo) to switch governance on or off and restart the local agent. The demo email recipient comes from the mock customer record returned by `lookup_customer_messages`; there is no separate recipient environment variable. The real connection strings stay in `.env` and are not committed. The demo file is excluded from deployment packages; Hosted Agent deployments receive the setting through `azure.yaml`.
 
 When `APPLICATIONINSIGHTS_CONNECTION_STRING` is set, the agent initializes Azure Monitor OpenTelemetry at startup. Application Insights receives runtime/dependency telemetry plus non-sensitive demo tool events such as tool name, status, and mock message count; email bodies and business identifiers are not logged.
 

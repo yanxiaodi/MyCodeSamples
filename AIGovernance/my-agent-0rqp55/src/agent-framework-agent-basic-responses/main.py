@@ -10,8 +10,12 @@ from typing import Any
 
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
+# Keep secrets in .env and the switch used by the demo in a separate file.
+# Explicit process environment variables take precedence because both calls
+# use python-dotenv's default override=False behavior.
+SOURCE_DIR = Path(__file__).resolve().parent
+load_dotenv(dotenv_path=SOURCE_DIR / ".env")
+load_dotenv(dotenv_path=SOURCE_DIR / ".env.demo")
 
 # Configure Azure Monitor before importing the agent/runtime libraries so their
 # HTTP and dependency telemetry can be captured as well. The demo remains
@@ -62,7 +66,6 @@ from azure.identity import DefaultAzureCredential
 
 from tools import delete_record, lookup_customer_messages, send_customer_email
 
-SOURCE_DIR = Path(__file__).resolve().parent
 POLICY_MANIFEST = SOURCE_DIR / "policies" / "manifest.yaml"
 logger = logging.getLogger("agent_governance_demo")
 logger.setLevel(logging.INFO)
