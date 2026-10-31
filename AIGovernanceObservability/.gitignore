@@ -1,0 +1,16 @@
+demo/.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+slides/node_modules/
+slides/dist/
+slides/.slidev/
+.playwright-mcp/
+demo/artifacts/*
+!demo/artifacts/.gitkeep
+*.log
+
+# Intermediate rendering checks; retain the contact sheet and representative evidence.
+docs/evidence/slide-*.png
+docs/evidence/pdf-[0-9][0-9].png

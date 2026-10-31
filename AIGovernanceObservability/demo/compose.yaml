@@ -1,0 +1,11 @@
+name: governance-observability-talk
+services:
+  dashboard:
+    image: mcr.microsoft.com/aspire/dashboard@sha256:e4220c55fa3c3e40ad2d733ef07973392299b420e9bde6924e8f6a1e71ff01a8
+    ports:
+      - "127.0.0.1:18988:18888"
+      - "127.0.0.1:43117:18889"
+      - "127.0.0.1:43118:18890"
+    environment:
+      ASPIRE_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: "true"
+      ASPIRE_DASHBOARD_OTLP_AUTHMODE: "Unsecured"

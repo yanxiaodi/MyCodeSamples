@@ -1,0 +1,21 @@
+{
+  "name": "ai-governance-observability-talk",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "slidev --port 4460",
+    "build": "slidev build",
+    "export": "slidev export --output talk.pdf"
+  },
+  "dependencies": {
+    "@slidev/cli": "52.19.1",
+    "@slidev/theme-default": "0.25.0",
+    "vue": "3.5.44"
+  },
+  "overrides": {
+    "dompurify": "3.4.17",
+    "image-size": "2.0.4",
+    "katex": "0.19.1",
+    "floating-vue": "5.2.2"
+  }
+}
