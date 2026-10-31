@@ -1,0 +1,14 @@
+apiVersion: governance.toolkit/v1
+name: support-agent-demo
+version: "1.0"
+agents: ["*"]
+default_action: deny
+rules:
+  - name: allow-customer-lookup
+    condition: "action.type == 'lookup_customer'"
+    action: allow
+    description: Synthetic customer support lookups are permitted.
+  - name: block-destructive
+    condition: "action.type == 'delete_record'"
+    action: deny
+    description: Autonomous deletion is not permitted.

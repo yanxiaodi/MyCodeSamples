@@ -1,0 +1,1566 @@
+{
+  "note": "Synthetic rehearsal data; offline tokens are fixtures.",
+  "runs": [
+    {
+      "run_id": "37473c47-b7b2-4f0a-a418-c89a9d1edf3c",
+      "scenario": "failed",
+      "provider": "mock",
+      "outcome": "failed",
+      "policy_decision": "allow",
+      "rule": "allow-customer-lookup",
+      "reason": "Synthetic customer support lookups are permitted.",
+      "answer": "Lookup was allowed, but the customer service timed out.",
+      "error_type": "TimeoutError",
+      "trace_id": "07fcea68489fc9586c0fd17e60393417",
+      "duration_ms": 931.46,
+      "input_tokens": 80,
+      "output_tokens": 18,
+      "tool_body_counts": {
+        "lookup_customer": 1,
+        "delete_record": 0
+      }
+    },
+    {
+      "run_id": "08e4b898-e73f-4285-af0b-30f500a20ad8",
+      "scenario": "blocked",
+      "provider": "mock",
+      "outcome": "blocked",
+      "policy_decision": "deny",
+      "rule": "block-destructive",
+      "reason": "Autonomous deletion is not permitted.",
+      "answer": "Deletion was blocked by policy. The tool did not execute.",
+      "error_type": "",
+      "trace_id": "e250d622242d4b6ea087591744a503f8",
+      "duration_ms": 127.73,
+      "input_tokens": 80,
+      "output_tokens": 18,
+      "tool_body_counts": {
+        "lookup_customer": 0,
+        "delete_record": 0
+      }
+    },
+    {
+      "run_id": "04c2efea-ca85-4dcc-9f89-03cc5820bfd9",
+      "scenario": "allowed",
+      "provider": "mock",
+      "outcome": "succeeded",
+      "policy_decision": "allow",
+      "rule": "allow-customer-lookup",
+      "reason": "Synthetic customer support lookups are permitted.",
+      "answer": "Avery Example has an active account. Their support request is awaiting a document review.",
+      "error_type": "",
+      "trace_id": "ac97bd3e45927eb32e3b538daf52a424",
+      "duration_ms": 318.58,
+      "input_tokens": 220,
+      "output_tokens": 50,
+      "tool_body_counts": {
+        "lookup_customer": 1,
+        "delete_record": 0
+      }
+    },
+    {
+      "run_id": "e06d7718-bdae-4d0f-9067-dabedd58af09",
+      "scenario": "failed",
+      "provider": "mock",
+      "outcome": "failed",
+      "policy_decision": "allow",
+      "rule": "allow-customer-lookup",
+      "reason": "Synthetic customer support lookups are permitted.",
+      "answer": "Lookup was allowed, but the customer service timed out.",
+      "error_type": "TimeoutError",
+      "trace_id": "4e5d5b8f5d0e56d2a0ff9fbbde2dc7de",
+      "duration_ms": 931.9,
+      "input_tokens": 80,
+      "output_tokens": 18,
+      "tool_body_counts": {
+        "lookup_customer": 1,
+        "delete_record": 0
+      }
+    },
+    {
+      "run_id": "19941026-a630-4b77-b5da-2e61b91c8ec2",
+      "scenario": "blocked",
+      "provider": "mock",
+      "outcome": "blocked",
+      "policy_decision": "deny",
+      "rule": "block-destructive",
+      "reason": "Autonomous deletion is not permitted.",
+      "answer": "Deletion was blocked by policy. The tool did not execute.",
+      "error_type": "",
+      "trace_id": "b018eb2e77fe2d6566148489afc3eb68",
+      "duration_ms": 127.44,
+      "input_tokens": 80,
+      "output_tokens": 18,
+      "tool_body_counts": {
+        "lookup_customer": 0,
+        "delete_record": 0
+      }
+    },
+    {
+      "run_id": "5c1e1904-ac1b-4876-8884-fa964e89e936",
+      "scenario": "allowed",
+      "provider": "mock",
+      "outcome": "succeeded",
+      "policy_decision": "allow",
+      "rule": "allow-customer-lookup",
+      "reason": "Synthetic customer support lookups are permitted.",
+      "answer": "Avery Example has an active account. Their support request is awaiting a document review.",
+      "error_type": "",
+      "trace_id": "65d9bd68231d4c9479ac37d4b236bad4",
+      "duration_ms": 317.9,
+      "input_tokens": 220,
+      "output_tokens": 50,
+      "tool_body_counts": {
+        "lookup_customer": 1,
+        "delete_record": 0
+      }
+    },
+    {
+      "run_id": "dc4581e5-3197-40f8-9fca-9563393eb60c",
+      "scenario": "failed",
+      "provider": "mock",
+      "outcome": "failed",
+      "policy_decision": "allow",
+      "rule": "allow-customer-lookup",
+      "reason": "Synthetic customer support lookups are permitted.",
+      "answer": "Lookup was allowed, but the customer service timed out.",
+      "error_type": "TimeoutError",
+      "trace_id": "0dcf0e704d40272891012ca4a528212e",
+      "duration_ms": 932.68,
+      "input_tokens": 80,
+      "output_tokens": 18,
+      "tool_body_counts": {
+        "lookup_customer": 1,
+        "delete_record": 0
+      }
+    },
+    {
+      "run_id": "3e2f79e0-a910-497e-acde-6970ef8664cd",
+      "scenario": "blocked",
+      "provider": "mock",
+      "outcome": "blocked",
+      "policy_decision": "deny",
+      "rule": "block-destructive",
+      "reason": "Autonomous deletion is not permitted.",
+      "answer": "Deletion was blocked by policy. The tool did not execute.",
+      "error_type": "",
+      "trace_id": "89770ee59570ad27e5f0c0736119400d",
+      "duration_ms": 129.79,
+      "input_tokens": 80,
+      "output_tokens": 18,
+      "tool_body_counts": {
+        "lookup_customer": 0,
+        "delete_record": 0
+      }
+    },
+    {
+      "run_id": "21b9a14b-9125-4519-b4ba-9b4da9dce238",
+      "scenario": "allowed",
+      "provider": "mock",
+      "outcome": "succeeded",
+      "policy_decision": "allow",
+      "rule": "allow-customer-lookup",
+      "reason": "Synthetic customer support lookups are permitted.",
+      "answer": "Avery Example has an active account. Their support request is awaiting a document review.",
+      "error_type": "",
+      "trace_id": "a6f8c2aadece397a370cd69da76b781a",
+      "duration_ms": 499.08,
+      "input_tokens": 220,
+      "output_tokens": 50,
+      "tool_body_counts": {
+        "lookup_customer": 1,
+        "delete_record": 0
+      }
+    }
+  ],
+  "spans": [
+    {
+      "name": "openai.chat",
+      "trace_id": "a6f8c2aadece397a370cd69da76b781a",
+      "span_id": "aad3903de6e0f1de",
+      "parent_span_id": "bc5aac2785948466",
+      "scope": "opentelemetry.instrumentation.openai.v1",
+      "status": "UNSET",
+      "start_time_ms": 1793487987207.6174,
+      "duration_ms": 306.6,
+      "attributes": {
+        "gen_ai.operation.name": "chat",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.request.model": "demo-model",
+        "gen_ai.is_streaming": false,
+        "gen_ai.openai.api_base": "http://mock-provider.local/v1/",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.response.id": "chatcmpl-offline-demo",
+        "gen_ai.response.finish_reasons": [
+          "tool_call"
+        ],
+        "gen_ai.usage.total_tokens": 98,
+        "gen_ai.usage.output_tokens": 18,
+        "gen_ai.usage.input_tokens": 80
+      },
+      "events": []
+    },
+    {
+      "name": "policy.evaluate lookup_customer",
+      "trace_id": "a6f8c2aadece397a370cd69da76b781a",
+      "span_id": "767d05f2bb600988",
+      "parent_span_id": "bc5aac2785948466",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487987515.2163,
+      "duration_ms": 0.5,
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.governance.policy": "support-agent-demo",
+        "app.governance.policy_version": "1.0",
+        "app.governance.decision": "allow",
+        "app.governance.rule": "allow-customer-lookup"
+      },
+      "events": []
+    },
+    {
+      "name": "execute_tool lookup_customer",
+      "trace_id": "a6f8c2aadece397a370cd69da76b781a",
+      "span_id": "1ef4f637e52fbb69",
+      "parent_span_id": "bc5aac2785948466",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487987516.7263,
+      "duration_ms": 60.6,
+      "attributes": {
+        "gen_ai.operation.name": "execute_tool",
+        "gen_ai.tool.name": "lookup_customer"
+      },
+      "events": []
+    },
+    {
+      "name": "openai.chat",
+      "trace_id": "a6f8c2aadece397a370cd69da76b781a",
+      "span_id": "86f8ab85dc5fbac2",
+      "parent_span_id": "bc5aac2785948466",
+      "scope": "opentelemetry.instrumentation.openai.v1",
+      "status": "UNSET",
+      "start_time_ms": 1793487987578.0203,
+      "duration_ms": 127.34,
+      "attributes": {
+        "gen_ai.operation.name": "chat",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.request.model": "demo-model",
+        "gen_ai.is_streaming": false,
+        "gen_ai.openai.api_base": "http://mock-provider.local/v1/",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.response.id": "chatcmpl-offline-demo",
+        "gen_ai.response.finish_reasons": [
+          "stop"
+        ],
+        "gen_ai.usage.total_tokens": 172,
+        "gen_ai.usage.output_tokens": 32,
+        "gen_ai.usage.input_tokens": 140
+      },
+      "events": []
+    },
+    {
+      "name": "invoke_agent support-agent",
+      "trace_id": "a6f8c2aadece397a370cd69da76b781a",
+      "span_id": "bc5aac2785948466",
+      "parent_span_id": "7c022108853d29e3",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487987207.6174,
+      "duration_ms": 498.74,
+      "attributes": {
+        "gen_ai.operation.name": "invoke_agent",
+        "gen_ai.agent.name": "support-agent",
+        "app.demo.scenario": "allowed",
+        "app.demo.provider": "mock",
+        "app.run.id": "21b9a14b-9125-4519-b4ba-9b4da9dce238",
+        "app.run.outcome": "succeeded"
+      },
+      "events": []
+    },
+    {
+      "name": "openai.chat",
+      "trace_id": "89770ee59570ad27e5f0c0736119400d",
+      "span_id": "1a95cdac998a1e4a",
+      "parent_span_id": "c1c9b18c5ed8e193",
+      "scope": "opentelemetry.instrumentation.openai.v1",
+      "status": "UNSET",
+      "start_time_ms": 1793487989757.3557,
+      "duration_ms": 126.49,
+      "attributes": {
+        "gen_ai.operation.name": "chat",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.request.model": "demo-model",
+        "gen_ai.is_streaming": false,
+        "gen_ai.openai.api_base": "http://mock-provider.local/v1/",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.response.id": "chatcmpl-offline-demo",
+        "gen_ai.response.finish_reasons": [
+          "tool_call"
+        ],
+        "gen_ai.usage.total_tokens": 98,
+        "gen_ai.usage.output_tokens": 18,
+        "gen_ai.usage.input_tokens": 80
+      },
+      "events": []
+    },
+    {
+      "name": "policy.evaluate delete_record",
+      "trace_id": "89770ee59570ad27e5f0c0736119400d",
+      "span_id": "27f9e810af530a84",
+      "parent_span_id": "c1c9b18c5ed8e193",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487989884.8494,
+      "duration_ms": 1.0,
+      "attributes": {
+        "app.tool.name": "delete_record",
+        "app.governance.policy": "support-agent-demo",
+        "app.governance.policy_version": "1.0",
+        "app.governance.decision": "deny",
+        "app.governance.rule": "block-destructive"
+      },
+      "events": []
+    },
+    {
+      "name": "invoke_agent support-agent",
+      "trace_id": "89770ee59570ad27e5f0c0736119400d",
+      "span_id": "c1c9b18c5ed8e193",
+      "parent_span_id": "3bbba60f2bb7964d",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487989757.3557,
+      "duration_ms": 130.01,
+      "attributes": {
+        "gen_ai.operation.name": "invoke_agent",
+        "gen_ai.agent.name": "support-agent",
+        "app.demo.scenario": "blocked",
+        "app.demo.provider": "mock",
+        "app.run.id": "3e2f79e0-a910-497e-acde-6970ef8664cd",
+        "app.run.outcome": "blocked"
+      },
+      "events": []
+    },
+    {
+      "name": "openai.chat",
+      "trace_id": "0dcf0e704d40272891012ca4a528212e",
+      "span_id": "a8de864915d345d4",
+      "parent_span_id": "5e8d6edab1ecf68c",
+      "scope": "opentelemetry.instrumentation.openai.v1",
+      "status": "UNSET",
+      "start_time_ms": 1793487989927.2666,
+      "duration_ms": 125.73,
+      "attributes": {
+        "gen_ai.operation.name": "chat",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.request.model": "demo-model",
+        "gen_ai.is_streaming": false,
+        "gen_ai.openai.api_base": "http://mock-provider.local/v1/",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.response.id": "chatcmpl-offline-demo",
+        "gen_ai.response.finish_reasons": [
+          "tool_call"
+        ],
+        "gen_ai.usage.total_tokens": 98,
+        "gen_ai.usage.output_tokens": 18,
+        "gen_ai.usage.input_tokens": 80
+      },
+      "events": []
+    },
+    {
+      "name": "policy.evaluate lookup_customer",
+      "trace_id": "0dcf0e704d40272891012ca4a528212e",
+      "span_id": "57ee0b2d114490a4",
+      "parent_span_id": "5e8d6edab1ecf68c",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487990053.9978,
+      "duration_ms": 0.0,
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.governance.policy": "support-agent-demo",
+        "app.governance.policy_version": "1.0",
+        "app.governance.decision": "allow",
+        "app.governance.rule": "allow-customer-lookup"
+      },
+      "events": []
+    },
+    {
+      "name": "execute_tool lookup_customer",
+      "trace_id": "0dcf0e704d40272891012ca4a528212e",
+      "span_id": "639db526d6423180",
+      "parent_span_id": "5e8d6edab1ecf68c",
+      "scope": "support-agent",
+      "status": "ERROR",
+      "start_time_ms": 1793487990055.1982,
+      "duration_ms": 803.94,
+      "attributes": {
+        "gen_ai.operation.name": "execute_tool",
+        "gen_ai.tool.name": "lookup_customer",
+        "error.type": "TimeoutError"
+      },
+      "events": [
+        {
+          "name": "exception",
+          "attributes": {
+            "exception.type": "TimeoutError",
+            "exception.message": "Simulated customer-service timeout.",
+            "exception.stacktrace": "Traceback (most recent call last):\n  File \"D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\.venv\\Lib\\site-packages\\opentelemetry\\trace\\__init__.py\", line 602, in use_span\n    yield span\n  File \"D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\.venv\\Lib\\site-packages\\opentelemetry\\sdk\\trace\\__init__.py\", line 1136, in start_as_current_span\n    yield span\n  File \"D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\agent.py\", line 104, in run\n    output = getattr(tools, call.name)(**call.arguments)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\tools.py\", line 15, in lookup_customer\n    raise TimeoutError(\"Simulated customer-service timeout.\")\nTimeoutError: Simulated customer-service timeout.\n",
+            "exception.escaped": "False"
+          }
+        }
+      ]
+    },
+    {
+      "name": "invoke_agent support-agent",
+      "trace_id": "0dcf0e704d40272891012ca4a528212e",
+      "span_id": "5e8d6edab1ecf68c",
+      "parent_span_id": "5bcb5308258b4cf7",
+      "scope": "support-agent",
+      "status": "ERROR",
+      "start_time_ms": 1793487989927.2666,
+      "duration_ms": 932.87,
+      "attributes": {
+        "gen_ai.operation.name": "invoke_agent",
+        "gen_ai.agent.name": "support-agent",
+        "app.demo.scenario": "failed",
+        "app.demo.provider": "mock",
+        "app.run.id": "dc4581e5-3197-40f8-9fca-9563393eb60c",
+        "error.type": "TimeoutError",
+        "app.run.outcome": "failed"
+      },
+      "events": []
+    },
+    {
+      "name": "openai.chat",
+      "trace_id": "65d9bd68231d4c9479ac37d4b236bad4",
+      "span_id": "6d58e125dc2c483b",
+      "parent_span_id": "3af86c511e7a53fa",
+      "scope": "opentelemetry.instrumentation.openai.v1",
+      "status": "UNSET",
+      "start_time_ms": 1793487990900.4937,
+      "duration_ms": 125.44,
+      "attributes": {
+        "gen_ai.operation.name": "chat",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.request.model": "demo-model",
+        "gen_ai.is_streaming": false,
+        "gen_ai.openai.api_base": "http://mock-provider.local/v1/",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.response.id": "chatcmpl-offline-demo",
+        "gen_ai.response.finish_reasons": [
+          "tool_call"
+        ],
+        "gen_ai.usage.total_tokens": 98,
+        "gen_ai.usage.output_tokens": 18,
+        "gen_ai.usage.input_tokens": 80
+      },
+      "events": []
+    },
+    {
+      "name": "policy.evaluate lookup_customer",
+      "trace_id": "65d9bd68231d4c9479ac37d4b236bad4",
+      "span_id": "4cce480d6b75514d",
+      "parent_span_id": "3af86c511e7a53fa",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487991026.9297,
+      "duration_ms": 1.0,
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.governance.policy": "support-agent-demo",
+        "app.governance.policy_version": "1.0",
+        "app.governance.decision": "allow",
+        "app.governance.rule": "allow-customer-lookup"
+      },
+      "events": []
+    },
+    {
+      "name": "execute_tool lookup_customer",
+      "trace_id": "65d9bd68231d4c9479ac37d4b236bad4",
+      "span_id": "dae70c3f16f09a57",
+      "parent_span_id": "3af86c511e7a53fa",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487991027.9343,
+      "duration_ms": 60.53,
+      "attributes": {
+        "gen_ai.operation.name": "execute_tool",
+        "gen_ai.tool.name": "lookup_customer"
+      },
+      "events": []
+    },
+    {
+      "name": "openai.chat",
+      "trace_id": "65d9bd68231d4c9479ac37d4b236bad4",
+      "span_id": "a3ffcafb311fa9d5",
+      "parent_span_id": "3af86c511e7a53fa",
+      "scope": "opentelemetry.instrumentation.openai.v1",
+      "status": "UNSET",
+      "start_time_ms": 1793487991090.3533,
+      "duration_ms": 126.38,
+      "attributes": {
+        "gen_ai.operation.name": "chat",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.request.model": "demo-model",
+        "gen_ai.is_streaming": false,
+        "gen_ai.openai.api_base": "http://mock-provider.local/v1/",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.response.id": "chatcmpl-offline-demo",
+        "gen_ai.response.finish_reasons": [
+          "stop"
+        ],
+        "gen_ai.usage.total_tokens": 172,
+        "gen_ai.usage.output_tokens": 32,
+        "gen_ai.usage.input_tokens": 140
+      },
+      "events": []
+    },
+    {
+      "name": "invoke_agent support-agent",
+      "trace_id": "65d9bd68231d4c9479ac37d4b236bad4",
+      "span_id": "3af86c511e7a53fa",
+      "parent_span_id": "876e8478ff68a606",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487990900.4937,
+      "duration_ms": 318.24,
+      "attributes": {
+        "gen_ai.operation.name": "invoke_agent",
+        "gen_ai.agent.name": "support-agent",
+        "app.demo.scenario": "allowed",
+        "app.demo.provider": "mock",
+        "app.run.id": "5c1e1904-ac1b-4876-8884-fa964e89e936",
+        "app.run.outcome": "succeeded"
+      },
+      "events": []
+    },
+    {
+      "name": "openai.chat",
+      "trace_id": "b018eb2e77fe2d6566148489afc3eb68",
+      "span_id": "5277b8b567449f11",
+      "parent_span_id": "9d507104c0bb42a9",
+      "scope": "opentelemetry.instrumentation.openai.v1",
+      "status": "UNSET",
+      "start_time_ms": 1793487991261.4119,
+      "duration_ms": 125.19,
+      "attributes": {
+        "gen_ai.operation.name": "chat",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.request.model": "demo-model",
+        "gen_ai.is_streaming": false,
+        "gen_ai.openai.api_base": "http://mock-provider.local/v1/",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.response.id": "chatcmpl-offline-demo",
+        "gen_ai.response.finish_reasons": [
+          "tool_call"
+        ],
+        "gen_ai.usage.total_tokens": 98,
+        "gen_ai.usage.output_tokens": 18,
+        "gen_ai.usage.input_tokens": 80
+      },
+      "events": []
+    },
+    {
+      "name": "policy.evaluate delete_record",
+      "trace_id": "b018eb2e77fe2d6566148489afc3eb68",
+      "span_id": "51ae1b095dfb5f11",
+      "parent_span_id": "9d507104c0bb42a9",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487991387.6145,
+      "duration_ms": 0.0,
+      "attributes": {
+        "app.tool.name": "delete_record",
+        "app.governance.policy": "support-agent-demo",
+        "app.governance.policy_version": "1.0",
+        "app.governance.decision": "deny",
+        "app.governance.rule": "block-destructive"
+      },
+      "events": []
+    },
+    {
+      "name": "invoke_agent support-agent",
+      "trace_id": "b018eb2e77fe2d6566148489afc3eb68",
+      "span_id": "9d507104c0bb42a9",
+      "parent_span_id": "c76ed828cff0f0bd",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487991260.4246,
+      "duration_ms": 128.19,
+      "attributes": {
+        "gen_ai.operation.name": "invoke_agent",
+        "gen_ai.agent.name": "support-agent",
+        "app.demo.scenario": "blocked",
+        "app.demo.provider": "mock",
+        "app.run.id": "19941026-a630-4b77-b5da-2e61b91c8ec2",
+        "app.run.outcome": "blocked"
+      },
+      "events": []
+    },
+    {
+      "name": "openai.chat",
+      "trace_id": "4e5d5b8f5d0e56d2a0ff9fbbde2dc7de",
+      "span_id": "d4946fcc97ad2dd1",
+      "parent_span_id": "913bb642a08a71a2",
+      "scope": "opentelemetry.instrumentation.openai.v1",
+      "status": "UNSET",
+      "start_time_ms": 1793487991560.3813,
+      "duration_ms": 125.41,
+      "attributes": {
+        "gen_ai.operation.name": "chat",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.request.model": "demo-model",
+        "gen_ai.is_streaming": false,
+        "gen_ai.openai.api_base": "http://mock-provider.local/v1/",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.response.id": "chatcmpl-offline-demo",
+        "gen_ai.response.finish_reasons": [
+          "tool_call"
+        ],
+        "gen_ai.usage.total_tokens": 98,
+        "gen_ai.usage.output_tokens": 18,
+        "gen_ai.usage.input_tokens": 80
+      },
+      "events": []
+    },
+    {
+      "name": "policy.evaluate lookup_customer",
+      "trace_id": "4e5d5b8f5d0e56d2a0ff9fbbde2dc7de",
+      "span_id": "3831d28e30675cde",
+      "parent_span_id": "913bb642a08a71a2",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487991686.7856,
+      "duration_ms": 1.0,
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.governance.policy": "support-agent-demo",
+        "app.governance.policy_version": "1.0",
+        "app.governance.decision": "allow",
+        "app.governance.rule": "allow-customer-lookup"
+      },
+      "events": []
+    },
+    {
+      "name": "execute_tool lookup_customer",
+      "trace_id": "4e5d5b8f5d0e56d2a0ff9fbbde2dc7de",
+      "span_id": "a6d2a00837d4908d",
+      "parent_span_id": "913bb642a08a71a2",
+      "scope": "support-agent",
+      "status": "ERROR",
+      "start_time_ms": 1793487991689.3015,
+      "duration_ms": 802.16,
+      "attributes": {
+        "gen_ai.operation.name": "execute_tool",
+        "gen_ai.tool.name": "lookup_customer",
+        "error.type": "TimeoutError"
+      },
+      "events": [
+        {
+          "name": "exception",
+          "attributes": {
+            "exception.type": "TimeoutError",
+            "exception.message": "Simulated customer-service timeout.",
+            "exception.stacktrace": "Traceback (most recent call last):\n  File \"D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\.venv\\Lib\\site-packages\\opentelemetry\\trace\\__init__.py\", line 602, in use_span\n    yield span\n  File \"D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\.venv\\Lib\\site-packages\\opentelemetry\\sdk\\trace\\__init__.py\", line 1136, in start_as_current_span\n    yield span\n  File \"D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\agent.py\", line 104, in run\n    output = getattr(tools, call.name)(**call.arguments)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\tools.py\", line 15, in lookup_customer\n    raise TimeoutError(\"Simulated customer-service timeout.\")\nTimeoutError: Simulated customer-service timeout.\n",
+            "exception.escaped": "False"
+          }
+        }
+      ]
+    },
+    {
+      "name": "invoke_agent support-agent",
+      "trace_id": "4e5d5b8f5d0e56d2a0ff9fbbde2dc7de",
+      "span_id": "913bb642a08a71a2",
+      "parent_span_id": "d268c56fb78ba61c",
+      "scope": "support-agent",
+      "status": "ERROR",
+      "start_time_ms": 1793487991560.3813,
+      "duration_ms": 932.09,
+      "attributes": {
+        "gen_ai.operation.name": "invoke_agent",
+        "gen_ai.agent.name": "support-agent",
+        "app.demo.scenario": "failed",
+        "app.demo.provider": "mock",
+        "app.run.id": "e06d7718-bdae-4d0f-9067-dabedd58af09",
+        "error.type": "TimeoutError",
+        "app.run.outcome": "failed"
+      },
+      "events": []
+    },
+    {
+      "name": "openai.chat",
+      "trace_id": "ac97bd3e45927eb32e3b538daf52a424",
+      "span_id": "b70da909b901976d",
+      "parent_span_id": "6bb36b099d348184",
+      "scope": "opentelemetry.instrumentation.openai.v1",
+      "status": "UNSET",
+      "start_time_ms": 1793487992533.0076,
+      "duration_ms": 128.3,
+      "attributes": {
+        "gen_ai.operation.name": "chat",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.request.model": "demo-model",
+        "gen_ai.is_streaming": false,
+        "gen_ai.openai.api_base": "http://mock-provider.local/v1/",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.response.id": "chatcmpl-offline-demo",
+        "gen_ai.response.finish_reasons": [
+          "tool_call"
+        ],
+        "gen_ai.usage.total_tokens": 98,
+        "gen_ai.usage.output_tokens": 18,
+        "gen_ai.usage.input_tokens": 80
+      },
+      "events": []
+    },
+    {
+      "name": "policy.evaluate lookup_customer",
+      "trace_id": "ac97bd3e45927eb32e3b538daf52a424",
+      "span_id": "5cbe40e76e8a4c0a",
+      "parent_span_id": "6bb36b099d348184",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487992662.3174,
+      "duration_ms": 0.0,
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.governance.policy": "support-agent-demo",
+        "app.governance.policy_version": "1.0",
+        "app.governance.decision": "allow",
+        "app.governance.rule": "allow-customer-lookup"
+      },
+      "events": []
+    },
+    {
+      "name": "execute_tool lookup_customer",
+      "trace_id": "ac97bd3e45927eb32e3b538daf52a424",
+      "span_id": "2944511775f434a4",
+      "parent_span_id": "6bb36b099d348184",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487992663.3213,
+      "duration_ms": 60.62,
+      "attributes": {
+        "gen_ai.operation.name": "execute_tool",
+        "gen_ai.tool.name": "lookup_customer"
+      },
+      "events": []
+    },
+    {
+      "name": "openai.chat",
+      "trace_id": "ac97bd3e45927eb32e3b538daf52a424",
+      "span_id": "fce3cbdc38460f31",
+      "parent_span_id": "6bb36b099d348184",
+      "scope": "opentelemetry.instrumentation.openai.v1",
+      "status": "UNSET",
+      "start_time_ms": 1793487992724.4497,
+      "duration_ms": 125.98,
+      "attributes": {
+        "gen_ai.operation.name": "chat",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.request.model": "demo-model",
+        "gen_ai.is_streaming": false,
+        "gen_ai.openai.api_base": "http://mock-provider.local/v1/",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.response.id": "chatcmpl-offline-demo",
+        "gen_ai.response.finish_reasons": [
+          "stop"
+        ],
+        "gen_ai.usage.total_tokens": 172,
+        "gen_ai.usage.output_tokens": 32,
+        "gen_ai.usage.input_tokens": 140
+      },
+      "events": []
+    },
+    {
+      "name": "invoke_agent support-agent",
+      "trace_id": "ac97bd3e45927eb32e3b538daf52a424",
+      "span_id": "6bb36b099d348184",
+      "parent_span_id": "8dd5ca0e5e1e9897",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487992533.0076,
+      "duration_ms": 319.42,
+      "attributes": {
+        "gen_ai.operation.name": "invoke_agent",
+        "gen_ai.agent.name": "support-agent",
+        "app.demo.scenario": "allowed",
+        "app.demo.provider": "mock",
+        "app.run.id": "04c2efea-ca85-4dcc-9f89-03cc5820bfd9",
+        "app.run.outcome": "succeeded"
+      },
+      "events": []
+    },
+    {
+      "name": "openai.chat",
+      "trace_id": "e250d622242d4b6ea087591744a503f8",
+      "span_id": "70b90206d5857ccd",
+      "parent_span_id": "8f1d7b8c958a6af6",
+      "scope": "opentelemetry.instrumentation.openai.v1",
+      "status": "UNSET",
+      "start_time_ms": 1793487992893.0852,
+      "duration_ms": 125.75,
+      "attributes": {
+        "gen_ai.operation.name": "chat",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.request.model": "demo-model",
+        "gen_ai.is_streaming": false,
+        "gen_ai.openai.api_base": "http://mock-provider.local/v1/",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.response.id": "chatcmpl-offline-demo",
+        "gen_ai.response.finish_reasons": [
+          "tool_call"
+        ],
+        "gen_ai.usage.total_tokens": 98,
+        "gen_ai.usage.output_tokens": 18,
+        "gen_ai.usage.input_tokens": 80
+      },
+      "events": []
+    },
+    {
+      "name": "policy.evaluate delete_record",
+      "trace_id": "e250d622242d4b6ea087591744a503f8",
+      "span_id": "a05c05bcbcf96a06",
+      "parent_span_id": "8f1d7b8c958a6af6",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487993019.9822,
+      "duration_ms": 0.0,
+      "attributes": {
+        "app.tool.name": "delete_record",
+        "app.governance.policy": "support-agent-demo",
+        "app.governance.policy_version": "1.0",
+        "app.governance.decision": "deny",
+        "app.governance.rule": "block-destructive"
+      },
+      "events": []
+    },
+    {
+      "name": "invoke_agent support-agent",
+      "trace_id": "e250d622242d4b6ea087591744a503f8",
+      "span_id": "8f1d7b8c958a6af6",
+      "parent_span_id": "8db02b646efe4776",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487992893.0852,
+      "duration_ms": 128.03,
+      "attributes": {
+        "gen_ai.operation.name": "invoke_agent",
+        "gen_ai.agent.name": "support-agent",
+        "app.demo.scenario": "blocked",
+        "app.demo.provider": "mock",
+        "app.run.id": "08e4b898-e73f-4285-af0b-30f500a20ad8",
+        "app.run.outcome": "blocked"
+      },
+      "events": []
+    },
+    {
+      "name": "openai.chat",
+      "trace_id": "07fcea68489fc9586c0fd17e60393417",
+      "span_id": "9104fc0657b3a02d",
+      "parent_span_id": "0a931bc5abe5ec48",
+      "scope": "opentelemetry.instrumentation.openai.v1",
+      "status": "UNSET",
+      "start_time_ms": 1793487993063.4004,
+      "duration_ms": 125.55,
+      "attributes": {
+        "gen_ai.operation.name": "chat",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.request.model": "demo-model",
+        "gen_ai.is_streaming": false,
+        "gen_ai.openai.api_base": "http://mock-provider.local/v1/",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.response.id": "chatcmpl-offline-demo",
+        "gen_ai.response.finish_reasons": [
+          "tool_call"
+        ],
+        "gen_ai.usage.total_tokens": 98,
+        "gen_ai.usage.output_tokens": 18,
+        "gen_ai.usage.input_tokens": 80
+      },
+      "events": []
+    },
+    {
+      "name": "policy.evaluate lookup_customer",
+      "trace_id": "07fcea68489fc9586c0fd17e60393417",
+      "span_id": "88f0dc38b826e6bc",
+      "parent_span_id": "0a931bc5abe5ec48",
+      "scope": "support-agent",
+      "status": "UNSET",
+      "start_time_ms": 1793487993188.9548,
+      "duration_ms": 1.95,
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.governance.policy": "support-agent-demo",
+        "app.governance.policy_version": "1.0",
+        "app.governance.decision": "allow",
+        "app.governance.rule": "allow-customer-lookup"
+      },
+      "events": []
+    },
+    {
+      "name": "execute_tool lookup_customer",
+      "trace_id": "07fcea68489fc9586c0fd17e60393417",
+      "span_id": "f09bff1b89b32b1b",
+      "parent_span_id": "0a931bc5abe5ec48",
+      "scope": "support-agent",
+      "status": "ERROR",
+      "start_time_ms": 1793487993191.4783,
+      "duration_ms": 803.02,
+      "attributes": {
+        "gen_ai.operation.name": "execute_tool",
+        "gen_ai.tool.name": "lookup_customer",
+        "error.type": "TimeoutError"
+      },
+      "events": [
+        {
+          "name": "exception",
+          "attributes": {
+            "exception.type": "TimeoutError",
+            "exception.message": "Simulated customer-service timeout.",
+            "exception.stacktrace": "Traceback (most recent call last):\n  File \"D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\.venv\\Lib\\site-packages\\opentelemetry\\trace\\__init__.py\", line 602, in use_span\n    yield span\n  File \"D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\.venv\\Lib\\site-packages\\opentelemetry\\sdk\\trace\\__init__.py\", line 1136, in start_as_current_span\n    yield span\n  File \"D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\agent.py\", line 104, in run\n    output = getattr(tools, call.name)(**call.arguments)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\tools.py\", line 15, in lookup_customer\n    raise TimeoutError(\"Simulated customer-service timeout.\")\nTimeoutError: Simulated customer-service timeout.\n",
+            "exception.escaped": "False"
+          }
+        }
+      ]
+    },
+    {
+      "name": "invoke_agent support-agent",
+      "trace_id": "07fcea68489fc9586c0fd17e60393417",
+      "span_id": "0a931bc5abe5ec48",
+      "parent_span_id": "d22078016348fc76",
+      "scope": "support-agent",
+      "status": "ERROR",
+      "start_time_ms": 1793487993063.4004,
+      "duration_ms": 932.1,
+      "attributes": {
+        "gen_ai.operation.name": "invoke_agent",
+        "gen_ai.agent.name": "support-agent",
+        "app.demo.scenario": "failed",
+        "app.demo.provider": "mock",
+        "app.run.id": "37473c47-b7b2-4f0a-a418-c89a9d1edf3c",
+        "error.type": "TimeoutError",
+        "app.run.outcome": "failed"
+      },
+      "events": []
+    }
+  ],
+  "logs": [
+    {
+      "body": "Policy evaluated",
+      "trace_id": "a6f8c2aadece397a370cd69da76b781a",
+      "span_id": "767d05f2bb600988",
+      "attributes": {
+        "app.governance.decision": "allow",
+        "app.tool.name": "lookup_customer",
+        "app.governance.rule": "allow-customer-lookup",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_policy",
+        "code.line.number": 155
+      }
+    },
+    {
+      "body": "Tool finished",
+      "trace_id": "a6f8c2aadece397a370cd69da76b781a",
+      "span_id": "1ef4f637e52fbb69",
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.tool.outcome": "succeeded",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_tool",
+        "code.line.number": 161
+      }
+    },
+    {
+      "body": "Agent run finished",
+      "trace_id": "a6f8c2aadece397a370cd69da76b781a",
+      "span_id": "bc5aac2785948466",
+      "attributes": {
+        "app.run.outcome": "succeeded",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_run",
+        "code.line.number": 169
+      }
+    },
+    {
+      "body": "Policy evaluated",
+      "trace_id": "89770ee59570ad27e5f0c0736119400d",
+      "span_id": "27f9e810af530a84",
+      "attributes": {
+        "app.governance.decision": "deny",
+        "app.tool.name": "delete_record",
+        "app.governance.rule": "block-destructive",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_policy",
+        "code.line.number": 155
+      }
+    },
+    {
+      "body": "Agent run finished",
+      "trace_id": "89770ee59570ad27e5f0c0736119400d",
+      "span_id": "c1c9b18c5ed8e193",
+      "attributes": {
+        "app.run.outcome": "blocked",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_run",
+        "code.line.number": 169
+      }
+    },
+    {
+      "body": "Policy evaluated",
+      "trace_id": "0dcf0e704d40272891012ca4a528212e",
+      "span_id": "57ee0b2d114490a4",
+      "attributes": {
+        "app.governance.decision": "allow",
+        "app.tool.name": "lookup_customer",
+        "app.governance.rule": "allow-customer-lookup",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_policy",
+        "code.line.number": 155
+      }
+    },
+    {
+      "body": "Tool finished",
+      "trace_id": "0dcf0e704d40272891012ca4a528212e",
+      "span_id": "639db526d6423180",
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.tool.outcome": "failed",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_tool",
+        "code.line.number": 161
+      }
+    },
+    {
+      "body": "Agent run failed",
+      "trace_id": "0dcf0e704d40272891012ca4a528212e",
+      "span_id": "5e8d6edab1ecf68c",
+      "attributes": {
+        "error.type": "TimeoutError",
+        "app.run.outcome": "failed",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\agent.py",
+        "code.function.name": "run",
+        "code.line.number": 128
+      }
+    },
+    {
+      "body": "Agent run finished",
+      "trace_id": "0dcf0e704d40272891012ca4a528212e",
+      "span_id": "5e8d6edab1ecf68c",
+      "attributes": {
+        "app.run.outcome": "failed",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_run",
+        "code.line.number": 169
+      }
+    },
+    {
+      "body": "Policy evaluated",
+      "trace_id": "65d9bd68231d4c9479ac37d4b236bad4",
+      "span_id": "4cce480d6b75514d",
+      "attributes": {
+        "app.governance.decision": "allow",
+        "app.tool.name": "lookup_customer",
+        "app.governance.rule": "allow-customer-lookup",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_policy",
+        "code.line.number": 155
+      }
+    },
+    {
+      "body": "Tool finished",
+      "trace_id": "65d9bd68231d4c9479ac37d4b236bad4",
+      "span_id": "dae70c3f16f09a57",
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.tool.outcome": "succeeded",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_tool",
+        "code.line.number": 161
+      }
+    },
+    {
+      "body": "Agent run finished",
+      "trace_id": "65d9bd68231d4c9479ac37d4b236bad4",
+      "span_id": "3af86c511e7a53fa",
+      "attributes": {
+        "app.run.outcome": "succeeded",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_run",
+        "code.line.number": 169
+      }
+    },
+    {
+      "body": "Policy evaluated",
+      "trace_id": "b018eb2e77fe2d6566148489afc3eb68",
+      "span_id": "51ae1b095dfb5f11",
+      "attributes": {
+        "app.governance.decision": "deny",
+        "app.tool.name": "delete_record",
+        "app.governance.rule": "block-destructive",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_policy",
+        "code.line.number": 155
+      }
+    },
+    {
+      "body": "Agent run finished",
+      "trace_id": "b018eb2e77fe2d6566148489afc3eb68",
+      "span_id": "9d507104c0bb42a9",
+      "attributes": {
+        "app.run.outcome": "blocked",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_run",
+        "code.line.number": 169
+      }
+    },
+    {
+      "body": "Policy evaluated",
+      "trace_id": "4e5d5b8f5d0e56d2a0ff9fbbde2dc7de",
+      "span_id": "3831d28e30675cde",
+      "attributes": {
+        "app.governance.decision": "allow",
+        "app.tool.name": "lookup_customer",
+        "app.governance.rule": "allow-customer-lookup",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_policy",
+        "code.line.number": 155
+      }
+    },
+    {
+      "body": "Tool finished",
+      "trace_id": "4e5d5b8f5d0e56d2a0ff9fbbde2dc7de",
+      "span_id": "a6d2a00837d4908d",
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.tool.outcome": "failed",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_tool",
+        "code.line.number": 161
+      }
+    },
+    {
+      "body": "Agent run failed",
+      "trace_id": "4e5d5b8f5d0e56d2a0ff9fbbde2dc7de",
+      "span_id": "913bb642a08a71a2",
+      "attributes": {
+        "error.type": "TimeoutError",
+        "app.run.outcome": "failed",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\agent.py",
+        "code.function.name": "run",
+        "code.line.number": 128
+      }
+    },
+    {
+      "body": "Agent run finished",
+      "trace_id": "4e5d5b8f5d0e56d2a0ff9fbbde2dc7de",
+      "span_id": "913bb642a08a71a2",
+      "attributes": {
+        "app.run.outcome": "failed",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_run",
+        "code.line.number": 169
+      }
+    },
+    {
+      "body": "Policy evaluated",
+      "trace_id": "ac97bd3e45927eb32e3b538daf52a424",
+      "span_id": "5cbe40e76e8a4c0a",
+      "attributes": {
+        "app.governance.decision": "allow",
+        "app.tool.name": "lookup_customer",
+        "app.governance.rule": "allow-customer-lookup",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_policy",
+        "code.line.number": 155
+      }
+    },
+    {
+      "body": "Tool finished",
+      "trace_id": "ac97bd3e45927eb32e3b538daf52a424",
+      "span_id": "2944511775f434a4",
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.tool.outcome": "succeeded",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_tool",
+        "code.line.number": 161
+      }
+    },
+    {
+      "body": "Agent run finished",
+      "trace_id": "ac97bd3e45927eb32e3b538daf52a424",
+      "span_id": "6bb36b099d348184",
+      "attributes": {
+        "app.run.outcome": "succeeded",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_run",
+        "code.line.number": 169
+      }
+    },
+    {
+      "body": "Policy evaluated",
+      "trace_id": "e250d622242d4b6ea087591744a503f8",
+      "span_id": "a05c05bcbcf96a06",
+      "attributes": {
+        "app.governance.decision": "deny",
+        "app.tool.name": "delete_record",
+        "app.governance.rule": "block-destructive",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_policy",
+        "code.line.number": 155
+      }
+    },
+    {
+      "body": "Agent run finished",
+      "trace_id": "e250d622242d4b6ea087591744a503f8",
+      "span_id": "8f1d7b8c958a6af6",
+      "attributes": {
+        "app.run.outcome": "blocked",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_run",
+        "code.line.number": 169
+      }
+    },
+    {
+      "body": "Policy evaluated",
+      "trace_id": "07fcea68489fc9586c0fd17e60393417",
+      "span_id": "88f0dc38b826e6bc",
+      "attributes": {
+        "app.governance.decision": "allow",
+        "app.tool.name": "lookup_customer",
+        "app.governance.rule": "allow-customer-lookup",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_policy",
+        "code.line.number": 155
+      }
+    },
+    {
+      "body": "Tool finished",
+      "trace_id": "07fcea68489fc9586c0fd17e60393417",
+      "span_id": "f09bff1b89b32b1b",
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.tool.outcome": "failed",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_tool",
+        "code.line.number": 161
+      }
+    },
+    {
+      "body": "Agent run failed",
+      "trace_id": "07fcea68489fc9586c0fd17e60393417",
+      "span_id": "0a931bc5abe5ec48",
+      "attributes": {
+        "error.type": "TimeoutError",
+        "app.run.outcome": "failed",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\agent.py",
+        "code.function.name": "run",
+        "code.line.number": 128
+      }
+    },
+    {
+      "body": "Agent run finished",
+      "trace_id": "07fcea68489fc9586c0fd17e60393417",
+      "span_id": "0a931bc5abe5ec48",
+      "attributes": {
+        "app.run.outcome": "failed",
+        "app.demo.provider": "mock",
+        "code.file.path": "D:\\dev\\MyCodeSamples\\AIGovernanceObservability\\demo\\support_agent\\telemetry.py",
+        "code.function.name": "record_run",
+        "code.line.number": 169
+      }
+    }
+  ],
+  "metrics": [
+    {
+      "name": "http.server.active_requests",
+      "unit": "{request}",
+      "attributes": {
+        "url.scheme": "http",
+        "http.request.method": "GET"
+      },
+      "value": 1,
+      "count": null
+    },
+    {
+      "name": "http.server.active_requests",
+      "unit": "{request}",
+      "attributes": {
+        "url.scheme": "http",
+        "http.request.method": "POST"
+      },
+      "value": 0,
+      "count": null
+    },
+    {
+      "name": "http.server.request.duration",
+      "unit": "s",
+      "attributes": {
+        "url.scheme": "http",
+        "http.request.method": "GET",
+        "network.protocol.version": "1.1",
+        "http.route": "/",
+        "http.response.status_code": 200
+      },
+      "value": 0.20512729999609292,
+      "count": 1
+    },
+    {
+      "name": "http.server.request.duration",
+      "unit": "s",
+      "attributes": {
+        "url.scheme": "http",
+        "http.request.method": "GET",
+        "network.protocol.version": "1.1",
+        "http.route": "/api/state",
+        "http.response.status_code": 200
+      },
+      "value": 0.22632339945994318,
+      "count": 33
+    },
+    {
+      "name": "http.server.request.duration",
+      "unit": "s",
+      "attributes": {
+        "url.scheme": "http",
+        "http.request.method": "GET",
+        "network.protocol.version": "1.1",
+        "http.response.status_code": 404
+      },
+      "value": 0.000842600129544735,
+      "count": 1
+    },
+    {
+      "name": "http.server.request.duration",
+      "unit": "s",
+      "attributes": {
+        "url.scheme": "http",
+        "http.request.method": "POST",
+        "network.protocol.version": "1.1",
+        "http.route": "/api/run",
+        "http.response.status_code": 200
+      },
+      "value": 6.708033800125122,
+      "count": 9
+    },
+    {
+      "name": "gen_ai.client.token.usage",
+      "unit": "token",
+      "attributes": {
+        "app.demo.provider": "mock",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.operation.name": "chat",
+        "server.address": "http://mock-provider.local/v1/",
+        "stream": false,
+        "gen_ai.token.type": "output"
+      },
+      "value": 258,
+      "count": 12
+    },
+    {
+      "name": "gen_ai.client.token.usage",
+      "unit": "token",
+      "attributes": {
+        "app.demo.provider": "mock",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.operation.name": "chat",
+        "server.address": "http://mock-provider.local/v1/",
+        "stream": false,
+        "gen_ai.token.type": "input"
+      },
+      "value": 1140,
+      "count": 12
+    },
+    {
+      "name": "gen_ai.client.generation.choices",
+      "unit": "choice",
+      "attributes": {
+        "app.demo.provider": "mock",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.operation.name": "chat",
+        "server.address": "http://mock-provider.local/v1/",
+        "stream": false
+      },
+      "value": 12,
+      "count": null
+    },
+    {
+      "name": "gen_ai.client.generation.choices",
+      "unit": "choice",
+      "attributes": {
+        "app.demo.provider": "mock",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.operation.name": "chat",
+        "server.address": "http://mock-provider.local/v1/",
+        "stream": false,
+        "gen_ai.response.finish_reason": "tool_call"
+      },
+      "value": 9,
+      "count": null
+    },
+    {
+      "name": "gen_ai.client.generation.choices",
+      "unit": "choice",
+      "attributes": {
+        "app.demo.provider": "mock",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.operation.name": "chat",
+        "server.address": "http://mock-provider.local/v1/",
+        "stream": false,
+        "gen_ai.response.finish_reason": "stop"
+      },
+      "value": 3,
+      "count": null
+    },
+    {
+      "name": "gen_ai.client.operation.duration",
+      "unit": "s",
+      "attributes": {
+        "app.demo.provider": "mock",
+        "gen_ai.provider.name": "openai",
+        "gen_ai.response.model": "demo-model",
+        "gen_ai.operation.name": "chat",
+        "server.address": "http://mock-provider.local/v1/",
+        "stream": false
+      },
+      "value": 1.6533901691436768,
+      "count": 12
+    },
+    {
+      "name": "app.governance.decisions",
+      "unit": "",
+      "attributes": {
+        "app.governance.decision": "allow",
+        "app.tool.name": "lookup_customer",
+        "app.governance.rule": "allow-customer-lookup",
+        "app.demo.provider": "mock"
+      },
+      "value": 6,
+      "count": null
+    },
+    {
+      "name": "app.governance.decisions",
+      "unit": "",
+      "attributes": {
+        "app.governance.decision": "deny",
+        "app.tool.name": "delete_record",
+        "app.governance.rule": "block-destructive",
+        "app.demo.provider": "mock"
+      },
+      "value": 3,
+      "count": null
+    },
+    {
+      "name": "app.tool.duration",
+      "unit": "s",
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.tool.outcome": "succeeded",
+        "app.demo.provider": "mock"
+      },
+      "value": 0.18125620018690825,
+      "count": 3
+    },
+    {
+      "name": "app.tool.duration",
+      "unit": "s",
+      "attributes": {
+        "app.tool.name": "lookup_customer",
+        "app.tool.outcome": "failed",
+        "app.demo.provider": "mock"
+      },
+      "value": 2.401658099843189,
+      "count": 3
+    },
+    {
+      "name": "app.agent.runs",
+      "unit": "",
+      "attributes": {
+        "app.run.outcome": "succeeded",
+        "app.demo.provider": "mock"
+      },
+      "value": 3,
+      "count": null
+    },
+    {
+      "name": "app.agent.runs",
+      "unit": "",
+      "attributes": {
+        "app.run.outcome": "blocked",
+        "app.demo.provider": "mock"
+      },
+      "value": 3,
+      "count": null
+    },
+    {
+      "name": "app.agent.runs",
+      "unit": "",
+      "attributes": {
+        "app.run.outcome": "failed",
+        "app.demo.provider": "mock"
+      },
+      "value": 3,
+      "count": null
+    },
+    {
+      "name": "app.agent.duration",
+      "unit": "s",
+      "attributes": {
+        "app.run.outcome": "succeeded",
+        "app.demo.provider": "mock"
+      },
+      "value": 1.13556,
+      "count": 3
+    },
+    {
+      "name": "app.agent.duration",
+      "unit": "s",
+      "attributes": {
+        "app.run.outcome": "blocked",
+        "app.demo.provider": "mock"
+      },
+      "value": 0.38495999999999997,
+      "count": 3
+    },
+    {
+      "name": "app.agent.duration",
+      "unit": "s",
+      "attributes": {
+        "app.run.outcome": "failed",
+        "app.demo.provider": "mock"
+      },
+      "value": 2.79604,
+      "count": 3
+    }
+  ]
+}
