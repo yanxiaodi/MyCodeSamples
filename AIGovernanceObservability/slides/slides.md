@@ -146,7 +146,7 @@ clicks: 2
 <div class="schema-terminal">
 <div class="schema-comment">// Recorded model-span attributes</div>
 <div>{</div>
-<div v-click="1"><span class="schema-key">gen_ai.operation.name</span>: <span class="schema-value">"chat"</span><br><span class="schema-key">gen_ai.request.model</span>: <span class="schema-value">"demo-model"</span><br><span class="schema-key">gen_ai.usage.input_tokens</span>: <span class="schema-value">80</span><br><span class="schema-key">gen_ai.usage.output_tokens</span>: <span class="schema-value">18</span></div>
+<div v-click="1" class="schema-properties"><span class="schema-key">gen_ai.operation.name</span>: <span class="schema-value">"chat"</span><br><span class="schema-key">gen_ai.request.model</span>: <span class="schema-value">"demo-model"</span><br><span class="schema-key">gen_ai.usage.input_tokens</span>: <span class="schema-value">80</span><br><span class="schema-key">gen_ai.usage.output_tokens</span>: <span class="schema-value">18</span></div>
 <div>}</div>
 <div v-click="2" class="schema-business"><div class="schema-comment">// Application policy metadata</div><span class="app-key">app.governance.decision</span>: "allow"</div>
 </div>
