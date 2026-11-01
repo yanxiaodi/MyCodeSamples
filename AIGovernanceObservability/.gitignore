@@ -13,4 +13,6 @@ demo/artifacts/*
 
 # Intermediate rendering checks; retain the contact sheet and representative evidence.
 docs/evidence/slide-*.png
+!docs/evidence/slide-contact-sheet.png
 docs/evidence/pdf-[0-9][0-9].png
+docs/evidence/pdf-[0-9].png

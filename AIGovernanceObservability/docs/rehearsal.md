@@ -15,6 +15,32 @@ Keep backups outside the timed path. Presenter notes are English.
 | 20:00–23:00 | 11 | Context, content, outcomes and completeness in production. |
 | 23:00–25:00 | 12 | Takeaways and questions. |
 
+## Click builds
+
+Use Right Arrow to advance a build and Left Arrow to revisit it. The next slide
+appears after the last build. Each build replaces part of the explanation; keep
+the original time budget rather than adding time for the animations.
+
+| Slide | Clicks | Visual progression |
+| --- | --- | --- |
+| 1 | 0 | Two parallel lanes draw once on entry. |
+| 2 | 2 | Ask whether to retry, then reveal blocked and failed. |
+| 3 | 0 | Two capabilities, equal emphasis. |
+| 4 | 3 | Policy evaluation, decision, then host execution/stop. |
+| 5 | 4 | Model, policy, tool, then the tool's share of this trace. |
+| 6 | 2 | Recorded GenAI attributes, then application policy metadata. |
+| 7 | 3 | Instrumentation, OTel providers, then OTLP to Aspire. |
+| 8–9 | 3 each | Evaluate, decide, enforce; then switch to the live demo. |
+| 10 | 3 | Policy counts, run outcomes, then allowed versus successful. |
+| 11 | 2 | Content handling, then outcomes and pipeline completeness. |
+| 12 | 1 | Reveal the three takeaways. |
+
+Slides 5 and 10 derive their charts from the checked-in nine-run offline rehearsal
+in `docs/evidence/session.json`. Their timestamps and tokens are synthetic demo
+data, not production measurements. Current dashboard results can differ after
+additional requests. Short waterfall spans have a minimum-width marker; printed
+durations remain accurate. The export view shows every build at its final state.
+
 ## Before the audience arrives
 
 1. Start Aspire, Python and Slidev using the README commands.

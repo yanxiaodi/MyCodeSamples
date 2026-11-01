@@ -1,5 +1,30 @@
 # Verification: 1 November 2026
 
+## Slidev visual refresh
+
+- Preserved all fifteen English speaker-note sections and the 25-minute schedule;
+  added presenter click cues and a rehearsal build table.
+- Final Slidev production build passed; Chart.js is pinned to 4.5.1 and the
+  dependency installation audit reported zero vulnerabilities.
+- Checked all fifteen pages and all 26 builds (41 page/click states) at 1440×810.
+  Verified forward/back navigation for the flow, waterfall, architecture and
+  chart components, plus native reveal states on slides 2, 6, 11 and 12.
+- No slide-bound overflow or browser console errors. Screenshot inspection also
+  caught footer collisions on demo pages; the final execution-proof sections
+  have 48 px clearance from the footer at the checked viewport.
+- Reduced-motion mode disables transitions while preserving click controls.
+  The export view shows every reveal and all chart data without animation.
+- The waterfall and outcome chart derive from `session.json`, rather than
+  independent hard-coded measurements: six allows, three denials, three of each
+  runtime outcome, and 1,398 synthetic tokens. The selected timeout trace is
+  approximately 932 ms total, with 803 ms in the tool body (86%).
+- Updated the optional static fallback from the final export view; verified
+  fifteen pages and extracted text on every page. Rendered all pages with
+  Poppler and inspected `pdf-contact-sheet.png`. Slidev remains the presentation
+  format; `slide-contact-sheet.png` records its final visual states.
+- This change updates presentation assets and documentation; Python demo code
+  is unchanged. The implementation checks below refer to its initial preparation.
+
 - Python: 15 tests passed; `pip check` found no broken requirements.
 - Slidev production build successful; `npm audit` found 0 vulnerabilities.
 - Browser: all 15 pages checked at 1440×810, no content outside slide bounds.
