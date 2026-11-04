@@ -8,7 +8,7 @@ info: |
 duration: 25min
 aspectRatio: 16/9
 canvasWidth: 960
-transition: fade
+transition: slide-left
 colorSchema: dark
 fonts:
   sans: Aptos
@@ -16,16 +16,24 @@ fonts:
   provider: none
 drawings:
   persist: false
+layout: default
+class: opening-slide
 ---
 
-<div class="hero">
+<div class="opening-grid">
+<div class="opening-copy">
 <h1>AI Agent Governance<br>and Observability<br>in Practice</h1>
-<div class="parallel-mark"><span>Control what the agent can do.</span><span>Understand what actually happened.</span></div>
+<div class="opening-lines"><span>Control what the agent can do.</span><span>Understand what actually happened.</span></div>
 <div class="speaker">Xiaodi Yan · Microsoft MVP</div>
+<img class="speaker-mvp-badge" src="/branding/mvp-badge-full-color-blue-black.png" alt="Microsoft Most Valuable Professional (MVP)" width="1440" height="540" />
 </div>
-<div class="footer"><span>Python · OpenTelemetry · one support agent</span><span>25 minutes</span></div>
+<HeroDiagram />
+</div>
+<div class="footer"><span>Python · one agent · real execution evidence</span><span>25 minutes</span></div>
 
 <!--
+The title graphic draws its two parallel lanes once; do not wait for it.
+
 [00:00–00:30 | 30 seconds]
 Today we are looking at two capabilities that belong beside each other: governance and observability.
 Governance gives an agent a boundary for action. Observability gives us a way to understand a particular run and the behavior of the application over time.
@@ -33,18 +41,22 @@ We will use one small Python support agent throughout. The ideas apply just as w
 -->
 
 ---
+clicks: 2
+---
 
-# The answer is only part of the story
+# Would you retry this?
 
-<div class="quote">“I couldn’t complete that request.”</div>
-<div class="two">
-<div><h2>Was the action blocked?</h2><p>The policy may have worked exactly as intended.</p></div>
-<div><h2>Did the action fail?</h2><p>The policy may have allowed it, but a dependency timed out.</p></div>
+<div class="response-quote">“I couldn’t complete<br>that request.”</div>
+<div class="response-caption">The agent’s final response</div>
+<div class="response-forks">
+<div v-click="1" class="fork-node"><h2 class="deny">The action was blocked.</h2><p>The policy may have worked exactly as intended.</p></div>
+<div v-click="2" class="fork-node failed-fork"><h2 class="fail">The action failed.</h2><p>The policy may have allowed it; a dependency timed out.</p></div>
 </div>
-<div class="lesson">The same final message can hide very different runs.</div>
-<div class="footer"><span>A response is not an execution record.</span><span>2 / 12</span></div>
+<div class="footer"><span>The same answer can hide two very different runs.</span><span>2 / 12</span></div>
 
 <!--
+Build cues: Ask the audience whether they would retry. Click once to reveal the blocked action, then again for the failed action.
+
 [00:30–02:00 | 90 seconds]
 Imagine that our support agent returns this message: “I couldn’t complete that request.” As the person using the application, you might reasonably ask it to try again. As the developer, you need to know something else first.
 Did the agent request a destructive operation and encounter a policy boundary? Or did it request an ordinary lookup, receive permission, and then encounter a timeout?
@@ -54,17 +66,21 @@ So our starting point is the application behavior behind the answer. We want to 
 -->
 
 ---
+class: paper-slide
+---
 
 # Two capabilities, one application
 
-<div class="two">
-<div class="capability"><h2>Governance</h2><div class="question">Is this action allowed?</div><p>Policy and permissions</p><p>Tool access and approval</p><p>Host enforcement</p></div>
-<div class="capability observability"><h2>Observability</h2><div class="question">What actually happened?</div><p>Execution traces</p><p>Correlated logs</p><p>Latency, tokens and outcomes</p></div>
+<div class="capability-columns">
+<div class="capability-side"><svg viewBox="0 0 60 60" class="capability-icon" aria-hidden="true"><path d="M30 6 49 14v17c0 12-19 23-19 23S11 43 11 31V14Z"/><path d="m20 29 7 7 14-17"/></svg><h2>Governance</h2><div class="capability-question">May it act?</div><div class="capability-details"><span>Policy and permissions</span><span>Tool access and approval</span><span>Host enforcement</span></div></div>
+<div class="capability-side"><svg viewBox="0 0 60 60" class="capability-icon" aria-hidden="true"><circle cx="26" cy="25" r="17"/><path d="m39 39 14 14 M16 29v-9 M26 32V16 M36 27V20"/></svg><h2>Observability</h2><div class="capability-question">What happened?</div><div class="capability-details"><span>Execution traces</span><span>Correlated logs</span><span>Latency, tokens and outcomes</span></div></div>
 </div>
 <div class="note">Caller roles are simulated to show authorization context. Login, identity verification, durable auditing and evaluation remain outside this demo.</div>
-<div class="footer"><span>Complementary responsibilities</span><span>3 / 12</span></div>
+<div class="footer"><span>One application. Complementary responsibilities.</span><span>3 / 12</span></div>
 
 <!--
+The cool background is a visual reset. The two responsibilities have equal emphasis.
+
 [02:00–03:30 | 90 seconds]
 Governance asks whether an action is permitted. In an application, that means interpreting the policy, understanding the relevant context, and ensuring the host applies the result before execution.
 Observability asks what happened. It gives us execution relationships, timings, outcomes and diagnostic context. We can inspect one run or look at patterns across many runs.
@@ -75,20 +91,21 @@ Our demo focuses on one boundary and one investigation: what happens when the mo
 -->
 
 ---
+clicks: 3
+---
 
 # Control belongs at the action boundary
 
-<div class="flow">
-<div class="box"><strong>Model requests</strong><small>tool name + arguments</small></div><div class="arrow">→</div>
-<div class="box policy"><strong>Policy evaluates</strong><small>action + caller role + permissions</small><div class="policy-rules"><div><code>lookup_customer</code><span><strong>customer:read</strong> (both roles)</span></div><div><code>delete_record</code><span><strong>Support admin</strong> role + <code>customer:delete</code></span></div></div></div><div class="arrow">→</div>
-<div class="box"><strong>Host applies</strong><small>execute or stop</small></div>
-</div>
-<div class="branch"><span class="allow">Allow → tool body</span><span class="deny">Deny → no execution</span></div>
-<div class="lesson">A model can request an action. The host controls execution.</div>
-<div class="note">The host supplies a predefined caller role to the official AGT policy engine and enforces its decision. The model does not choose the role.</div>
-<div class="footer"><span>The policy layer decides; the host enforces.</span><span>4 / 12</span></div>
+<AgentFlow scenario="compare" />
+<div class="policy-context"><div><code>lookup_customer</code><span><strong>customer:read</strong> · both roles</span></div><div><code>delete_record</code><span><strong>Support admin</strong> + <code>customer:delete</code></span></div></div>
+
+<div class="lesson">The model proposes. The policy decides. The host enforces.</div>
+<div class="note">The host supplies the demo caller role; the model does not choose it. Unmatched actions default to deny.</div>
+<div class="footer"><span>Permission must be checked before the tool body.</span><span>4 / 12</span></div>
 
 <!--
+Build cues: click 1 evaluates the action and host-supplied role/permissions; click 2 reveals the decision; click 3 shows the host branches.
+
 [03:30–05:00 | 90 seconds]
 The model provides a proposed tool call: its name and arguments. The application validates that request and passes the action and its server-selected simulated caller context to a policy engine.
 For this demonstration, the policy engine is the official Agent Governance Toolkit. Lookup requires customer:read, which both demo profiles have. Deletion requires the support-admin role and customer:delete. Unmatched actions default to deny.
@@ -98,24 +115,19 @@ We will also record the policy check separately from the tool execution. That al
 -->
 
 ---
+clicks: 4
+---
 
-# Read a run, then ask better questions
+# Where did the time go?
 
-<div class="trace-tree">
-<div class="trace-line"><code>invoke_agent support-agent</code><span class="duration" style="--width:100%"></span><span class="time">≈ 930 ms</span></div>
-<div class="trace-line child"><code>openai.chat</code><span class="duration" style="--width:14%"></span><span class="time">≈ 126 ms</span></div>
-<div class="trace-line child"><code>policy.evaluate lookup_customer</code><span class="pill allow">allow</span><span class="time">&lt; 1 ms</span></div>
-<div class="trace-line child"><code>execute_tool lookup_customer</code><span class="duration slow" style="--width:86%"></span><span class="time fail">≈ 803 ms</span></div>
-</div>
-<div class="three">
-<div class="signal"><strong>Traces</strong><p>Where did this run spend time?</p></div>
-<div class="signal"><strong>Logs</strong><p>Which rule or error explains it?</p></div>
-<div class="signal"><strong>Metrics</strong><p>How often does this happen?</p></div>
-</div>
-<div class="note">Representative offline rehearsal timings; values vary. These are operations and outcomes, not a model’s private reasoning.</div>
-<div class="footer"><span>One trace contains related spans.</span><span>5 / 12</span></div>
+<TraceWaterfall scenario="failed" />
+
+<div class="signal-strip"><div><strong>Trace</strong><span>Locate the slow operation.</span></div><div><strong>Log</strong><span>Read the rule and error context.</span></div><div><strong>Metrics</strong><span>Find the pattern across runs.</span></div></div>
+<div class="footer"><span>Execution evidence, not the model’s private reasoning.</span><span>5 / 12</span></div>
 
 <!--
+Build cues: click 1 reveals the model call; click 2 the policy; click 3 the tool; click 4 emphasizes the tool share of this recorded trace.
+
 [05:00–08:00 | 3 minutes]
 Here is a representative run from our offline rehearsal. A trace connects operations belonging to one execution. A span describes one of those operations: when it started, how long it took, and the attributes or events we recorded about it.
 The agent invocation contains a model call, a policy check and a tool execution. In the browser application there is also an outer HTTP request span. I have kept the agent operations on this slide so we can focus on the behavior.
@@ -128,17 +140,27 @@ One limit matters: instrumentation records observable operations. A trace does n
 -->
 
 ---
+clicks: 2
+---
 
 # A common language for AI telemetry
 
-<div class="vocabulary">
-<div class="fields"><h2>GenAI semantic conventions</h2><div class="field"><code>gen_ai.operation.name</code><span>chat</span></div><div class="field"><code>gen_ai.request.model</code><span>demo-model</span></div><div class="field"><code>gen_ai.usage.input_tokens</code><span>80</span></div><div class="field"><code>gen_ai.usage.output_tokens</code><span>18</span></div><p class="note">Shared names make data easier to compare.</p></div>
-<div class="stack"><div>Conventions<small>Define the meaning and structure of signals.</small></div><div>OpenLLMetry<small>Instruments model SDK calls.</small></div><div>OpenTelemetry<small>SDKs, context and export pipelines.</small></div><div>Dashboard<small>Queries and visualizes the data.</small></div></div>
+<div class="schema-grid">
+<div class="schema-terminal">
+<div class="schema-comment">// Recorded model-span attributes</div>
+<div>{</div>
+<div v-click="1" class="schema-properties"><span class="schema-key">gen_ai.operation.name</span>: <span class="schema-value">"chat"</span><br><span class="schema-key">gen_ai.request.model</span>: <span class="schema-value">"demo-model"</span><br><span class="schema-key">gen_ai.usage.input_tokens</span>: <span class="schema-value">80</span><br><span class="schema-key">gen_ai.usage.output_tokens</span>: <span class="schema-value">18</span></div>
+<div>}</div>
+<div v-click="2" class="schema-business"><div class="schema-comment">// Application policy metadata</div><span class="app-key">app.governance.decision</span>: "allow"</div>
 </div>
-<div class="note">GenAI conventions are in Development. Pin your libraries and verify their actual output; names evolve.</div>
-<div class="footer"><span>open-telemetry/semantic-conventions-genai</span><span>6 / 12</span></div>
+<div class="schema-roles"><div class="schema-role"><strong>Conventions describe.</strong><span>Shared names and meanings.</span></div><div class="schema-role"><strong>Instrumentation collects.</strong><span>OpenLLMetry observes SDK operations.</span></div><div class="schema-role"><strong>OpenTelemetry exports.</strong><span>Context, providers and pipelines.</span></div><div class="schema-role"><strong>The dashboard visualizes.</strong><span>Queries, traces and metrics.</span></div></div>
+</div>
+<div class="note">GenAI conventions are in Development. Pin your libraries and verify their actual output.</div>
+<div class="footer"><span>Use app.* for your own business metadata.</span><span>6 / 12</span></div>
 
 <!--
+Build cues: click 1 reveals the standard model fields; click 2 adds the application policy metadata.
+
 [08:00–09:30 | 90 seconds]
 If every library uses different attribute names for the same information, our queries and dashboards become tied to each implementation.
 GenAI semantic conventions provide a shared vocabulary for model operations, agents, tools, metrics and events. These example attributes describe the operation, the model and token usage. They are useful across programming languages.
@@ -148,29 +170,19 @@ Our business-policy fields belong in an application namespace. We use app.govern
 -->
 
 ---
+clicks: 3
+---
 
 # Instrument the model. Record the boundary.
 
-<div class="architecture">
-<div><div class="agent-host"><h2>Python support agent</h2><div class="parts"><span>Simulated caller</span><span>Model SDK</span><span>AGT policy</span><span>Local tools</span></div><p class="note">OpenLLMetry: automatic model spans + metrics<br>Application: policy spans + execution evidence</p></div><div class="export">OpenTelemetry → OTLP</div><div class="viewer">Aspire standalone dashboard<small>Traces · structured logs · metrics</small></div></div>
-<div>
+<TelemetryMap />
 
-```python
-# Explicitly disable content capture in this demo.
-os.environ["TRACELOOP_TRACE_CONTENT"] = "false"
-OpenAIInstrumentor().instrument(
-    tracer_provider=traces,
-    meter_provider=meters,
-)
-```
-
-<p class="note">Use the individual OpenLLMetry instrumentation with your own OTel pipeline.<br>No Traceloop account is required.</p>
-<p class="note">One instrumentation owner for each model call prevents duplicate spans and token counts.</p>
-</div>
-</div>
-<div class="footer"><span>SDK-level demonstration; no framework-specific dependency.</span><span>7 / 12</span></div>
+<div class="implementation-strip"><code>os.environ["TRACELOOP_TRACE_CONTENT"] = "false"<br>OpenAIInstrumentor().instrument(<br>&nbsp;&nbsp;tracer_provider=traces, meter_provider=meters)</code><p>Own your OTel pipeline.<br>One instrumentation owner per model call.<br>Traceloop SaaS is optional.</p></div>
+<div class="footer"><span>Python → OTLP → Aspire standalone</span><span>7 / 12</span></div>
 
 <!--
+Build cues: click 1 adds instrumentation; click 2 the OTel providers; click 3 exports to the dashboard.
+
 [09:30–11:00 | 90 seconds]
 This is the complete demonstration architecture. A small Python host runs a bounded tool-calling support agent. We instrument the OpenAI-compatible SDK with OpenLLMetry's individual OpenAI instrumentation. Our application records the policy boundary, tool execution and agent outcome.
 We configure the OpenTelemetry trace, metric and log pipelines ourselves and export them over OTLP to a standalone Aspire dashboard. Aspire can receive this data from Python; the application does not need to be a .NET application. Traceloop SaaS is also optional.
@@ -179,18 +191,23 @@ For a repeatable presentation, the first model turn is constrained to the tool f
 -->
 
 ---
+clicks: 3
+---
 
 <div class="live"><span class="pill allow">Live demo · 1</span><a href="http://localhost:8090" target="_blank">Open the support agent</a></div>
 
 # Allowed: the tool executes
 
 <div class="demo-request">“Look up customer C-1042 and summarize their support status.”</div>
-<div class="demo-columns"><div class="trace-tree"><div class="trace-line"><code>invoke_agent</code></div><div class="trace-line child"><code>openai.chat</code></div><div class="trace-line child"><code>policy.evaluate</code><span class="pill allow">allow</span></div><div class="trace-line child"><code>execute_tool lookup_customer</code></div><div class="trace-line child"><code>openai.chat → answer</code></div></div><div class="evidence"><h2>Check the evidence</h2><p>Model and tool timings</p><p>Input / output token usage</p><p>Policy log with the same trace ID</p><div class="number allow">1</div><small>Lookup tool body execution</small></div></div>
-<div class="footer"><span>Model request → policy allow → execution → answer</span><span>8 / 12</span></div>
+<AgentFlow scenario="allowed" />
+<div class="execution-proof"><span class="proof-count allow">1</span><div class="proof-label">Lookup tool body entry<br><span class="note">Deletion entries: 0</span></div><div class="proof-detail">Two model calls: request the tool, then compose the answer. Follow the shared trace ID.</div></div>
+<div class="footer"><span>Model request → allow → execution → answer</span><span>8 / 12</span></div>
 
 <!--
+Build cues: use the three clicks to explain policy evaluation, decision and host execution before switching to the live tab.
+
 [11:00–14:00 | 3-minute live segment]
-Switch to http://localhost:8090. Keep Offline demo selected for the primary presentation. If the network and model have been rehearsed, Foundry is an optional substitution.
+Switch to http://localhost:8090 and select Standard user. Keep Offline demo selected for the primary presentation. If the network and model have been rehearsed, Foundry is an optional substitution.
 Click Run allowed lookup. Read the response briefly: it contains the synthetic customer's support status. Point out one lookup execution and zero deletion executions.
 Select the run. Follow the model call, policy check, tool execution and final model response. The model request is not the execution itself; the policy boundary sits between them.
 Open Aspire in the other tab. Use the trace ID or the POST /api/run entry to find this run. Expand the agent operations, then select the policy span. Show allow and the matching rule. Select the model span and show model name and token usage. Do not enable prompt capture for this demonstration.
@@ -200,17 +217,21 @@ If the dashboard is unavailable, use the recorded span tree in the browser demo 
 -->
 
 ---
+clicks: 3
+---
 
 <div class="live"><span class="pill deny">Live demo · 2</span><a href="http://localhost:8090" target="_blank">Compare simulated caller roles</a></div>
 
 # Same action, different roles
 
 <div class="demo-request"><div>“Delete customer record C-1042.”</div><div class="required">Required: <strong>Support admin</strong> role + <code>customer:delete</code> permission</div></div>
-<div class="demo-columns"><div class="evidence"><h2>Caller: Standard user</h2><p>Rule: <code>deny-non-admin-deletion</code></p><p>Policy: <strong>deny</strong> · tool span: none</p><div class="number deny">0</div><small>Deletion tool body executions</small></div><div class="evidence"><h2>Caller: Support admin</h2><p>Rule: <code>allow-admin-deletion</code></p><p>Policy: <strong>allow</strong> · tool span: executed</p><div class="number allow">1</div><small>Simulated tool-body execution; no record changed</small></div></div>
-<div class="note">The caller role is a predefined demo profile, not an authenticated user. Both runs use the same request and tool arguments.</div>
-<div class="footer"><span>Policy outcome depends on caller context; deletion remains simulated.</span><span>9 / 12</span></div>
+<RoleComparison />
+<div class="note">Predefined demo profiles; no login or identity provider. The request and tool arguments stay the same.</div>
+<div class="footer"><span>Host-supplied caller context changes the decision. Deletion remains simulated.</span><span>9 / 12</span></div>
 
 <!--
+Build cues: click 1 reveals the host-supplied caller profiles; click 2 their policy decisions and rules; click 3 the recorded 0 versus 1 deletion-body entries.
+
 [14:00–17:00 | 3-minute live segment]
 Select the standard-user profile and run the deletion request. The model requests delete_record; the policy matches deny-non-admin-deletion and the host stops before the tool body.
 Now select the support-admin profile and submit the same request. The policy matches allow-admin-deletion and the simulated tool body runs once. It returns evidence only; it changes no record.
@@ -222,40 +243,51 @@ Return to the overview and explain that denial counts need context: they can mea
 -->
 
 ---
+clicks: 3
+---
 
 <div class="live"><span class="pill fail">Live demo · 3</span><a href="http://localhost:8090" target="_blank">Run lookup with timeout</a></div>
 
 # Allowed does not mean successful
 
-<div class="demo-request">Same lookup request. Inject a customer-service timeout.</div>
-<div class="demo-columns"><div class="trace-tree"><div class="trace-line"><code>invoke_agent</code><span class="pill fail">failed</span></div><div class="trace-line child"><code>openai.chat</code></div><div class="trace-line child"><code>policy.evaluate</code><span class="pill allow">allow</span></div><div class="trace-line child"><code>execute_tool lookup_customer</code><span class="pill fail">timeout</span></div></div><div class="evidence"><h2>Investigate the difference</h2><p>Policy outcome: <strong>allow</strong></p><p>Error type: <strong>TimeoutError</strong></p><p>Time spent in the tool body</p><p>Runtime failures counted separately</p></div></div>
-<div class="lesson">Metrics reveal the pattern. Traces locate it. Logs explain it.</div>
-<div class="footer"><span>Controlled timeout simulation; no real downstream outage.</span><span>10 / 12</span></div>
+<div class="failure-grid">
+<div class="failure-route"><div class="failure-state allow">Allowed<small>Policy decision</small></div><div class="state-link"></div><div class="failure-state">Entered<small>Lookup body: 1</small></div><div class="state-link"></div><div class="failure-state">Timed out<small>Injected 800 ms tool timeout</small></div></div>
+<OutcomeDashboard />
+</div>
+<div class="footer"><span>Metrics reveal patterns. Traces locate them. Logs explain them.</span><span>10 / 12</span></div>
 
 <!--
+Build cues: click 1 shows 7 allow and 4 deny; click 2 shows 4 succeeded, 4 blocked and 3 failed; click 3 compares permission with success. The chart includes all eleven saved offline runs: nine warm-ups plus two role checks.
+
 [17:00–20:00 | 3-minute live segment]
-Click Run lookup with timeout. The request is identical to the allowed scenario; the scenario injects an approximately 800-millisecond wait followed by a timeout in the tool. This is a controlled simulation, not a real dependency outage.
+Select Standard user, then click Run lookup with timeout. The request is identical to the allowed scenario; the scenario injects an approximately 800-millisecond wait followed by a timeout in the tool. This is a controlled simulation, not a real dependency outage.
 Show that the policy decision remains allow. The lookup body was entered once. It then failed. That distinction is preserved in both the trace and the aggregate metrics.
 Open the trace. The model call is short, the policy evaluation is short, and the tool execution consumes most of the duration. Select the tool span and show error.type: TimeoutError. The agent root is also a failed run, while the policy span records a successful evaluation that allowed the action.
 Show the error log with the same trace ID. We can now investigate the downstream operation instead of treating this as a generic AI failure.
 Use the overview's warm-up button if it has not already been run. It generates nine labelled offline runs. Point out the four counters and the duration histograms. The token total comes from OpenLLMetry's metric, and the application supplies policy decisions and run outcomes.
 Do not describe these few samples as production percentiles. Their purpose is to demonstrate how aggregate signals and individual execution evidence work together.
+The slide chart uses all eleven saved runs, including the two role checks. The nine-run warm-up remains a separate standard-user-only operation; its totals differ from this full capture.
 -->
 
+---
+class: paper-slide
+clicks: 2
 ---
 
 # Make the evidence useful in production
 
-<div class="production">
-<div><h2>Keep correlation intact</h2><p>Preserve trace context across tools and services.<br>Connect policy logs to the relevant run.</p></div>
-<div><h2>Capture content deliberately</h2><p>Model, duration and tokens are often enough.<br>Prompt and result capture requires deliberate handling.</p></div>
-<div><h2>Separate outcomes</h2><p>Denied action ≠ failed execution.<br>Token usage ≠ cost or answer quality.</p></div>
-<div><h2>Verify the pipeline</h2><p>Traces, logs and metrics each need export.<br>Sampled diagnostics are not complete audit evidence.</p></div>
+<div class="production-grid">
+<div class="production-item"><svg class="production-icon" viewBox="0 0 40 40" aria-hidden="true"><rect x="3" y="4" width="10" height="10" rx="2"/><rect x="27" y="26" width="10" height="10" rx="2"/><path d="M13 9h19v17 M8 14v17h19"/></svg><div><h2>Keep correlation intact.</h2><p>Preserve context across tools and services.<br>Connect each policy log to its run.</p></div></div>
+<div v-click="1" class="production-item"><svg class="production-icon" viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="5" width="32" height="29" rx="3"/><path d="M10 13h20 M10 20h12 M10 27h20" stroke-dasharray="3 2"/></svg><div><h2>Capture content deliberately.</h2><p>Start with model, duration and token usage.<br>Handle prompt and result capture deliberately.</p></div></div>
+<div v-click="2" class="production-item"><svg class="production-icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5v29 M6 12h28 M6 12 1 25h10Z M34 12 29 25h10Z M10 35h20"/></svg><div><h2>Keep outcomes separate.</h2><p>Denied action ≠ failed execution.<br>Token counts ≠ cost or response quality.</p></div></div>
+<div v-click="2" class="production-item"><svg class="production-icon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16"/><path d="m10 20 7 7 14-16"/></svg><div><h2>Verify all three pipelines.</h2><p>Export traces, logs and metrics.<br>Design durable audit evidence separately.</p></div></div>
 </div>
-<div class="note">Aspire standalone is a development and diagnostic viewer. Production storage, retention and access controls need a deliberate backend design.</div>
+<div class="note">Aspire standalone is a diagnostic viewer. Production storage, retention and access controls need their own design.</div>
 <div class="footer"><span>Instrument what supports an operational decision.</span><span>11 / 12</span></div>
 
 <!--
+Build cues: click 1 adds content handling; click 2 adds outcome separation and pipeline verification.
+
 [20:00–23:00 | 3 minutes]
 There are four practical lessons I would carry into a production application.
 First, preserve correlation. A single-process demonstration inherits trace context easily. A real application crosses HTTP calls, queues, background jobs and sometimes an approval step that resumes in another request. Context propagation must be deliberate. A conversation identifier can connect related requests, but it is not a substitute for preserving the trace relationships of a particular operation.
@@ -266,16 +298,16 @@ Finally, diagnostic telemetry and audit evidence have different guarantees. Samp
 -->
 
 ---
+clicks: 1
+---
 
-# Control the action. Understand the run.
-
-<div class="takeaway">Enforce policy before execution.<span>Record the requested action, the decision and whether the tool body ran.</span></div>
-<div class="takeaway">Connect traces, logs and metrics.<span>Use each signal to answer a different operational question.</span></div>
-<div class="takeaway">Use shared conventions; verify actual output.<span>OpenTelemetry and GenAI conventions make the approach portable.</span></div>
-<div class="note"><a href="http://localhost:8090" target="_blank">Demo</a> · <a href="http://localhost:18988" target="_blank">Dashboard</a> · Sources and backup material follow.</div>
-<div class="footer"><span>Questions</span><span>12 / 12</span></div>
+<div class="closing-grid"><div><h1>Control<br>the action.</h1><p>Policy before execution.</p></div><div><h1>Understand<br>the run.</h1><p>Evidence connected by context.</p></div></div>
+<div v-click="1" class="closing-principles"><span><b>Enforce the boundary.</b>Requested ≠ executed.</span><span><b>Connect the signals.</b>Traces, logs and metrics.</span><span><b>Verify the schema.</b>Shared conventions; actual output.</span></div>
+<div class="footer"><span><a href="http://localhost:8090" target="_blank">Demo</a> · <a href="http://localhost:18988" target="_blank">Dashboard</a> · Questions</span><span>12 / 12</span></div>
 
 <!--
+Click once to show the three practical takeaways, then pause for questions.
+
 [23:00–25:00 | closing and questions]
 The useful pattern is small. Enforce a policy before a tool can act. Record the decision and the execution as separate facts. Connect those facts to the model and the rest of the application with trace context.
 Then use the signals for the questions they answer best: metrics for patterns, traces for individual execution, and logs for recorded context.
@@ -284,8 +316,6 @@ When you next add a tool to an agent, ask two questions together: is the agent a
 Pause for questions. If asked about approvals, cross-service propagation or standards changes, use the backup slides. Clarify that the two caller roles are simulated; authentication, durable audit guarantees and evaluation are not implemented by this demo.
 -->
 
----
-layout: default
 ---
 
 # Sources and implementation notes
@@ -310,11 +340,11 @@ The research note links immutable source revisions where useful. The installed P
 # Backup: the actual demonstration
 
 <img src="/demo-overview.png" class="screenshot" alt="Actual offline rehearsal dashboard showing policy decisions, runtime failures, tokens and execution evidence" />
-<div class="note">Recorded offline rehearsal. All customer records and model usage counts are synthetic; the telemetry is collected through the real SDK and OpenLLMetry.</div>
+<div class="note">Earlier nine-run rehearsal, before caller profiles. Use the live app for the role-aware flow. Records and model usage are synthetic; SDK telemetry is real.</div>
 <div class="footer"><span>Use if a live tab or dashboard is unavailable.</span><span>Backup</span></div>
 
 <!--
-This image is captured from the browser demonstration after nine offline runs. It is a fallback, not a mockup of the intended telemetry. Prefer the live application so the audience can follow one trace and observe the counters change.
+This image records the earlier nine-run browser rehearsal before caller profiles were added. The role comparison and eleven-run chart use the newer session.json from main. Prefer the live application so the audience can follow one trace and observe the counters change.
 -->
 
 ---

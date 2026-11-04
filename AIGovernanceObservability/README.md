@@ -43,7 +43,12 @@ npm run dev
 ```
 
 Open http://localhost:4460/1. Press `f` for fullscreen; use arrow keys to advance.
-Presenter notes contain the English script, timing and demo cues.
+Presenter notes contain the English script, timing, animation builds and demo cues.
+The deck uses staged policy flows, an OpenLLMetry/OTel architecture diagram,
+a recorded trace waterfall and an animated Chart.js outcome comparison.
+Charts read `docs/evidence/session.json`: eleven offline rehearsal runs, with
+synthetic timing and token usage. They are a fixed teaching example (nine warm-ups plus two role checks); the browser
+demo and Aspire show current runs. Reduced-motion preferences disable movement.
 
 | Service | Local address |
 | --- | --- |
