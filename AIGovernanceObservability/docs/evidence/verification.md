@@ -5,7 +5,7 @@
 - Added the supplied full-color Blue Black badge (asset 34) below the speaker's
   name. The PNG is byte-for-byte identical to the supplied artwork; colors,
   aspect ratio and built-in clear space are retained. The title background
-  matches the asset's `#091f2c` background.
+  matches the asset's `#091f2c` background. A thin outline frames the badge.
 - Slidev build passed. The badge loads correctly at 960×540 and 1440×810, remains
   above the footer, and has no slide overflow. Browser console had no errors.
 - Checked the static title rendering and refreshed the title preview and contact

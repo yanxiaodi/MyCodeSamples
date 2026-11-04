@@ -15,7 +15,7 @@
 .slidev-layout.opening-slide{--bg:#091f2c}
 .opening-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:1.5rem;align-items:center;height:370px}
 .opening-copy{position:relative}
-.speaker-mvp-badge{position:absolute;top:calc(100% + 6px);left:0;display:block;width:240px;height:auto}
+.speaker-mvp-badge{position:absolute;top:calc(100% + 6px);left:0;display:block;width:240px;height:auto;outline:1px solid #496674}
 .slidev-layout .opening-copy h1{font-size:3.25rem;line-height:1.02;margin:0 0 2rem;letter-spacing:-.045em}
 .opening-lines{display:grid;gap:.9rem;font-size:1.05rem;max-width:350px}.opening-lines span{border-left:3px solid var(--cyan);padding-left:1rem}.opening-lines span:first-child{border-color:var(--amber)}
 .slidev-layout .speaker{font-size:.93rem;margin-top:1.8rem;color:var(--muted)}.hero-diagram{width:100%;max-height:395px;color:var(--line)}
