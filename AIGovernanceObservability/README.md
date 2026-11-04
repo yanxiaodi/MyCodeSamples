@@ -13,19 +13,26 @@ All deliverables live here. The earlier `AIGovernance` directory was not edited.
 
 ## Start the demo
 
-Requirements: Python 3.12, Node.js 22 or newer, and Docker with its engine running.
-Tested with Python 3.12, Node 24 and a pinned Aspire image. Install dependencies
-before the talk; offline model mode then needs no cloud connection.
+Requirements: Python 3.12 or 3.13, Node.js 22 or newer, and Docker with its
+engine running. Tested with Python 3.12 and 3.13, Node 24 and a pinned Aspire
+image. Install dependencies before the talk; offline model mode then needs no
+cloud connection.
 
 From this directory, in PowerShell:
 
 ```powershell
 cd demo
-py -3.12 -m venv .venv
+python --version  # should report Python 3.12.x or 3.13.x
+python -m venv .venv
 .venv\Scripts\python.exe -m pip install -r requirements.lock.txt
 docker compose up -d
 .venv\Scripts\python.exe app.py
 ```
+
+The version check should report Python 3.12.x or 3.13.x. If `python` is not recognized,
+install Python 3.12 from [python.org](https://www.python.org/downloads/) and
+enable **Add python.exe to PATH** during setup, then open a new PowerShell
+window. The optional Windows `py` launcher is not required.
 
 Open http://localhost:8090. In another terminal, from this directory:
 
@@ -39,8 +46,8 @@ Open http://localhost:4460/1. Press `f` for fullscreen; use arrow keys to advanc
 Presenter notes contain the English script, timing, animation builds and demo cues.
 The deck uses staged policy flows, an OpenLLMetry/OTel architecture diagram,
 a recorded trace waterfall and an animated Chart.js outcome comparison.
-Charts read `docs/evidence/session.json`: nine offline rehearsal runs, with
-synthetic timing and token usage. They are a fixed teaching example; the browser
+Charts read `docs/evidence/session.json`: eleven offline rehearsal runs, with
+synthetic timing and token usage. They are a fixed teaching example (nine warm-ups plus two role checks); the browser
 demo and Aspire show current runs. Reduced-motion preferences disable movement.
 
 | Service | Local address |
@@ -79,24 +86,30 @@ configuration without modifying or copying it:
 
 ```powershell
 cd demo
-.venv\Scripts\python.exe run_demo.py --provider foundry --scenario all --env-file PATH-TO-EXISTING-ENV
+.venv\Scripts\python.exe run_demo.py --provider foundry --scenario all --identity standard --env-file PATH-TO-EXISTING-ENV
 ```
 
-All three Foundry scenarios were verified on 1 November 2026. Credentials are
-excluded from this project. The current browser process reads the presenter's
-existing configuration via `DEMO_ENV_FILE`; future starts use `demo/.env` by default.
+The original Foundry flows were verified on 1 November 2026, before adding the
+simulated caller profiles. The admin deletion path is exercised by the offline
+tests; it can also be rehearsed with `--scenario delete --identity admin`.
+Credentials are excluded from this project. The current browser process reads
+the presenter's existing configuration via `DEMO_ENV_FILE`; future starts use
+`demo/.env` by default.
 
 ## What executes
 
-| Scenario | Policy | Runtime | Tool-body evidence |
-| --- | --- | --- | --- |
-| Allowed lookup | allow | succeeded | lookup = 1, deletion = 0 |
-| Denied deletion | deny | blocked | lookup = 0, deletion = 0 |
-| Lookup with injected timeout | allow | failed | lookup = 1, deletion = 0 |
+| Scenario | Simulated caller | Policy | Runtime | Tool-body evidence |
+| --- | --- | --- | --- | --- |
+| Allowed lookup | Standard user | allow | succeeded | lookup = 1, deletion = 0 |
+| Delete request | Standard user | deny | blocked | lookup = 0, deletion = 0 |
+| Delete request | Support admin | allow | succeeded (simulated) | lookup = 0, deletion = 1 |
+| Lookup with injected timeout | Standard user | allow | failed | lookup = 1, deletion = 0 |
 
-Deletion has a tripwire body and never deletes anything. Records are fictional.
-The failed scenario injects an 800 ms local tool timeout, not a Foundry outage.
-Policy denial is a business outcome and does not mark its span as ERROR.
+The caller selector chooses between two predefined demo profiles; it is not a
+login system or an authenticated identity. Deletion returns a simulated result
+and never changes a record. Records are fictional. The failed scenario injects
+an 800 ms local tool timeout, not a Foundry outage. Policy denial is a business
+outcome and does not mark its span as ERROR.
 
 `demo/support_agent/agent.py` runs the bounded tool-calling loop. `policy.yaml`
 is loaded by the official AGT `PolicyEngine`; the host enforces its decision.
@@ -136,8 +149,8 @@ npm run build
 npm audit
 ```
 
-Validated: 15 Python tests, three real Foundry scenarios, offline browser flows,
-OTLP traces/logs/metrics in Aspire, and all 15 slide layouts at 1440×810.
+Validation details, including which flows were exercised offline versus with
+Foundry, are recorded in [docs/evidence/verification.md](./docs/evidence/verification.md).
 Dependency deprecation warnings are recorded in the [ledger](docs/plans/progress.md).
 
 The exported 15-page PDF is in `slides/talk.pdf`. Regenerate it at

@@ -25,7 +25,7 @@ const stages = ['A native tool request', 'Validate and evaluate policy', 'Read t
     <rect x="286" y="78" width="224" height="99" rx="10" class="flow-node policy-node"/>
     <text x="310" y="110" class="diagram-small governance-ink">Agent Governance Toolkit</text>
     <text x="310" y="140" class="diagram-title">Policy evaluates</text>
-    <text x="310" y="162" class="diagram-small">Action + context + rules</text>
+    <text x="310" y="162" class="diagram-small">Action + role + permissions</text>
    </g>
    <g class="diagram-reveal" :class="{ revealed: step >= 2 }">
     <rect x="330" y="190" width="134" height="27" rx="5" :class="['decision-tag', isBlocked ? 'tag-deny' : 'tag-allow']"/>

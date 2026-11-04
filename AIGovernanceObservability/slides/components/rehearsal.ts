@@ -2,6 +2,10 @@ import session from '../../docs/evidence/session.json'
 
 export const rehearsal = session
 export const runs = session.runs.filter(run => run.provider === 'mock')
+export const deletionRuns = {
+  standard: runs.find(run => run.scenario === 'delete' && run.principal_identity === 'standard')!,
+  admin: runs.find(run => run.scenario === 'delete' && run.principal_identity === 'admin')!,
+}
 export const counts = {
   allow: runs.filter(run => run.policy_decision === 'allow').length,
   deny: runs.filter(run => run.policy_decision === 'deny').length,

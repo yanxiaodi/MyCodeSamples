@@ -12,7 +12,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from starlette.concurrency import run_in_threadpool
 
-from support_agent.agent import AgentRunner
+from support_agent.agent import AgentRunner, DEMO_PRINCIPALS, DemoIdentity
 from support_agent.providers import create_provider, ModelProviderError
 from support_agent.telemetry import configure_telemetry
 
@@ -20,7 +20,8 @@ DEMO_ROOT = Path(__file__).resolve().parent
 
 
 class RunRequest(BaseModel):
-    scenario: Literal["allowed", "blocked", "failed"]
+    scenario: Literal["allowed", "delete", "failed"]
+    identity: DemoIdentity
     provider: Literal["mock", "foundry"] = "mock"
 
 
@@ -48,7 +49,9 @@ def create_app():
     def execute(request):
         provider = create_provider(request.provider)
         try:
-            result = AgentRunner(provider).run(request.scenario)
+            result = AgentRunner(provider).run(
+                request.scenario, principal=DEMO_PRINCIPALS[request.identity],
+            )
         finally:
             provider.close()
         app.state.telemetry.flush()

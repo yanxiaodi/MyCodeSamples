@@ -10,6 +10,9 @@ const step = computed(() => $renderContext.value === 'print' ? 3 : Math.min(3, N
   <svg viewBox="0 0 830 315" role="img" aria-label="OpenLLMetry instruments model calls. The application records policy and tools. OTel providers export traces, logs and metrics over OTLP to Aspire.">
    <rect x="10" y="12" width="574" height="131" rx="12" class="host-envelope"/>
    <text x="30" y="39" class="diagram-small">Python support agent</text>
+   <rect x="304" y="19" width="260" height="28" rx="5" class="policy-node flow-node"/>
+   <text x="434" y="38" text-anchor="middle" class="diagram-small governance-ink">Host-selected simulated caller</text>
+   <path d="M420 47 V55 H288 V63" class="flow-link" stroke="var(--amber)"/>
    <g v-for="(name,i) in ['Model SDK','AGT policy','Local tools']" :key="name">
     <rect :x="30+i*183" y="63" width="150" height="60" rx="7" class="flow-node"/>
     <text :x="105+i*183" y="99" text-anchor="middle" class="diagram-title">{{ name }}</text>
@@ -20,7 +23,7 @@ const step = computed(() => $renderContext.value === 'print' ? 3 : Math.min(3, N
     <text x="105" y="195" text-anchor="middle" class="diagram-title observation-ink">OpenLLMetry</text>
     <text x="105" y="217" text-anchor="middle" class="diagram-small">Model spans + metrics</text>
     <text x="383" y="195" text-anchor="middle" class="diagram-title observation-ink">Application instrumentation</text>
-    <text x="383" y="217" text-anchor="middle" class="diagram-small">Policy + tool + run evidence</text>
+    <text x="383" y="217" text-anchor="middle" class="diagram-small">Policy + role + tool + run evidence</text>
    </g>
    <g class="diagram-reveal" :class="{ revealed: step >= 2 }">
     <path d="M105 228 V272 H260 M383 228 V246" class="flow-link cyan-link"/>

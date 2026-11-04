@@ -15,6 +15,11 @@ const visible = () => actual.map(values => [stage.value >= 1 ? values[0] : 0, st
 const labels = ['Allow','Deny','Succeeded','Blocked','Failed']
 const countLabels = {
  id: 'rehearsal-count-labels',
+ beforeDraw(instance: Chart) {
+  const ctx = instance.ctx
+  ctx.save(); ctx.globalCompositeOperation='destination-over'; ctx.fillStyle='#10232e'
+  ctx.fillRect(0,0,instance.width,instance.height); ctx.restore()
+ },
  afterDatasetsDraw(instance: Chart) {
   const ctx = instance.ctx
   ctx.save(); ctx.fillStyle='#07131c'; ctx.font='600 16px Aptos, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'
@@ -31,6 +36,13 @@ function update() {
  chart.options.animation = reduced || $renderContext.value === 'print' ? false : { duration: 650 }
  chart.update(reduced || $renderContext.value === 'print' ? 'none' : undefined)
 }
+function settlePrintLayout() {
+ if (!chart) return
+ chart.options.animation = false
+ chart.stop()
+ chart.resize()
+ chart.update('none')
+}
 onMounted(() => {
  reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
  chart = new Chart(canvas.value!, {
@@ -43,23 +55,27 @@ onMounted(() => {
    layout: {padding:{top:5,right:7,bottom:0}},
    plugins:{tooltip:{enabled:true}},
    scales:{
-    x:{stacked:true,min:0,max:runs.length,grid:{color:'#294350'},border:{display:false},ticks:{stepSize:3,color:'#a4bdc8',font:{size:12}}},
+    x:{stacked:true,min:0,max:runs.length,grid:{color:'#294350'},border:{display:false},ticks:{stepSize:3,precision:0,color:'#a4bdc8',font:{size:12}}},
     y:{stacked:true,grid:{display:false},border:{display:false},ticks:{color:'#e8f3f7',font:{family:'Aptos, sans-serif',size:14}}}
    }
   }
  })
+ window.addEventListener('beforeprint', settlePrintLayout)
 })
 watch([stage, () => $nav.value.currentSlideNo], async () => {
  await nextTick()
  if (chart && ($nav.value.currentSlideNo === $page.value || $renderContext.value === 'print')) chart.resize()
  update()
 })
-onBeforeUnmount(() => chart?.destroy())
+onBeforeUnmount(() => {
+ window.removeEventListener('beforeprint', settlePrintLayout)
+ chart?.destroy()
+})
 </script>
 
 <template>
  <div class="outcome-dashboard" :data-stage="stage" :data-policy-allow="counts.allow" :data-policy-deny="counts.deny" :data-runtime-success="counts.succeeded" :data-runtime-blocked="counts.blocked" :data-runtime-failed="counts.failed">
-  <div class="chart-heading"><h2>{{ runs.length }} runs. Two different outcome counts.</h2><span>Recorded offline rehearsal</span></div>
+  <div class="chart-heading"><h2>{{ runs.length }} runs. Two different outcome counts.</h2><span>Offline capture · 9 warm-ups + 2 role checks</span></div>
   <div class="outcome-canvas"><canvas ref="canvas" role="img" :aria-label="'Policy: '+counts.allow+' allow, '+counts.deny+' deny. Runs: '+counts.succeeded+' succeeded, '+counts.blocked+' blocked, '+counts.failed+' failed.'">Policy allows: {{ counts.allow }}. Policy denials: {{ counts.deny }}. Succeeded: {{ counts.succeeded }}. Blocked: {{ counts.blocked }}. Failed: {{ counts.failed }}.</canvas></div>
   <div :class="['chart-legend', { revealed: stage >= 1 }]"><span class="allow">Allow {{ counts.allow }}</span><span class="deny">Deny {{ counts.deny }}</span></div>
   <div :class="['chart-legend', { revealed: stage >= 2 }]"><span class="allow">Succeeded {{ counts.succeeded }}</span><span class="deny">Blocked {{ counts.blocked }}</span><span class="fail">Failed {{ counts.failed }}</span></div>

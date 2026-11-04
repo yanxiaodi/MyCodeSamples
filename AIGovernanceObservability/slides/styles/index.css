@@ -63,3 +63,26 @@
 .slidev-vclick-target{transition:opacity .35s ease,transform .35s ease}.slidev-vclick-hidden{transform:translateY(7px);pointer-events:none}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.hero-wire{stroke-dashoffset:0}.hero-decision,.hero-evidence{opacity:1}}
 @media print{*,*:before,*:after{animation:none!important;transition:none!important}.hero-wire{stroke-dashoffset:0}.hero-decision,.hero-evidence,.diagram-reveal,.waterfall-row,.waterfall-insight,.chart-legend,.chart-conclusion{opacity:1;transform:none}}
+.agent-flow[data-scenario="compare"] svg{max-height:220px}
+.policy-context{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;border-top:1px solid var(--line);padding-top:.55rem;margin-top:.55rem}
+.policy-context>div{display:flex;flex-direction:column;gap:.15rem;font-size:.75rem;color:var(--muted)}
+.policy-context>div>code{font-size:.78rem}.policy-context strong{color:var(--amber)}
+.demo-request .required{border-top:1px solid var(--line);margin-top:.35rem;padding-top:.35rem;font-size:.77rem;color:var(--muted)}
+.demo-request .required strong{color:var(--amber)}
+.role-comparison{margin-top:.55rem}
+.role-fork{height:32px;display:block;width:100%;stroke:var(--line);stroke-width:1.5;fill:none}
+.role-lanes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2rem}
+.role-lane{border-top:2px solid var(--rose);padding:.6rem .8rem;background:var(--panel)}
+.role-lane:last-child{border-color:var(--green)}
+.role-profile,.role-decision,.role-execution{opacity:.13;transition:opacity .4s,transform .4s;transform:translateY(4px)}
+.role-profile.revealed,.role-decision.revealed,.role-execution.revealed{opacity:1;transform:none}
+.slidev-layout .role-profile h2{font-size:1.15rem;margin-bottom:.15rem}
+.role-profile>span{font-size:.74rem;color:var(--muted)}
+.role-decision{border-top:1px solid var(--line);margin-top:.5rem;padding-top:.5rem}
+.role-decision strong{font-size:1.12rem;display:block}
+.role-decision code{font-size:.7rem}
+.role-execution{display:flex;gap:1rem;align-items:center;border-top:1px solid var(--line);margin-top:.5rem;padding-top:.5rem}
+.role-execution .role-count{font-size:2.6rem;line-height:1;font-weight:600}
+.role-execution>div{font-size:.85rem;line-height:1.3}
+.role-execution small{display:block;font-size:.71rem;color:var(--muted);margin-top:.2rem}
+@media print{.role-profile,.role-decision,.role-execution{opacity:1;transform:none}}
