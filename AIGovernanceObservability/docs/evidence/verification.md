@@ -1,5 +1,16 @@
 # Verification: 5 November 2026
 
+## MVP title badge
+
+- Added the supplied full-color Blue Black badge (asset 34) below the speaker's
+  name. The PNG is byte-for-byte identical to the supplied artwork; colors,
+  aspect ratio and built-in clear space are retained. The title background
+  matches the asset's `#091f2c` background.
+- Slidev build passed. The badge loads correctly at 960×540 and 1440×810, remains
+  above the footer, and has no slide overflow. Browser console had no errors.
+- Checked the static title rendering and refreshed the title preview and contact
+  sheets. The other fourteen pages of the existing static fallback are retained.
+
 ## Animation PR aligned with current main
 
 - Integrated main commit `6e4a499` (role-aware authorization demo) into the existing

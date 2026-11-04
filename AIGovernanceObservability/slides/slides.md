@@ -25,6 +25,7 @@ class: opening-slide
 <h1>AI Agent Governance<br>and Observability<br>in Practice</h1>
 <div class="opening-lines"><span>Control what the agent can do.</span><span>Understand what actually happened.</span></div>
 <div class="speaker">Xiaodi Yan · Microsoft MVP</div>
+<img class="speaker-mvp-badge" src="/branding/mvp-badge-full-color-blue-black.png" alt="Microsoft Most Valuable Professional (MVP)" width="1440" height="540" />
 </div>
 <HeroDiagram />
 </div>
