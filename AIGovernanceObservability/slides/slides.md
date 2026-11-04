@@ -61,7 +61,7 @@ So our starting point is the application behavior behind the answer. We want to 
 <div class="capability"><h2>Governance</h2><div class="question">Is this action allowed?</div><p>Policy and permissions</p><p>Tool access and approval</p><p>Host enforcement</p></div>
 <div class="capability observability"><h2>Observability</h2><div class="question">What actually happened?</div><p>Execution traces</p><p>Correlated logs</p><p>Latency, tokens and outcomes</p></div>
 </div>
-<div class="note">Identity, auditing and evaluation are part of the wider system. Today we focus on these two capabilities.</div>
+<div class="note">Caller roles are simulated to show authorization context. Login, identity verification, durable auditing and evaluation remain outside this demo.</div>
 <div class="footer"><span>Complementary responsibilities</span><span>3 / 12</span></div>
 
 <!--
@@ -70,6 +70,7 @@ Governance asks whether an action is permitted. In an application, that means in
 Observability asks what happened. It gives us execution relationships, timings, outcomes and diagnostic context. We can inspect one run or look at patterns across many runs.
 They are parallel capabilities. A trace does not stop a destructive operation. A policy decision does not explain a slow downstream dependency. We need both when the application can act.
 There are other capabilities around an agent too. Identity establishes who is acting and on whose behalf. Auditing concerns the evidence we retain and the guarantees attached to it. Evaluation judges the quality of outputs and behavior. Each deserves its own treatment; this talk will not try to cover that entire landscape.
+For one policy example, our demo uses two predefined caller roles. That simulates authorization context; it does not authenticate a person or implement an identity provider.
 Our demo focuses on one boundary and one investigation: what happens when the model requests a tool.
 -->
 
@@ -79,18 +80,18 @@ Our demo focuses on one boundary and one investigation: what happens when the mo
 
 <div class="flow">
 <div class="box"><strong>Model requests</strong><small>tool name + arguments</small></div><div class="arrow">→</div>
-<div class="box policy"><strong>Policy evaluates</strong><small>action + context + rules</small></div><div class="arrow">→</div>
+<div class="box policy"><strong>Policy evaluates</strong><small>action + caller role + permissions</small><div class="policy-rules"><div><code>lookup_customer</code><span><strong>customer:read</strong> (both roles)</span></div><div><code>delete_record</code><span><strong>Support admin</strong> role + <code>customer:delete</code></span></div></div></div><div class="arrow">→</div>
 <div class="box"><strong>Host applies</strong><small>execute or stop</small></div>
 </div>
 <div class="branch"><span class="allow">Allow → tool body</span><span class="deny">Deny → no execution</span></div>
 <div class="lesson">A model can request an action. The host controls execution.</div>
-<div class="note">This demo uses the official Agent Governance Toolkit policy engine. The host enforces its decision.</div>
+<div class="note">The host supplies a predefined caller role to the official AGT policy engine and enforces its decision. The model does not choose the role.</div>
 <div class="footer"><span>The policy layer decides; the host enforces.</span><span>4 / 12</span></div>
 
 <!--
 [03:30–05:00 | 90 seconds]
-The model provides a proposed tool call: its name and arguments. The application validates that request and passes the action context to a policy engine.
-For this demonstration, the policy engine is the official Agent Governance Toolkit. Our policy explicitly allows synthetic customer lookups and denies deletion. Unmatched actions default to deny.
+The model provides a proposed tool call: its name and arguments. The application validates that request and passes the action and its server-selected simulated caller context to a policy engine.
+For this demonstration, the policy engine is the official Agent Governance Toolkit. Lookup requires customer:read, which both demo profiles have. Deletion requires the support-admin role and customer:delete. Unmatched actions default to deny.
 The result is a decision. The host must then apply it. If the decision allows the action, execution can enter the tool body. If it denies the action, the tool body must not run.
 This distinction is useful beyond a particular framework. Prompt instructions can influence what a model asks for, but the host boundary is where the application controls what actually happens.
 We will also record the policy check separately from the tool execution. That allows us to distinguish “the model requested a tool,” “the policy allowed the request,” and “the tool executed.” Those are three different facts, and our evidence should preserve them.
@@ -151,7 +152,7 @@ Our business-policy fields belong in an application namespace. We use app.govern
 # Instrument the model. Record the boundary.
 
 <div class="architecture">
-<div><div class="agent-host"><h2>Python support agent</h2><div class="parts"><span>Model SDK</span><span>AGT policy</span><span>Local tools</span></div><p class="note">OpenLLMetry: automatic model spans + metrics<br>Application: policy spans + execution evidence</p></div><div class="export">OpenTelemetry → OTLP</div><div class="viewer">Aspire standalone dashboard<small>Traces · structured logs · metrics</small></div></div>
+<div><div class="agent-host"><h2>Python support agent</h2><div class="parts"><span>Simulated caller</span><span>Model SDK</span><span>AGT policy</span><span>Local tools</span></div><p class="note">OpenLLMetry: automatic model spans + metrics<br>Application: policy spans + execution evidence</p></div><div class="export">OpenTelemetry → OTLP</div><div class="viewer">Aspire standalone dashboard<small>Traces · structured logs · metrics</small></div></div>
 <div>
 
 ```python
@@ -200,23 +201,24 @@ If the dashboard is unavailable, use the recorded span tree in the browser demo 
 
 ---
 
-<div class="live"><span class="pill deny">Live demo · 2</span><a href="http://localhost:8090" target="_blank">Request denied deletion</a></div>
+<div class="live"><span class="pill deny">Live demo · 2</span><a href="http://localhost:8090" target="_blank">Compare simulated caller roles</a></div>
 
-# Blocked: the control worked
+# Same action, different roles
 
-<div class="demo-request">“Delete customer record C-1042.”</div>
-<div class="demo-columns"><div class="trace-tree"><div class="trace-line"><code>invoke_agent</code></div><div class="trace-line child"><code>openai.chat</code></div><div class="trace-line child"><code>policy.evaluate</code><span class="pill deny">deny</span></div><div class="trace-line child"><span class="deny">Execution stops before the tool body.</span></div></div><div class="evidence"><h2>Check the evidence</h2><p><code>block-destructive</code></p><p>Policy outcome: <strong>deny</strong></p><p>Agent outcome: <strong>blocked</strong></p><div class="number deny">0</div><small>Deletion tool body executions</small></div></div>
-<div class="note">A missing span alone does not prove non-execution. Check the execution counter or resulting state too.</div>
-<div class="footer"><span>Policy denial is a business outcome, not automatically a runtime error.</span><span>9 / 12</span></div>
+<div class="demo-request"><div>“Delete customer record C-1042.”</div><div class="required">Required: <strong>Support admin</strong> role + <code>customer:delete</code> permission</div></div>
+<div class="demo-columns"><div class="evidence"><h2>Caller: Standard user</h2><p>Rule: <code>deny-non-admin-deletion</code></p><p>Policy: <strong>deny</strong> · tool span: none</p><div class="number deny">0</div><small>Deletion tool body executions</small></div><div class="evidence"><h2>Caller: Support admin</h2><p>Rule: <code>allow-admin-deletion</code></p><p>Policy: <strong>allow</strong> · tool span: executed</p><div class="number allow">1</div><small>Simulated tool-body execution; no record changed</small></div></div>
+<div class="note">The caller role is a predefined demo profile, not an authenticated user. Both runs use the same request and tool arguments.</div>
+<div class="footer"><span>Policy outcome depends on caller context; deletion remains simulated.</span><span>9 / 12</span></div>
 
 <!--
 [14:00–17:00 | 3-minute live segment]
-Click Request denied deletion. The first model turn requests delete_record. The policy engine matches block-destructive. The host returns the blocked result before entering the tool body.
-Show the two separate facts: a deny decision and zero deletion body executions. The mock deletion function is a tripwire rather than a destructive function, so even a broken control cannot delete real data in this demonstration.
-Open this trace in Aspire. It contains the model call and the policy check, but no executed deletion tool span. Select the policy span and show its rule and decision attributes. Then show the correlated policy log.
-Notice that the policy span need not be marked as an error: evaluating the rule and returning deny is the intended behavior. The agent outcome is blocked. This is different from a dependency failure, which we will look at next.
-A missing span by itself is weak evidence. Sampling, export failure or incorrect instrumentation can also make a span disappear. Our execution counter complements the trace by recording whether the tool body was entered.
-Return to the overview and point out the blocked policy counter. An increasing denial count can mean controls are working, requests changed, or policy is misconfigured. It needs context before it becomes an alert.
+Select the standard-user profile and run the deletion request. The model requests delete_record; the policy matches deny-non-admin-deletion and the host stops before the tool body.
+Now select the support-admin profile and submit the same request. The policy matches allow-admin-deletion and the simulated tool body runs once. It returns evidence only; it changes no record.
+Point out the required support-admin role and customer:delete permission in the request box before comparing the two callers.
+Compare the two runs: the model request and arguments are the same, while the host-supplied caller context changes the policy result. The role comes from a predefined demo profile; there is no login provider or real authentication.
+Open each trace in Aspire. The standard-user trace has a policy span but no deletion execution span. The admin trace has an allow decision and an execute_tool span. Show the role, matching rule and correlated log. The policy-deny span is not an error; it is the intended control outcome.
+The execution counter complements the trace: zero body entries for the standard user, one simulated entry for the admin. This is stronger evidence than treating a missing span alone as proof of non-execution.
+Return to the overview and explain that denial counts need context: they can mean controls are working, requests changed, or policy is misconfigured.
 -->
 
 ---
@@ -279,7 +281,7 @@ The useful pattern is small. Enforce a policy before a tool can act. Record the 
 Then use the signals for the questions they answer best: metrics for patterns, traces for individual execution, and logs for recorded context.
 Shared conventions make this portable across languages and providers. They still need a real, verified implementation. Today we saw the pattern in Python with AGT, OpenLLMetry, OpenTelemetry and Aspire. The same control and evidence boundary can be implemented in another stack.
 When you next add a tool to an agent, ask two questions together: is the agent allowed to do this, and how will we know what actually happened?
-Pause for questions. If asked about approvals, cross-service propagation or standards changes, use the backup slides. If asked about identity, audit guarantees or evaluation, identify their role without presenting the demo as a complete production governance program.
+Pause for questions. If asked about approvals, cross-service propagation or standards changes, use the backup slides. Clarify that the two caller roles are simulated; authentication, durable audit guarantees and evaluation are not implemented by this demo.
 -->
 
 ---

@@ -6,14 +6,16 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from support_agent.agent import AgentRunner
+from support_agent.agent import AgentRunner, DEMO_PRINCIPALS
 from support_agent.providers import create_provider, ModelProviderError
 from support_agent.telemetry import configure_telemetry
 
 
 def main():
     parser = argparse.ArgumentParser(description="Governance and observability demo")
-    parser.add_argument("--scenario", choices=["allowed", "blocked", "failed", "all"], default="all")
+    parser.add_argument("--scenario", choices=["allowed", "delete", "failed", "all"], default="all")
+    parser.add_argument("--identity", choices=["standard", "admin"], default="standard",
+                        help="Simulated caller identity; this is not authentication.")
     parser.add_argument("--provider", choices=["mock", "foundry"], default="mock")
     parser.add_argument("--warmup", type=int, default=1, help="Number of batches, from 1 to 10; each is labelled demo traffic.")
     parser.add_argument("--env-file", type=Path, help="Read configuration from this file without changing it.")
@@ -35,10 +37,10 @@ def main():
     failed = False
     try:
         runner = AgentRunner(provider)
-        scenarios = ["allowed", "blocked", "failed"] if args.scenario == "all" else [args.scenario]
+        scenarios = ["allowed", "delete", "failed"] if args.scenario == "all" else [args.scenario]
         for _ in range(args.warmup):
             for scenario in scenarios:
-                result = runner.run(scenario)
+                result = runner.run(scenario, principal=DEMO_PRINCIPALS[args.identity])
                 print(json.dumps(result.to_dict(), indent=2))
                 failed |= result.error_type not in {"", "TimeoutError"}
     finally:

@@ -20,5 +20,9 @@ class ToolRepository:
 
     def delete_record(self, customer_id):
         self.body_counts["delete_record"] += 1
-        # This is a tripwire, not a real deletion. A broken policy must be visible.
-        raise AssertionError("The denied deletion reached the tool body.")
+        return {
+            "operation": "delete_record",
+            "customer_id": customer_id,
+            "simulated": True,
+            "record_changed": False,
+        }

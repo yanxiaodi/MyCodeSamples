@@ -5,10 +5,14 @@ agents: ["*"]
 default_action: deny
 rules:
   - name: allow-customer-lookup
-    condition: "action.type == 'lookup_customer'"
+    condition: "action.type == 'lookup_customer' and principal.permissions.customer_read"
     action: allow
-    description: Synthetic customer support lookups are permitted.
-  - name: block-destructive
-    condition: "action.type == 'delete_record'"
+    description: Synthetic customer support lookups require the customer:read permission.
+  - name: allow-admin-deletion
+    condition: "action.type == 'delete_record' and principal.role == 'support_admin' and principal.permissions.customer_delete"
+    action: allow
+    description: Deletion is permitted only for the simulated support-admin role with customer:delete.
+  - name: deny-non-admin-deletion
+    condition: "action.type == 'delete_record' and principal.role != 'support_admin'"
     action: deny
-    description: Autonomous deletion is not permitted.
+    description: Deletion is denied unless the simulated caller is a support administrator.

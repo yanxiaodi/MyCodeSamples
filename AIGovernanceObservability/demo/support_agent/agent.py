@@ -6,6 +6,7 @@ import time
 import warnings
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
+from typing import Literal
 from uuid import uuid4
 
 from opentelemetry import trace
@@ -22,8 +23,33 @@ from .telemetry import logger, provider_context, record_policy, record_tool, rec
 POLICY_PATH = Path(__file__).resolve().parents[1] / "policy.yaml"
 SCENARIOS = {
     "allowed": {"prompt": "Look up customer C-1042 and summarize their support status.", "tool": "lookup_customer"},
-    "blocked": {"prompt": "Delete customer record C-1042.", "tool": "delete_record"},
+    "delete": {"prompt": "Delete customer record C-1042.", "tool": "delete_record"},
     "failed": {"prompt": "Look up customer C-1042 and summarize their support status.", "tool": "lookup_customer"},
+}
+
+DemoIdentity = Literal["standard", "admin"]
+DemoRole = Literal["standard_user", "support_admin"]
+
+
+@dataclass(frozen=True)
+class DemoPrincipal:
+    identity: DemoIdentity
+    role: DemoRole
+    display_name: str
+    permissions: frozenset[str]
+
+    def has_permission(self, permission: str) -> bool:
+        return permission in self.permissions
+
+
+DEMO_PRINCIPALS: dict[DemoIdentity, DemoPrincipal] = {
+    "standard": DemoPrincipal(
+        "standard", "standard_user", "Standard user", frozenset({"customer:read"}),
+    ),
+    "admin": DemoPrincipal(
+        "admin", "support_admin", "Administrator",
+        frozenset({"customer:read", "customer:delete"}),
+    ),
 }
 
 
@@ -32,6 +58,8 @@ class RunResult:
     run_id: str
     scenario: str
     provider: str
+    principal_identity: str = ""
+    principal_role: str = ""
     outcome: str = "failed"
     policy_decision: str = "not_evaluated"
     rule: str = ""
@@ -52,12 +80,17 @@ class AgentRunner:
     def __init__(self, provider: Provider, *, timeout_seconds=0.8):
         self.provider, self.timeout_seconds = provider, timeout_seconds
 
-    def run(self, scenario: str) -> RunResult:
+    def run(self, scenario: str, *, principal: DemoPrincipal) -> RunResult:
         if scenario not in SCENARIOS:
-            raise ValueError("Choose allowed, blocked, or failed.")
+            raise ValueError("Choose allowed, delete, or failed.")
+        if DEMO_PRINCIPALS.get(principal.identity) != principal:
+            raise ValueError("Choose a supported simulated identity.")
         spec = SCENARIOS[scenario]
         tools = ToolRepository(simulate_timeout=scenario == "failed", timeout_seconds=self.timeout_seconds)
-        result = RunResult(str(uuid4()), scenario, self.provider.mode)
+        result = RunResult(
+            str(uuid4()), scenario, self.provider.mode,
+            principal_identity=principal.identity, principal_role=principal.role,
+        )
         engine = PolicyEngine()
         engine.load_yaml_file(str(POLICY_PATH))
         tracer = trace.get_tracer("support-agent")
@@ -66,12 +99,13 @@ class AgentRunner:
         with tracer.start_as_current_span("invoke_agent support-agent", attributes={
             "gen_ai.operation.name": "invoke_agent", "gen_ai.agent.name": "support-agent",
             "app.demo.scenario": scenario, "app.demo.provider": self.provider.mode,
-            "app.run.id": result.run_id,
+            "app.run.id": result.run_id, "app.demo.identity.profile": principal.identity,
+            "app.demo.identity.role": principal.role,
         }) as root:
             result.trace_id = format(root.get_span_context().trace_id, "032x")
             try:
                 messages = [
-                    {"role": "system", "content": "You are a support agent using synthetic customer records. Request one tool, then summarize its result. The host enforces all permissions."},
+                    {"role": "system", "content": "You are a support agent using synthetic customer records. Request one tool, then summarize its result. The host enforces all permissions. Deletion is simulated; never claim a real record was changed."},
                     {"role": "user", "content": spec["prompt"]},
                 ]
                 turn = self.provider.complete(messages, {"type": "function", "function": {"name": spec["tool"]}})
@@ -84,17 +118,29 @@ class AgentRunner:
                 with tracer.start_as_current_span("policy.evaluate " + call.name, attributes={
                     "app.tool.name": call.name, "app.governance.policy": "support-agent-demo",
                     "app.governance.policy_version": "1.0",
+                    "app.demo.identity.profile": principal.identity,
+                    "app.demo.identity.role": principal.role,
                 }) as policy_span:
-                    decision = engine.evaluate("support-agent", {"action": {"type": call.name}, "args": call.arguments})
+                    decision = engine.evaluate("support-agent", {
+                        "action": {"type": call.name},
+                        "args": call.arguments,
+                        "principal": {
+                            "role": principal.role,
+                            "permissions": {
+                                "customer_read": principal.has_permission("customer:read"),
+                                "customer_delete": principal.has_permission("customer:delete"),
+                            },
+                        },
+                    })
                     result.policy_decision = decision.action
                     result.rule, result.reason = decision.matched_rule or "", decision.reason or ""
                     policy_span.set_attribute("app.governance.decision", decision.action)
                     policy_span.set_attribute("app.governance.rule", result.rule)
-                    record_policy(decision.action, call.name, result.rule)
+                    record_policy(decision.action, call.name, result.rule, principal.role)
                 # Enforcement is explicit and precedes the tool body.
                 if not decision.allowed:
                     result.outcome = "blocked"
-                    result.answer = "Deletion was blocked by policy. The tool did not execute."
+                    result.answer = f"Deletion was blocked for the simulated {principal.display_name} identity. The tool did not execute."
                     return result
                 tool_started = time.perf_counter()
                 with tracer.start_as_current_span("execute_tool " + call.name, attributes={

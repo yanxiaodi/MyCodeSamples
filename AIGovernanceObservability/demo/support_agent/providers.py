@@ -115,10 +115,14 @@ class MockProvider(SDKProvider):
         else:
             tool_message = next((m for m in reversed(data["messages"]) if m["role"] == "tool"), None)
             customer = json.loads(tool_message["content"]) if tool_message else {}
-            message = {"role": "assistant", "content": (
-                f"{customer.get('name', 'The customer')} has an active account. "
-                "Their support request is awaiting a document review."
-            )}
+            if customer.get("operation") == "delete_record":
+                answer = "The deletion request was authorized and simulated. No customer record was changed."
+            else:
+                answer = (
+                    f"{customer.get('name', 'The customer')} has an active account. "
+                    "Their support request is awaiting a document review."
+                )
+            message = {"role": "assistant", "content": answer}
             finish, prompt_tokens, completion_tokens = "stop", 140, 32
         return httpx.Response(200, json={
             "id": "chatcmpl-offline-demo", "object": "chat.completion", "created": 1793480400,

@@ -148,9 +148,10 @@ def configure_telemetry(*, otlp_endpoint=None, artifact_path=None, trace_content
         return _runtime
 
 
-def record_policy(decision, tool, rule):
+def record_policy(decision, tool, rule, principal_role):
     attrs = {"app.governance.decision": decision, "app.tool.name": tool,
-             "app.governance.rule": rule, "app.demo.provider": provider_context.get()}
+             "app.governance.rule": rule, "app.demo.provider": provider_context.get(),
+             "app.demo.identity.role": principal_role}
     metrics.get_meter("support-agent").create_counter("app.governance.decisions").add(1, attrs)
     logger.info("Policy evaluated", extra=attrs)
 
