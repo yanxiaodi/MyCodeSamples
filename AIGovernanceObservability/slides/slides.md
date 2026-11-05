@@ -35,9 +35,7 @@ class: opening-slide
 The title graphic draws its two parallel lanes once; do not wait for it.
 
 [00:00–00:30 | 30 seconds]
-Today we are looking at two capabilities that belong beside each other: governance and observability.
-Governance gives an agent a boundary for action. Observability gives us a way to understand a particular run and the behavior of the application over time.
-We will use one small Python support agent throughout. The ideas apply just as well to an application written in another language. The goal is to leave with a practical way to connect a requested action, a policy decision, and the evidence of what executed.
+Today we are looking at two capabilities that belong together: governance and observability. Governance gives an agent a boundary for action; observability helps us understand a run and the behavior of the application over time. We will use a small Python support agent to connect a requested action, a policy decision, and evidence of what actually executed.
 -->
 
 ---
@@ -58,11 +56,7 @@ clicks: 2
 Build cues: Ask the audience whether they would retry. Click once to reveal the blocked action, then again for the failed action.
 
 [00:30–02:00 | 90 seconds]
-Imagine that our support agent returns this message: “I couldn’t complete that request.” As the person using the application, you might reasonably ask it to try again. As the developer, you need to know something else first.
-Did the agent request a destructive operation and encounter a policy boundary? Or did it request an ordinary lookup, receive permission, and then encounter a timeout?
-Those cases should produce different operational responses. Retrying the destructive operation does not repair a policy denial. Tightening the policy does not repair a slow customer service.
-The opposite is true as well: an agent saying “Done” does not independently establish what it did, whether a tool reached its destination, or whether the application applied the expected permission check.
-So our starting point is the application behavior behind the answer. We want to understand the action request, the control applied to it, and the actual execution.
+Imagine our support agent returns this message. You might reasonably ask it to try again, but first we need to know what happened. Did the agent hit an intended policy boundary, or did an allowed lookup time out? These cases need different responses: retrying does not fix a policy denial, and tightening policy does not fix a slow dependency. And “Done” does not prove what the tool did or whether the application applied the expected permission check.
 -->
 
 ---
@@ -82,12 +76,7 @@ class: paper-slide
 The cool background is a visual reset. The two responsibilities have equal emphasis.
 
 [02:00–03:30 | 90 seconds]
-Governance asks whether an action is permitted. In an application, that means interpreting the policy, understanding the relevant context, and ensuring the host applies the result before execution.
-Observability asks what happened. It gives us execution relationships, timings, outcomes and diagnostic context. We can inspect one run or look at patterns across many runs.
-They are parallel capabilities. A trace does not stop a destructive operation. A policy decision does not explain a slow downstream dependency. We need both when the application can act.
-There are other capabilities around an agent too. Identity establishes who is acting and on whose behalf. Auditing concerns the evidence we retain and the guarantees attached to it. Evaluation judges the quality of outputs and behavior. Each deserves its own treatment; this talk will not try to cover that entire landscape.
-For one policy example, our demo uses two predefined caller roles. That simulates authorization context; it does not authenticate a person or implement an identity provider.
-Our demo focuses on one boundary and one investigation: what happens when the model requests a tool.
+Governance asks whether an action is permitted; observability asks what happened through execution relationships, timings, outcomes, and context. They are complementary: a trace does not stop a destructive operation, and a policy decision does not explain a slow dependency. Identity, durable auditing, and evaluation matter too, but are outside this talk's scope. Here, two predefined caller roles simulate authorization context—they do not authenticate anyone. We will focus on what happens when the model requests a tool.
 -->
 
 ---
@@ -107,11 +96,7 @@ clicks: 3
 Build cues: click 1 evaluates the action and host-supplied role/permissions; click 2 reveals the decision; click 3 shows the host branches.
 
 [03:30–05:00 | 90 seconds]
-The model provides a proposed tool call: its name and arguments. The application validates that request and passes the action and its server-selected simulated caller context to a policy engine.
-For this demonstration, the policy engine is the official Agent Governance Toolkit. Lookup requires customer:read, which both demo profiles have. Deletion requires the support-admin role and customer:delete. Unmatched actions default to deny.
-The result is a decision. The host must then apply it. If the decision allows the action, execution can enter the tool body. If it denies the action, the tool body must not run.
-This distinction is useful beyond a particular framework. Prompt instructions can influence what a model asks for, but the host boundary is where the application controls what actually happens.
-We will also record the policy check separately from the tool execution. That allows us to distinguish “the model requested a tool,” “the policy allowed the request,” and “the tool executed.” Those are three different facts, and our evidence should preserve them.
+The model proposes a tool call; the application validates its name and arguments, then sends the action and host-selected simulated caller context to AGT. Lookup requires customer:read, available to both profiles; deletion requires the Support admin role and customer:delete. Unmatched actions default to deny. The host must enforce the result before the tool body: allow means execution may proceed; deny means it must not run. We record the policy check separately from execution—requested, allowed, and executed are three different facts. Prompting can influence requests, but the host boundary controls what actually happens.
 -->
 
 ---
@@ -129,14 +114,7 @@ clicks: 4
 Build cues: click 1 reveals the model call; click 2 the policy; click 3 the tool; click 4 emphasizes the tool share of this recorded trace.
 
 [05:00–08:00 | 3 minutes]
-Here is a representative run from our offline rehearsal. A trace connects operations belonging to one execution. A span describes one of those operations: when it started, how long it took, and the attributes or events we recorded about it.
-The agent invocation contains a model call, a policy check and a tool execution. In the browser application there is also an outer HTTP request span. I have kept the agent operations on this slide so we can focus on the behavior.
-We can immediately see that most of this run's time is in the tool body. The model call is much shorter. The policy check allowed the lookup and took less than a millisecond in this sample. The tool then encountered our injected timeout.
-This is already a better question than “Why is the AI slow?” We can ask about the customer service, the timeout configuration, and whether the host handles the failure appropriately.
-Logs complement the trace. A structured policy log can identify the matching rule. An error log can identify the timeout. A shared trace ID lets us associate them with this run, rather than search through unrelated messages.
-Metrics answer a different question: how often does this occur? They aggregate many operations into counts and distributions. We might count policy decisions, measure tool duration, or examine input and output token usage.
-The three signals are complementary. We use a metric to notice a pattern, a trace to locate a particular operation, and a log to explain the recorded context.
-One limit matters: instrumentation records observable operations. A trace does not expose a model's private reasoning, and it does not automatically tell us whether the final answer is correct.
+Here is a representative run from our offline rehearsal. A trace connects operations in one execution; each span records timing and selected attributes. This run includes a model call, policy check, and tool execution; most of the delay is in our injected timeout. The trace helps locate the operation, logs identify the rule and error, and metrics show whether the pattern repeats. We use metrics to notice a pattern, traces to locate a run, and logs to explain its context. These signals describe observable behavior; they do not reveal private reasoning or establish answer quality.
 -->
 
 ---
@@ -155,18 +133,14 @@ clicks: 2
 </div>
 <div class="schema-roles"><div class="schema-role"><strong>Conventions describe.</strong><span>Shared names and meanings.</span></div><div class="schema-role"><strong>Instrumentation collects.</strong><span>OpenLLMetry observes SDK operations.</span></div><div class="schema-role"><strong>OpenTelemetry exports.</strong><span>Context, providers and pipelines.</span></div><div class="schema-role"><strong>The dashboard visualizes.</strong><span>Queries, traces and metrics.</span></div></div>
 </div>
-<div class="note">GenAI conventions are in Development. Pin your libraries and verify their actual output.</div>
+<div class="note">GenAI conventions are in Development. Pin your libraries and verify their actual output.<br>Project: <a href="https://github.com/open-telemetry/semantic-conventions-genai" target="_blank" rel="noopener noreferrer">https://github.com/open-telemetry/semantic-conventions-genai</a></div>
 <div class="footer"><span>Use app.* for your own business metadata.</span><span>6 / 12</span></div>
 
 <!--
 Build cues: click 1 reveals the standard model fields; click 2 adds the application policy metadata.
 
 [08:00–09:30 | 90 seconds]
-If every library uses different attribute names for the same information, our queries and dashboards become tied to each implementation.
-GenAI semantic conventions provide a shared vocabulary for model operations, agents, tools, metrics and events. These example attributes describe the operation, the model and token usage. They are useful across programming languages.
-Conventions and instrumentation have different roles. A convention defines what the data means. OpenLLMetry provides instrumentations that collect model SDK activity. OpenTelemetry provides the SDKs, context and export mechanisms. The dashboard makes that data visible.
-The official GenAI conventions are still in Development. Implementations may follow different revisions. For example, the OpenLLMetry release used here emits a token usage histogram, while newer draft conventions also define different inference token instruments. We should verify what a pinned library actually emits rather than promise that it implements every current draft field.
-Our business-policy fields belong in an application namespace. We use app.governance.decision and app.governance.rule, rather than inventing new official gen_ai attributes.
+If every library uses different names for the same information, queries and dashboards become tied to each implementation. GenAI semantic conventions provide shared names for model operations, tools, and token usage. Conventions describe what data means; OpenLLMetry instruments SDK activity, OpenTelemetry provides context and export, and the dashboard visualizes it. These conventions are still evolving, so check what your pinned versions actually emit. Put application policy fields under app.governance.* rather than inventing new gen_ai attributes.
 -->
 
 ---
@@ -184,10 +158,7 @@ clicks: 3
 Build cues: click 1 adds instrumentation; click 2 the OTel providers; click 3 exports to the dashboard.
 
 [09:30–11:00 | 90 seconds]
-This is the complete demonstration architecture. A small Python host runs a bounded tool-calling support agent. We instrument the OpenAI-compatible SDK with OpenLLMetry's individual OpenAI instrumentation. Our application records the policy boundary, tool execution and agent outcome.
-We configure the OpenTelemetry trace, metric and log pipelines ourselves and export them over OTLP to a standalone Aspire dashboard. Aspire can receive this data from Python; the application does not need to be a .NET application. Traceloop SaaS is also optional.
-Our offline mode still goes through the real SDK and instrumentation. Only its HTTP transport returns deterministic local responses. Its token counts are synthetic and clearly labelled. Foundry mode uses a configured cloud model and the usage reported by that model. A cloud failure does not silently become a successful mock run.
-For a repeatable presentation, the first model turn is constrained to the tool for the selected scenario. The model still produces a native tool call; the host still validates and governs it. This isolates the behavior we want to demonstrate rather than depending on an unpredictable tool selection.
+This is the complete demo architecture: a small Python host runs the support agent, and OpenLLMetry instruments the OpenAI-compatible SDK. Our application records the policy boundary, tool execution, and agent outcome; OpenTelemetry trace, metric, and log pipelines export to the standalone Aspire dashboard over OTLP. Aspire can receive Python telemetry without a .NET app, and Traceloop SaaS is optional. Offline mode still uses the real SDK and instrumentation, but returns deterministic responses and labelled synthetic token counts; cloud failures are not silently turned into mock successes. To keep the demo repeatable, the first model turn is constrained to the selected tool while the host still validates and governs it.
 -->
 
 ---
@@ -207,13 +178,7 @@ clicks: 3
 Build cues: use the three clicks to explain policy evaluation, decision and host execution before switching to the live tab.
 
 [11:00–14:00 | 3-minute live segment]
-Switch to http://localhost:8090 and select Standard user. Keep Offline demo selected for the primary presentation. If the network and model have been rehearsed, Foundry is an optional substitution.
-Click Run allowed lookup. Read the response briefly: it contains the synthetic customer's support status. Point out one lookup execution and zero deletion executions.
-Select the run. Follow the model call, policy check, tool execution and final model response. The model request is not the execution itself; the policy boundary sits between them.
-Open Aspire in the other tab. Use the trace ID or the POST /api/run entry to find this run. Expand the agent operations, then select the policy span. Show allow and the matching rule. Select the model span and show model name and token usage. Do not enable prompt capture for this demonstration.
-Show the correlated policy log. It belongs to the same trace, which is what makes it useful during an investigation.
-If the segment finishes early, ask the room: which of these signals would you inspect first if the response was unexpectedly slow? Use their answer to point at the model and tool durations.
-If the dashboard is unavailable, use the recorded span tree in the browser demo or the backup screenshots.
+Switch to http://localhost:8090 and select Standard user; keep Offline demo selected for the primary presentation. Foundry is optional if you have rehearsed it. Run the allowed lookup and briefly show the synthetic support status, lookup-body counter of 1, and deletion counter of 0. Follow the model request, policy check, tool execution, and final model response: the request is not execution; the policy boundary sits between them. In Aspire, find the run by trace ID, show the allow rule, model/token attributes, and correlated log. Keep prompt capture off; if the dashboard is unavailable, use recorded evidence. If time permits, ask which signal they would inspect first if the response were slow.
 -->
 
 ---
@@ -233,13 +198,7 @@ clicks: 3
 Build cues: click 1 reveals the host-supplied caller profiles; click 2 their policy decisions and rules; click 3 the recorded 0 versus 1 deletion-body entries.
 
 [14:00–17:00 | 3-minute live segment]
-Select the standard-user profile and run the deletion request. The model requests delete_record; the policy matches deny-non-admin-deletion and the host stops before the tool body.
-Now select the support-admin profile and submit the same request. The policy matches allow-admin-deletion and the simulated tool body runs once. It returns evidence only; it changes no record.
-Point out the required support-admin role and customer:delete permission in the request box before comparing the two callers.
-Compare the two runs: the model request and arguments are the same, while the host-supplied caller context changes the policy result. The role comes from a predefined demo profile; there is no login provider or real authentication.
-Open each trace in Aspire. The standard-user trace has a policy span but no deletion execution span. The admin trace has an allow decision and an execute_tool span. Show the role, matching rule and correlated log. The policy-deny span is not an error; it is the intended control outcome.
-The execution counter complements the trace: zero body entries for the standard user, one simulated entry for the admin. This is stronger evidence than treating a missing span alone as proof of non-execution.
-Return to the overview and explain that denial counts need context: they can mean controls are working, requests changed, or policy is misconfigured.
+Select Standard user and run the deletion request; AGT matches deny-non-admin-deletion and the host stops before the tool body. Then switch to Support admin and submit the same request; allow-admin-deletion runs the safe simulated tool once, changing no record. Point out the required Support admin role and customer:delete permission: only the host-supplied caller context changes. Compare the traces, rules, correlated logs, and execution counter: zero body entries for Standard user, one simulated entry for Support admin. The profiles are predefined, not real logins; a denial is an intended control outcome, not an error. The counter complements the trace: a missing span alone cannot prove non-execution.
 -->
 
 ---
@@ -260,13 +219,7 @@ clicks: 3
 Build cues: click 1 shows 7 allow and 4 deny; click 2 shows 4 succeeded, 4 blocked and 3 failed; click 3 compares permission with success. The chart includes all eleven saved offline runs: nine warm-ups plus two role checks.
 
 [17:00–20:00 | 3-minute live segment]
-Select Standard user, then click Run lookup with timeout. The request is identical to the allowed scenario; the scenario injects an approximately 800-millisecond wait followed by a timeout in the tool. This is a controlled simulation, not a real dependency outage.
-Show that the policy decision remains allow. The lookup body was entered once. It then failed. That distinction is preserved in both the trace and the aggregate metrics.
-Open the trace. The model call is short, the policy evaluation is short, and the tool execution consumes most of the duration. Select the tool span and show error.type: TimeoutError. The agent root is also a failed run, while the policy span records a successful evaluation that allowed the action.
-Show the error log with the same trace ID. We can now investigate the downstream operation instead of treating this as a generic AI failure.
-Use the overview's warm-up button if it has not already been run. It generates nine labelled offline runs. Point out the four counters and the duration histograms. The token total comes from OpenLLMetry's metric, and the application supplies policy decisions and run outcomes.
-Do not describe these few samples as production percentiles. Their purpose is to demonstrate how aggregate signals and individual execution evidence work together.
-The slide chart uses all eleven saved runs, including the two role checks. The nine-run warm-up remains a separate standard-user-only operation; its totals differ from this full capture.
+Select Standard user and run lookup with timeout. This is the same allowed lookup, with a controlled ~800 ms wait and timeout—not a real dependency outage. Policy is allow, the lookup body is entered once, and the run then fails; trace and metrics preserve that distinction. In Aspire, show the TimeoutError tool span, the successful policy span, and the correlated error log. The warm-up adds nine labelled offline runs; point out the counters and duration histograms, but do not describe these samples as production percentiles. The slide chart includes eleven saved runs: the nine warm-ups plus two role checks.
 -->
 
 ---
@@ -289,12 +242,7 @@ clicks: 2
 Build cues: click 1 adds content handling; click 2 adds outcome separation and pipeline verification.
 
 [20:00–23:00 | 3 minutes]
-There are four practical lessons I would carry into a production application.
-First, preserve correlation. A single-process demonstration inherits trace context easily. A real application crosses HTTP calls, queues, background jobs and sometimes an approval step that resumes in another request. Context propagation must be deliberate. A conversation identifier can connect related requests, but it is not a substitute for preserving the trace relationships of a particular operation.
-Second, decide what content to capture. You can learn a great deal from operation names, model identifiers, durations, token usage and error types without collecting entire prompts, completions or customer records. Our default is content capture off. Turning it on changes the data handling requirements of the observability system.
-Third, keep outcomes separate. A denied action may represent a successful control. A permitted action may fail operationally. Token counts help explain resource usage, but a token count is not itself a price. Turning usage into cost requires the relevant model and pricing context. Nor do a fast trace and low token count prove answer quality; evaluation answers that different question.
-Fourth, verify the complete telemetry pipeline. Seeing traces does not prove you are exporting metrics or logs. The actual behavior depends on the SDK version, instrumentation, providers and destination configuration. Pin versions and check what arrives. Avoid instrumenting the same model call twice, especially when an agent framework already has instrumentation.
-Finally, diagnostic telemetry and audit evidence have different guarantees. Sampling or retention may remove diagnostic records. If you need complete, durable audit evidence, define that pipeline explicitly. Aspire is useful for local diagnostics; long-term production storage and access should be designed around your requirements.
+There are four practical lessons for production. First, preserve trace context across services, queues, and resumed work; a conversation ID is not a substitute for operation-level correlation. Second, capture content deliberately: model, duration, token, and error data may be useful without collecting prompts or customer records. Third, keep outcomes separate: a denial can mean the control worked, an allowed action can still fail, and token usage is neither cost nor answer quality. Fourth, verify that traces, logs, and metrics all reach their destinations, and avoid duplicate instrumentation. Diagnostic telemetry and durable audit evidence have different guarantees, so design storage, retention, and access for auditing separately.
 -->
 
 ---
@@ -309,11 +257,7 @@ clicks: 1
 Click once to show the three practical takeaways, then pause for questions.
 
 [23:00–25:00 | closing and questions]
-The useful pattern is small. Enforce a policy before a tool can act. Record the decision and the execution as separate facts. Connect those facts to the model and the rest of the application with trace context.
-Then use the signals for the questions they answer best: metrics for patterns, traces for individual execution, and logs for recorded context.
-Shared conventions make this portable across languages and providers. They still need a real, verified implementation. Today we saw the pattern in Python with AGT, OpenLLMetry, OpenTelemetry and Aspire. The same control and evidence boundary can be implemented in another stack.
-When you next add a tool to an agent, ask two questions together: is the agent allowed to do this, and how will we know what actually happened?
-Pause for questions. If asked about approvals, cross-service propagation or standards changes, use the backup slides. Clarify that the two caller roles are simulated; authentication, durable audit guarantees and evaluation are not implemented by this demo.
+The useful pattern is simple: enforce policy before execution, record decision and execution separately, and connect them with trace context. Use metrics for patterns, traces for individual runs, and logs for recorded context. Shared conventions help portability, but verify what the implementation actually emits. When adding a tool, ask: is it allowed, and how will we know what happened? Pause for questions; use the backup slides for approval or standards topics, and clarify that the caller roles are simulated.
 -->
 
 ---
